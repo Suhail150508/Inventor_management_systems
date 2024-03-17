@@ -25,6 +25,16 @@
 	<!-- start: Favicon -->
 	<link rel="shortcut icon" href="img/favicon.ico">
 	<!-- end: Favicon -->
+
+
+     {{-- toastr --}}
+           {{-- <link href="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/4.0.0-alpha/css/bootstrap.css" rel="stylesheet"> --}}
+           <link rel="stylesheet" type="text/css" href="https://cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/toastr.min.css">
+
+
+   <!---New bootstrap cdn---->
+    {{-- <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap/5.3.2/css/bootstrap.min.css" integrity="sha512-b2QcS5SsA8tZodcDtGRELiGv5SaKSk1vDHDaQRda0htPYWZ6046lr3kJ5bAAQdpV2mmA/4v0wQF9MyU6/pDIAg==" crossorigin="anonymous" referrerpolicy="no-referrer" /> --}}
+    <!-- end:-->
 </head>
 
 <body>
@@ -37,7 +47,7 @@
 					<span class="icon-bar"></span>
 					<span class="icon-bar"></span>
 				</a>
-				<a class="brand" href="index.html"><span>Suhail</span></a>
+				<a class="brand" href="#"><span><i class="fas fa-tachometer-alt"></i> Dashboard</span></a>
 
 				<!-- start: Header Menu -->
 				<div class="nav-no-collapse header-nav">
@@ -72,7 +82,7 @@
 	</div>
 	<!-- start: Header -->
 
-	<div class="container-fluid-full">
+	<div class="container-fluid-full" style="min-height:100vh">
 		<div class="row-fluid">
 			<div id="sidebar-left" class="span2">
 				<div class="nav-collapse sidebar-nav">
@@ -82,9 +92,45 @@
                         </li>
 
 						<li>
-                            <a href="/post-create"><i class="icon-barcode"></i><span class="hidden-tablet"> Posts</span></a>
+                            <a class="dropmenu" href="#"><i class="icon-folder-close-alt"></i><span class="hidden-tablet">Investors </span><span class="icon-arrow"></span></a>
+                            <ul>
+                                <li><a class="submenu" href="/investor"><i class="icon-eye-open"></i><span class="hidden-tablet"> All Investors </span></a></li>
+                                <li><a class="submenu" href="/invest"><i class="icon-plus"></i><span class="hidden-tablet"> Amount-add </span></a></li>
+                                <li><a class="submenu" href="/invest_return"><i class="icon-minus"></i><span class="hidden-tablet"> Amount-return </span></a></li>
+                                <li><a class="submenu" href="/investors_statement"><i class="icon-minus"></i><span class="hidden-tablet">Investor Statement </span></a></li>
+                                <li><a class="submenu" href="/investors_invoice"><i class="icon-minus"></i><span class="hidden-tablet">Investor Invoices </span></a></li>
+
+                            </ul>
                         </li>
 
+						<li>
+                            <a class="dropmenu" href="#"><i class="icon-folder-close-alt"></i><span class="hidden-tablet"> Sales & Payment </span><span class="icon-arrow"></span></a>
+                            <ul>
+                                <li><a class="submenu" href="/customer_invoice"><i class="icon-plus"></i><span class="hidden-tablet"> Invoice </span></a></li>
+                                <li><a class="submenu" href="#"><i class="icon-plus"></i><span class="hidden-tablet"> Invoice Return </span></a></li>
+                                <li><a class="submenu" href="/all-customer"><i class="icon-eye-open"></i><span class="hidden-tablet"> Customer </span></a></li>
+
+                            </ul>
+                        </li>
+						<li>
+                            <a class="dropmenu" href="#"><i class="icon-barcode"></i><span class="hidden-tablet"> Purchase </span><span class="icon-arrow"></span></a>
+                            <ul>
+                                <li><a class="submenu" href="/show-vendor"><i class="icon-plus"></i><span class="hidden-tablet"> Vendors </span></a></li>
+                                <li><a class="submenu" href="/all-products"><i class="icon-plus"></i><span class="hidden-tablet"> Add Product </span></a></li>
+                                <li><a class="submenu" href="/purchase_invoice"><i class="icon-plus"></i><span class="hidden-tablet"> Purchase Invoice </span></a></li>
+                                <li><a class="submenu" href="/all-purchase"><i class="icon-eye-open"></i><span class="hidden-tablet"> All Purchase  </span></a></li>
+                            </ul>
+                        </li>
+						<li>
+                            <a class="dropmenu" href="#"><i class="icon-barcode"></i><span class="hidden-tablet"> Account </span><span class="icon-arrow"></span></a>
+                            <ul>
+                                <li><a class="submenu" href="/main_account"><i class="icon-plus"></i><span class="hidden-tablet"> Main Accounts </span></a></li>
+                            </ul>
+                        </li>
+
+						<li>
+                            <a href="/company-info"><i class="icon-eye-open"></i><span class="hidden-tablet"> Company Information </span></a>
+                        </li>
 						<li>
                             <a href="/home"><i class="icon-eye-open"></i><span class="hidden-tablet"> All Posts</span></a>
                         </li>
@@ -171,7 +217,35 @@
     <script src="{{ asset('admin/js/retina.js') }}"></script>
 
     <script src="{{ asset('admin/js/custom.js') }}"></script>
-	<!-- end: JavaScript-->
+
+
+
+
+    {{-- //   -- toastr info here -- --}}
+  <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/js/toastr.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/toastr.min.js" integrity="sha512-VEd+nq25CkR676O+pLBnDW09R7VQX9Mdiij052gVCp5yVH3jGtH70Ho/UUv4mJDsEdTvqRCFZg0NKGiojGnUCw==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap/5.3.1/js/bootstrap.min.js" integrity="sha512-fHY2UiQlipUq0dEabSM4s+phmn+bcxSYzXP4vAXItBvBHU7zAM/mkhCZjtBEIJexhOMzZbgFlPLuErlJF2b+0g==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
+
+
+<script>
+    @if (Session::has('message'))
+
+    toastr.options={
+          'clossButton':true,
+          'progressBar':true
+    }
+
+    toastr.success("{{ Session::get('message') }}"
+    // , 'Success! New Student added'
+    );
+
+    // toastr.warnig("{{ Session::get('message') }}"
+    // , 'Success! New Student added'
+    // );
+
+    @endif
+</script>
 </body>
 </html>
 

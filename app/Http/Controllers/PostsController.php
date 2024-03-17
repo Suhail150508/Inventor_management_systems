@@ -3,7 +3,9 @@
 namespace App\Http\Controllers;
 
 use App\Models\Posts;
+use App\Models\Investor;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\DB;
 
 class PostsController extends Controller
 {
@@ -28,18 +30,17 @@ class PostsController extends Controller
         return back();
     }
 
-    public function userEdit($id){
-        $editPost = Posts::findOrFail($id);
-        return view('layouts.user_update',compact('editPost'));
+    public function investorEdit($id){
+        $editinvestor = Investor::findOrFail($id);
+        return view('investor.investor_update',compact('editinvestor'));
     }
 
     public function userUpdate(Request $request, $id)
     {
-        $user = Posts::findOrFail($id);
+        $user = Investor::findOrFail($id);
         $user->name = $request->name;
         $user->email = $request->email;
         $user->mobile = $request->mobile;
-        $user->address = $request->address;
 
         if ($request->image) {
             if ($user->image) {
@@ -56,13 +57,14 @@ class PostsController extends Controller
 
         $user->save();
 
-        return redirect()->to('/home');
+        return back();
     }
 
     public function status(Request $request, $id)
-    {   $posts=  Posts::find($id);
-        if($posts->status == 'Active'){
+    {
+        $posts =  Investor::find($id);
 
+        if($posts->status == 'Active'){
             $posts->update(['status'=>'Inactive']);
 
         }
@@ -70,13 +72,19 @@ class PostsController extends Controller
             $posts->update(['status'=>'Active']);
         }
         return redirect()->back()->with('message','changed subCategory');
-   }
-
-   public function userDelete($id){
-     $delete = Posts::find($id)->delete();
-     if($delete){
-        return redirect()->to('/home');
      }
-   }
+
+    public function investorDelete($id){
+        DB::beginTransaction();
+        try {
+            $delete = Investor::find($id)->delete();
+            DB::commit($delete);
+            return back();
+        } catch (\Exception $e) {
+            DB::rollBack();
+            dd($e);
+        }
+
+    }
 
 }
