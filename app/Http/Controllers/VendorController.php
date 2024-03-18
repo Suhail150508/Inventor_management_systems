@@ -149,6 +149,7 @@ class VendorController extends Controller
         // Fetch data based on $selectedValue
         $product = Product::find( $selectedValue);
         $data =  $product->code;
+        dd($data);
         return response()->json($data);
     }
 }

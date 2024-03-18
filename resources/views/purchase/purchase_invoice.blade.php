@@ -351,7 +351,7 @@ nav.shift ul li a:hover:after {
 <body>
     <div class="container card"  >
         <div class="card-body">
-                <div class="header" style="display: flex;margin-top:-6rem">
+                <div class="header" style="display: flex;margin-top:-6rem;margin-bottom:7rem">
                     <strong style="font-size: 2rem">Purchase Invoice</strong>
 
                     <div style="margin-top:6rem;margin-right:2rem;background-color:#aaa;min-width:10%">
@@ -407,17 +407,17 @@ nav.shift ul li a:hover:after {
                 <table class="table table-hover table-white" id="tableEstimate">
                     <thead>
                         <tr>
-                            <th style="width: 20px">#</th>
-                            <th class="col-sm-2">product</th>
-                            <th class="col-sm-2">code</th>
-                            <th class="col-md-6">unit_price</th>
-                            <th style="width:80px;">Qty</th>
+                            <th class="col-sm-3">product</th>
+                            <th class="col-sm-3">code</th>
+                            <th class="col-sm-3">Qty</th>
+                            <th class="col-sm-3">unit_price</th>
+                            <th class="col-sm-3">total_price</th>
                             <th> </th>
                         </tr>
                     </thead>
                     <tbody>
                     <tr>
-                        <td>1</td>
+                        {{-- <td>1</td> --}}
                         <td>
                                 <select id="selectProduct" name="product_id[]"  style="width: 10rem" required>
                                     <option value="">select</option>
@@ -432,11 +432,10 @@ nav.shift ul li a:hover:after {
                                 </select>
 
                         </td>
-                        <td>
-                            <input class="form-control"style="min-width:150px" type="textarea" id="productCode" name="code[]">
-                        </td>
-                        <td><input class="form-control unit_price" style="width:100px" type="textarea" id="unit_cost" name="unit_price[]"></td>
-                        <td><input class="form-control qty" style="width:80px" type="textarea" id="qty" name="qty[]"></td>
+                        <td><input class="form-control "  style="width:130px" type="textarea" id="productCode" name="code[]"></td>
+                        <td><input class="form-control " style="width:130px" type="textarea" id="qty" name="qty[]"></td>
+                        <td><input class="form-control " style="width:130px" type="textarea" id="unit_price" name="unit_price[]"></td>
+                        <td><input class="form-control " style="width:130px" type="textarea" id="total_price" name="total_price[]"></td>
                     </tr>
                     </tbody>
                 </table>
@@ -459,7 +458,17 @@ nav.shift ul li a:hover:after {
                     <a href="javascript:void(0)" class="btn btn-success font-18" title="Add" id="addBtn"><i class="icon-plus"></i>Add Item</a>
                 </div>
 
-                <button type="submit" style="float: right"  class="btn btn-primary ">submit</button>
+                <div style="float: right;margin:2rem 6rem;background-color:#aaa;padding:8px;width:21%;">
+
+                    <h3>Sub Total: <input type="text" id="subtotal" style="width: 60px;height:20px"></h3>
+                    <h3>Discount: <input type="text" id="discount" name="discount" style="width: 60px;height:20px"></h3>
+                    <h3>Total: <input type="text" id="total" name="total" style="width: 60px;height:20px"></h3>
+                    <h3>Paid: <input type="text" id="paid" name="paid" style="width: 60px;height:20px"></h3>
+                    <h3>Due: <input type="text" id="total" name="due" style="width: 60px;height:20px"></h3>
+                </div>
+
+
+                <button type="submit" style="text-align:center;margin-top:32rem;padding:12px"  class="btn btn-primary ">submit</button>
 
             </form>
 
@@ -467,7 +476,7 @@ nav.shift ul li a:hover:after {
 
 
 
-            <form action="/purchase-invoice-store" method="POST"  class="container row form-group input-group" >
+            {{-- <form action="/purchase-invoice-store" method="POST"  class="container row form-group input-group" >
                     <div class="shift" style="margin-top:-4rem;margin-bottom:3rem">
                         @php
                             $vendors = App\Models\Vendor::all();
@@ -561,7 +570,7 @@ nav.shift ul li a:hover:after {
                 <div  style="margin-top: 20rem;text-align:center">
                     <button type="submit" style="padding:7px 2rem">Submit</button>
                 </div>
-            </form>
+            </form> --}}
 
 
             {{-- <div class="table-container">
@@ -704,68 +713,125 @@ nav.shift ul li a:hover:after {
 
       {{-- <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script> --}}
         <script>
-            document.getElementById('selectField').addEventListener('change', function() {
-                var selectedValue = this.value;
-                $.ajax({
-                    url: "{{ route('fetch.data') }}",
-                    type: "GET",
-                    data: { selectedValue: selectedValue },
-                    success: function(response) {
-                        var dataContainer = document.getElementById('dataContainer');
-                        var name = document.getElementById('name');
-                        var email = document.getElementById('email');
-                        var phone = document.getElementById('phone');
-                        // Clear previous data
-                        console.log(response);
-                        name.innerHTML = response.name;
-                        email.innerHTML = response.email;
-                        phone.innerHTML = response.mobile;
-                        // Append fetched data
-                        response.forEach(function(item) {
-                            dataContainer.innerHTML += '<p>' + item + '</p>';
-                            // Modify 'field_name' according to your actual field name
-                        });
-                    },
-                    error: function(xhr) {
-                        console.log(xhr.responseText);
-                    }
+            // document.getElementById('selectField').addEventListener('change', function() {
+            //     alert('ok');
+            //     var selectedValue = this.value;
+            //     $.ajax({
+            //         url: "{{ route('fetch.data') }}",
+            //         type: "GET",
+            //         data: { selectedValue: selectedValue },
+            //         success: function(response) {
+            //             var dataContainer = document.getElementById('dataContainer');
+            //             var name = document.getElementById('name');
+            //             var email = document.getElementById('email');
+            //             var phone = document.getElementById('phone');
+            //             // Clear previous data
+            //             console.log(response);
+            //             name.innerHTML = response.name;
+            //             email.innerHTML = response.email;
+            //             phone.innerHTML = response.mobile;
+            //             // Append fetched data
+            //             response.forEach(function(item) {
+            //                 dataContainer.innerHTML += '<p>' + item + '</p>';
+            //                 // Modify 'field_name' according to your actual field name
+            //             });
+            //         },
+            //         error: function(xhr) {
+            //             console.log(xhr.responseText);
+            //         }
+            //     });
+            // });
+            // document.getElementById('selectProduct').addEventListener('change', function() {
+            //     alert('ok');
+            //     var selectedValue = this.value;
+            //     $.ajax({
+            //         url: "{{ route('product.fetch') }}",
+            //         type: "GET",
+            //         data: { selectedValue: selectedValue },
+            //         success: function(response) {
+            //             var productCode = document.getElementById('productCode');
+            //             // Clear previous data
+            //             console.log(response);
+            //             productCode.value = response;
+
+            //             // Append fetched data
+            //             response.forEach(function(item) {
+            //                 dataContainer.innerHTML += '<p>' + item + '</p>';
+            //                 // Modify 'field_name' according to your actual field name
+            //             });
+            //         },
+            //         error: function(xhr) {
+            //             console.log(xhr.responseText);
+            //         }
+            //     });
+            // });
+            // document.getElementById('unit_price').addEventListener('change', function() {
+            //     alert('ok');
+            //     var selectedValue = this.value;
+            //     var qty = $('#qty').val();
+
+            //     var total_pricess = qty * selectedValue;
+            //     var total_price = $('#total_price');
+            //     var subtotal = $('#subtotal');
+            //     total_price.val(total_pricess);
+            //     subtotal.val(total_pricess);
+            //     console.log(selectedValue);
+
+            // });
+
+
+            document.addEventListener('DOMContentLoaded', function() {
+                document.getElementById('selectProduct').addEventListener('change', function() {
+                    var selectedValue = this.value;
+                    $.ajax({
+                        url: "{{ route('product.fetch') }}",
+                        type: "GET",
+                        data: { selectedValue: selectedValue },
+                        success: function(response) {
+                            var productCode = document.getElementById('productCode');
+                            // Clear previous data
+                            console.log(response);
+                            productCode.value = response;
+
+                            // Append fetched data
+                            response.forEach(function(item) {
+                                // dataContainer.innerHTML += '<p>' + item + '</p>'; // This line is not needed here
+                                // Modify 'field_name' according to your actual field name
+                            });
+                        },
+                        error: function(xhr) {
+                            console.log(xhr.responseText);
+                        }
+                    });
+                });
+
+                document.querySelectorAll('#unit_price').forEach(function(element) {
+                    element.addEventListener('change', function() {
+                        var selectedValue = parseFloat(this.value);
+
+                        var qty = $('#qty').val();
+
+                        var totall_pricess = qty * selectedValue;
+                        var total_priceess = $('#total_price');
+                        total_priceess.val(totall_pricess);
+
+                        var total_pri = $('#total_price').val();
+                        var total_prii = $('.total_price').val();
+
+                        var prices = total_pri + total_prii;
+
+                        var subtotal = $('#subtotal');
+                        subtotal.val(prices);
+
+                        // var total_pricee = $('.total_price').val();
+                        // total_price.val(price);
+
+                        console.log(selectedValue);
+                    });
                 });
             });
-            document.getElementById('selectProduct').addEventListener('change', function() {
-                var selectedValue = this.value;
-                $.ajax({
-                    url: "{{ route('product.fetch') }}",
-                    type: "GET",
-                    data: { selectedValue: selectedValue },
-                    success: function(response) {
-                        var productCode = document.getElementById('productCode');
-                        // Clear previous data
-                        console.log(response);
-                        productCode.value = response;
 
-                        // Append fetched data
-                        response.forEach(function(item) {
-                            dataContainer.innerHTML += '<p>' + item + '</p>';
-                            // Modify 'field_name' according to your actual field name
-                        });
-                    },
-                    error: function(xhr) {
-                        console.log(xhr.responseText);
-                    }
-                });
-            });
-            document.getElementById('unit_price').addEventListener('change', function() {
-                var selectedValue = this.value;
-                var qty = $('#qty').val();
 
-                var total_pricess = qty * selectedValue;
-                var total_price = $('#total_price');
-                var subtotal = $('#subtotal');
-                total_price.val(total_pricess);
-                subtotal.val(total_pricess);
-                console.log(selectedValue);
-
-            });
             document.getElementById('discount').addEventListener('change', function() {
                 var selectedValue = this.value;
                 var sub = $('#total_price').val();
@@ -777,34 +843,19 @@ nav.shift ul li a:hover:after {
 
             });
 
-            $(document).ready(function() {
-                $('#copyItem').click(function() {
-                    var newItem = $('#item1').clone();
-                    $('#item1').after(newItem);
-                });
+            //------------- Clone system-----------
+            // $(document).ready(function() {
+            //     $('#copyItem').click(function() {
+            //         var newItem = $('#item1').clone();
+            //         $('#item1').after(newItem);
+            //     });
 
-                $(document).on('click', '.delete-item', function() {
-                    $(this).closest(newItem).remove();
-                });
+            //     $(document).on('click', '.delete-item', function() {
+            //         $(this).closest(newItem).remove();
+            //     });
 
-            });
+            // });
 
-
-            var room = 1;
-                function education_fields() {
-
-                    room++;
-                    var objTo = document.getElementById('education_fields')
-                    var divtest = document.createElement("div");
-                    divtest.setAttribute("class", "form-group removeclass"+room);
-                    var rdiv = 'removeclass'+room;
-                    divtest.innerHTML = '<div class="col-sm-3 nopadding"><div class="form-group"> <input type="text" class="form-control" id="Schoolname" name="Schoolname[]" value="" placeholder="School name"></div></div><div class="col-sm-3 nopadding"><div class="form-group"> <input type="text" class="form-control" id="Major" name="Major[]" value="" placeholder="Major"></div></div><div class="col-sm-3 nopadding"><div class="form-group"> <input type="text" class="form-control" id="Degree" name="Degree[]" value="" placeholder="Degree"></div></div><div class="col-sm-3 nopadding"><div class="form-group"><div class="input-group"> <select class="form-control" id="educationDate" name="educationDate[]"><option value="">Date</option><option value="2015">2015</option><option value="2016">2016</option><option value="2017">2017</option><option value="2018">2018</option> </select><div class="input-group-btn"> <button class="btn btn-danger" type="button" onclick="remove_education_fields('+ room +');"> <span class="glyphicon glyphicon-minus" aria-hidden="true"></span> </button></div></div></div></div><div class="clear"></div>';
-
-                    objTo.appendChild(divtest)
-                }
-                function remove_education_fields(rid) {
-                    $('.removeclass'+rid).remove();
-                }
 
 
 
@@ -852,8 +903,24 @@ nav.shift ul li a:hover:after {
 </script> --}}
 
 
+{{-- <script>
+    $(document).ready(function() {
 
-<script>
+    function CalC(v){
+        var index =$(v).parent().parent().index();
+        alert(index);
+
+    }
+    }
+</script> --}}
+
+
+@php
+$products = App\Models\Product::all();
+@endphp
+
+{{-- <td class="row-index text-center"><p>${rowIdx}</p></td> --}}
+{{-- <script>
 $(document).ready(function() {
     var rowIdx = 1;
 
@@ -861,10 +928,22 @@ $(document).ready(function() {
         // Adding a row inside the tbody.
         $("#tableEstimate tbody").append(`
             <tr id="R${rowIdx}">
-                <td class="row-index text-center"><p>${rowIdx}</p></td>
-                <td><input class="form-control" type="textarea" style="min-width:150px" name="code[]"></td>
-                <td><input class="form-control unit_price" style="width:100px" type="textarea" name="unit_price[]"></td>
-                <td><input class="form-control qty" style="width:80px" type="textarea" name="qty[]"></td>
+
+                <td>
+                        <select id="selectProduct" name="product_id[]"  style="width: 10rem" required>
+                            <option value="">select</option>
+
+                            @foreach ($products as $product )
+                            <option value="{{ $product->id }}">{{ $product->name }}</option>
+                            @endforeach
+                        </select>
+
+                </td>
+                <td><input class="form-control" type="textarea" style="width:130px" name="product_id[]"></td>
+                <td><input class="form-control" type="textarea" style="width:130px" name="code[]"></td>
+                <td><input class="form-control qty" style="width:130px" type="textarea" name="qty[]"></td>
+                <td><input class="form-control unit_price" style="width:130px" type="textarea" name="unit_price[]"></td>
+                <td><input class="form-control unit_price" style="width:130px" type="textarea" name="total_price[]"></td>
                 <td><a href="javascript:void(0)" class="btn btn-danger font-18 remove" title="Remove"><i class="icon-minus"></i></a></td>
             </tr>
         `);
@@ -883,7 +962,150 @@ $(document).ready(function() {
     });
 });
 
-</script>
+var productIdValue = $("input[name='product_id[]']").val();
+console.log(productIdValue);
+
+
+</script> --}}
+
+<script>
+    $(document).ready(function() {
+
+        var rowIdx = 1;
+
+        $("#addBtn").on("click", function () {
+            // Adding a row inside the tbody.
+            $("#tableEstimate tbody").append(`
+            <tr id="R${rowIdx}">
+                    <td>
+                        <select class="selectProduct" name="product_id[]" style="width: 10rem" required>
+                            <option value="">select</option>
+                            @foreach ($products as $product )
+                            <option value="{{ $product->id }}">{{ $product->name }}</option>
+                            @endforeach
+                        </select>
+                    </td>
+                    <td><input class="form-control code" type="textarea" style="width:130px" name="code[]"></td>
+                    <td><input class="form-control qty" style="width:130px" type="textarea" name="qty[]"></td>
+                    <td><input class="form-control unit_price" style="width:130px" type="textarea" name="unit_price[]"></td>
+                    <td><input class="form-control total_price" style="width:130px" type="textarea" name="total_price[]"></td>
+                    <td><a href="javascript:void(0)" class="btn btn-danger font-18 remove" title="Remove"><i class="icon-minus"></i></a></td>
+                </tr>
+            `);
+            rowIdx++;
+        });
+
+
+        $("#tableEstimate").on("change", ".unit_price", function () {
+            var rowIndex = $(this).closest('tr').index();
+            console.log("Row index:", rowIndex);
+
+            //--------- Get the selected unit price-----------
+            var selectedOption = parseFloat(this.value);
+
+            // ----------Find the quantity input field in the same row and get its value------------
+            var qty = parseFloat($(this).closest('tr').find('.qty').val());
+
+            //-------------- Calculate the total amount----------------
+            var totalAmount = qty * selectedOption;
+
+            //------------------ Find and set the value of the total_price input field in the same row---------------
+            var totalPriceInput = $(this).closest('tr').find('.total_price');
+            totalPriceInput.val(totalAmount.toFixed(2)); // Round to 2 decimal places
+
+            console.log("Selected unit price:", selectedOption);
+        });
+
+
+        $("#tableEstimate").on("change", ".selectProduct", function () {
+            var rowIndex = $(this).closest('tr').index();
+            console.log("Row index:", rowIndex,'index');
+
+            // Get the selected product ID
+            var selectedOption = 6;
+           console.log(selectedOption,'ttt');
+
+            $.ajax({
+                url: "{{ route('product.fetch') }}",
+                type: "GET",
+                data: { selectedValue: selectedOption },
+                success: function(response) {
+                    // Find the product code input field in the same row
+                    var productCodeInputs = $(this).closest('tr').find('.code');
+                    console.log(productCodeInputs,'bbbbbbo');
+                    // Clear previous data (if needed)
+                    productCodeInput.val('');
+
+                    // Check if response is not empty and assign the product code
+                    if (response) {
+
+                        // Parse response to a float (if needed)
+                        var productCode = parseFloat(response.data);
+                        console.log(response,'bbbbbbff');
+                        productCodeInputs.val(productCode);
+                    }
+                },
+                error: function(xhr) {
+                    console.log(xhr.responseText);
+                }
+            });
+        });
+
+
+
+
+        // $('#selectProduct').change(function(){
+        //     var selectedIndex = $(this).prop('selectedIndex');
+        //     console.log(selectedIndex);
+        //     var productCode = '';
+        //     var unitPrice = '';
+        //     switch(selectedIndex) {
+        //         case 1:
+        //             productCode = 'Code for Product 1';
+        //             unitPrice = 'Price for Product 1';
+        //             break;
+        //         case 2:
+        //             productCode = 'Code for Product 2';
+        //             unitPrice = 'Price for Product 2';
+        //             break;
+        //         case 3:
+        //             productCode = 'Code for Product 3';
+        //             unitPrice = 'Price for Product 3';
+        //             break;
+        //     }
+        //     $('#productCode').val(productCode);
+        //     $('#unit_price').val(unitPrice);
+        // });
+
+        // Listen to changes in the selectProduct dropdown
+
+        // $("#tableEstimate tbody").on("change", ".unit_price", function () {
+        //     var selectedOption = this.value;
+        //     var qty = $('.qty').val();
+        //     var totalAmount = qty * selectedOption;
+        //     var totall_price = $('.total_price');
+        //     totall_price.val(totalAmount);
+        //     console.log(selectedOption);
+
+        // });
+
+
+
+
+
+        $("#tableEstimate tbody").on("click", ".remove", function () {
+            // Remove the row
+            $(this).closest("tr").remove();
+
+            // Update row indices of all subsequent rows
+            $("#tableEstimate tbody tr").each(function(index) {
+                $(this).find('.row-index p').text(index + 1);
+                $(this).attr('id', 'R' + (index + 1));
+            });
+        });
+    });
+    </script>
+
 
     </div>
 
