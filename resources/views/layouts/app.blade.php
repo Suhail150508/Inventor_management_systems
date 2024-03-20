@@ -118,7 +118,7 @@
                                 <li><a class="submenu" href="/show-vendor"><i class="icon-plus"></i><span class="hidden-tablet"> Vendors </span></a></li>
                                 <li><a class="submenu" href="/all-products"><i class="icon-plus"></i><span class="hidden-tablet"> Add Product </span></a></li>
                                 <li><a class="submenu" href="/purchase_invoice"><i class="icon-plus"></i><span class="hidden-tablet"> Purchase Invoice </span></a></li>
-                                <li><a class="submenu" href="/all-purchase"><i class="icon-eye-open"></i><span class="hidden-tablet"> All Purchase  </span></a></li>
+                                <li><a class="submenu" href="/all-purchase-invoice"><i class="icon-eye-open"></i><span class="hidden-tablet"> All Purchase  </span></a></li>
                             </ul>
                         </li>
 						<li>
@@ -146,7 +146,7 @@
 			</noscript>
 
 			<div id="content" class="span10">
-                <main class="py-4">
+                <main class="py-4" style="height:100%">
                     @yield('content')
                 </main>
 	        </div>

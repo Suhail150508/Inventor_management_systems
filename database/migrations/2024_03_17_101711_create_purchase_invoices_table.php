@@ -12,8 +12,7 @@ return new class extends Migration
     public function up(): void
     {
         Schema::create('purchase_invoices', function (Blueprint $table) {
-            $table->bigIncrements('id')->unsigned();
-            $table->integer('invoice_id')->nullable();
+            $table->string('id')->primary();
             $table->integer('vendor_id')->nullable();
             $table->double('sub_total')->nullable();
             $table->double('discount')->nullable();
@@ -24,6 +23,7 @@ return new class extends Migration
             $table->softDeletes();
         });
     }
+
 
     /**
      * Reverse the migrations.

@@ -11,15 +11,16 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::create('purchase_products', function (Blueprint $table) {
+        Schema::create('stock_products', function (Blueprint $table) {
             $table->bigIncrements('id');
-            $table->integer('product_id')->nullable();
-            $table->integer('vendor_id')->nullable();
-            $table->string('invoice_id')->nullable();
+            $table->string('name')->nullable();
             $table->integer('code')->nullable();
-            $table->integer('qty')->nullable();
-            $table->double('unit_price')->nullable();
-            $table->double('total_price')->nullable();
+            $table->integer('total_purchase_qty')->nullable();
+            $table->double('product_unit_price')->nullable();
+            $table->integer('total_sold_qty')->nullable();
+            $table->integer('available_qty')->nullable();
+            $table->integer('reserve_qty')->nullable();
+            $table->integer('saleable_qty')->nullable();
             $table->timestamps();
             $table->softDeletes();
         });
@@ -30,6 +31,6 @@ return new class extends Migration
      */
     public function down(): void
     {
-        Schema::dropIfExists('purchase_products');
+        Schema::dropIfExists('stock_products');
     }
 };

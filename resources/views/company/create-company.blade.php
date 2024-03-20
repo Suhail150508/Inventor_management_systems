@@ -307,7 +307,7 @@ form .form-row .textarea{
             <div class="modal-header">
             <h5 class="modal-title" id="exampleModalLabel">
                 <div class="text">
-                    <h3 style="font-size:1.4rem"><i class="icon-plus"></i> Add Vendor</h3>
+                    <h3 style="font-size:1.4rem"><i class="icon-plus"></i> Add Company Info</h3>
                 </div>
             </h5>
             <button type="button" class="close" data-dismiss="modal" aria-label="Close">

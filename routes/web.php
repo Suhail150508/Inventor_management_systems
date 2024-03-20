@@ -89,6 +89,7 @@ Route::get('/invoice-details/{id}',[CustomerController::class,'invoiceDetails'])
 Route::get('/show-vendor',[VendorController::class,'showVendor']);
 Route::post('/vendor-create',[VendorController::class,'storeVendor']);
 Route::get('/fetch-data', [VendorController::class,'fetchData'])->name('fetch.data');
+Route::get('/product-fetchs', [VendorController::class,'fetchsCode'])->name('product.fetchs');
 Route::get('/product-fetch', [VendorController::class,'fetchCode'])->name('product.fetch');
 
 
@@ -98,6 +99,11 @@ Route::post('/product-create',[VendorController::class,'storeProduct']);
 Route::get('/purchase_invoice',[VendorController::class,'purchaseInvoice']);
 Route::post('/purchase-invoice-store',[VendorController::class,'purchaseInvoiceStore']);
 Route::post('/product-create',[VendorController::class,'storeProduct']);
+
+Route::get('/all-purchase-invoice',[VendorController::class,'allPInvoice']);
+Route::post('/search-vendor-invoice',[VendorController::class,'searchVInvoice']);
+
+
 
 
 

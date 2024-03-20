@@ -105,7 +105,7 @@ h2 {
 
 
         <div>
-            <form action="/search-customer" class="row pt-5" style="width:50%;height:40%;display:flex;justify-content:center;padding:.2rem;margin:.9rem 5rem">
+            <form action="/search-vendor-invoice" class="row pt-5" style="width:50%;height:40%;display:flex;justify-content:center;padding:.2rem;margin:.9rem 5rem">
                 @csrf
                 <input class="col-md-9 form-control" style="font-size:1.2rem;padding:.8rem 2.3rem" type="text" name="search" placeholder="Search: Name, Email.." value="{{ isset($search) ? $search :'' }}">
                 <button type="submit" class="col-md-3 btn btn-success" style="font-size:1.2rem;width:100px;height:48px">Search </button>

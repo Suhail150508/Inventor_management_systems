@@ -344,17 +344,26 @@ nav.shift ul li a:hover:after {
   }
 }
 
+@media print{
+    .btn{
+        display: none;
+    }
+    .form-control{
+        border: 0px;
+    }
+}
 
 </style>
 
 </head>
-<body>
-    <div class="container card"  >
+<body style="height: 100%">
+    {{-- <div class="container card"> --}}
+    <div class="container">
         <div class="card-body">
-                <div class="header" style="display: flex;margin-top:-6rem;margin-bottom:7rem">
+                <div class="header" style="display: flex;margin-bottom:7rem">
                     <strong style="font-size: 2rem">Purchase Invoice</strong>
 
-                    <div style="margin-top:6rem;margin-right:2rem;background-color:#aaa;min-width:10%">
+                    <div style="margin-right:2rem;background-color:#aaa;min-width:10%">
 
                         @php
                             $companies = App\Models\Company::all();
@@ -402,7 +411,28 @@ nav.shift ul li a:hover:after {
                     </div>
                 @endif --}}
 
+                <div class="shift" style="margin-top:-8rem;margin-bottom:10rem;width:20%">
+                    @php
+                        $vendors = App\Models\Vendor::all();
+                    @endphp
 
+                        <h3 for=""> Vendors </h3>
+                        <select class="form-control"  name="vendor_id"  id="selectField" required>
+
+                            <option style="font-size:1.1rem" value=""></option>
+                            @foreach ($vendors as $vendor )
+                            <option style="font-size:1.1rem" value="{{ $vendor->id }}">{{ $vendor->name  }}</option>
+                            @endforeach
+                        </select>
+
+                        <div id="dataContainer" style="background-color: #aaa;color:#000;width:100%;">
+                            <p style="margin: .8rem " id="name"></p>
+                            <p style="margin: .8rem " id="email"></p>
+                            <p style="margin: .8rem " id="mobile"></p>
+                            <p style="margin: .8rem " id="address"></p>
+                        </div>
+
+                </div>
 
                 <table class="table table-hover table-white" id="tableEstimate">
                     <thead>
@@ -419,11 +449,12 @@ nav.shift ul li a:hover:after {
                     <tr>
                         {{-- <td>1</td> --}}
                         <td>
-                                <select id="selectProduct" name="product_id[]"  style="width: 10rem" required>
+                                <select class="form-control" id="selectProduct" name="product_id[]"  style="width: 10rem" required>
                                     <option value="">select</option>
 
                                     @php
-                                        $products = App\Models\Product::all();
+                                        $products = App\Models\StockProduct::all();
+                                        // $products = App\Models\Product::all();
                                     @endphp
 
                                     @foreach ($products as $product )
@@ -453,22 +484,27 @@ nav.shift ul li a:hover:after {
                     </tr>
                 </table> --}}
 
-                <div  style="margin:3rem .1rem;text-align:center">
+                <div  style="margin:3rem .1rem;">
 
-                    <a href="javascript:void(0)" class="btn btn-success font-18" title="Add" id="addBtn"><i class="icon-plus"></i>Add Item</a>
+                    <a href="javascript:void(0)" class="btn btn-success font-18" title="Add" id="addBtn" style="font-size:1.7rem"><i class="icon-plus"></i> Add Item</a>
                 </div>
 
-                <div style="float: right;margin:2rem 6rem;background-color:#aaa;padding:8px;width:21%;">
+                <div style="float: right;margin:4rem 2rem;background-color:#d9d9ebc6;padding:8px;width:21%;">
 
-                    <h3>Sub Total: <input type="text" id="subtotal" style="width: 60px;height:20px"></h3>
-                    <h3>Discount: <input type="text" id="discount" name="discount" style="width: 60px;height:20px"></h3>
-                    <h3>Total: <input type="text" id="total" name="total" style="width: 60px;height:20px"></h3>
-                    <h3>Paid: <input type="text" id="paid" name="paid" style="width: 60px;height:20px"></h3>
-                    <h3>Due: <input type="text" id="total" name="due" style="width: 60px;height:20px"></h3>
+                    <p style="display:none">Sub Total1: <input type="text" id="subtotal1" style="width: 60px;height:20px"></p>
+                    <p style="display:none">Sub Total2: <input type="text" id="subtotal2" style="width: 60px;height:20px"></p>
+                    <p style="font-weight:bold;font-size:1.7rem">Sub Total: <input type="text" class="form-control" id="subtotal" name="sub_total" style="width: 60px;height:16px"></p>
+                    <p style="font-weight:bold;font-size:1.7rem">Discount: <input type="text" class="form-control" id="discount" name="discount" style="width: 60px;height:16px"></p>
+                    <p style="font-weight:bold;font-size:1.7rem">Total: <input type="text" class="form-control" id="total" name="total" style="width: 60px;height:16px"></p>
+                    <p style="font-weight:bold;font-size:1.7rem">Paid: <input type="text" class="form-control" id="paid" name="paid" style="width: 60px;height:16px"></p>
+                    <p style="font-weight:bold;font-size:1.7rem">Due: <input type="text" class="form-control" id="due" name="due" style="width: 60px;height:16px"></p>
                 </div>
 
+                <div style="text-align: center;margin-top:27rem">
+                    <button type="submit" style=" padding:6px 25px;font-size:2.2rem"  class="btn btn-primary ">submit</button>
+                    <button type="button" class="btn" style=" padding:6px 25px;font-size:2.2rem;margin-left:5rem" onclick="GetPrint()" class="btn btn-primary ">Print</button>
+                </div>
 
-                <button type="submit" style="text-align:center;margin-top:32rem;padding:12px"  class="btn btn-primary ">submit</button>
 
             </form>
 
@@ -713,84 +749,63 @@ nav.shift ul li a:hover:after {
 
       {{-- <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script> --}}
         <script>
-            // document.getElementById('selectField').addEventListener('change', function() {
-            //     alert('ok');
-            //     var selectedValue = this.value;
-            //     $.ajax({
-            //         url: "{{ route('fetch.data') }}",
-            //         type: "GET",
-            //         data: { selectedValue: selectedValue },
-            //         success: function(response) {
-            //             var dataContainer = document.getElementById('dataContainer');
-            //             var name = document.getElementById('name');
-            //             var email = document.getElementById('email');
-            //             var phone = document.getElementById('phone');
-            //             // Clear previous data
-            //             console.log(response);
-            //             name.innerHTML = response.name;
-            //             email.innerHTML = response.email;
-            //             phone.innerHTML = response.mobile;
-            //             // Append fetched data
-            //             response.forEach(function(item) {
-            //                 dataContainer.innerHTML += '<p>' + item + '</p>';
-            //                 // Modify 'field_name' according to your actual field name
-            //             });
-            //         },
-            //         error: function(xhr) {
-            //             console.log(xhr.responseText);
-            //         }
-            //     });
-            // });
-            // document.getElementById('selectProduct').addEventListener('change', function() {
-            //     alert('ok');
-            //     var selectedValue = this.value;
-            //     $.ajax({
-            //         url: "{{ route('product.fetch') }}",
-            //         type: "GET",
-            //         data: { selectedValue: selectedValue },
-            //         success: function(response) {
-            //             var productCode = document.getElementById('productCode');
-            //             // Clear previous data
-            //             console.log(response);
-            //             productCode.value = response;
-
-            //             // Append fetched data
-            //             response.forEach(function(item) {
-            //                 dataContainer.innerHTML += '<p>' + item + '</p>';
-            //                 // Modify 'field_name' according to your actual field name
-            //             });
-            //         },
-            //         error: function(xhr) {
-            //             console.log(xhr.responseText);
-            //         }
-            //     });
-            // });
-            // document.getElementById('unit_price').addEventListener('change', function() {
-            //     alert('ok');
-            //     var selectedValue = this.value;
-            //     var qty = $('#qty').val();
-
-            //     var total_pricess = qty * selectedValue;
-            //     var total_price = $('#total_price');
-            //     var subtotal = $('#subtotal');
-            //     total_price.val(total_pricess);
-            //     subtotal.val(total_pricess);
-            //     console.log(selectedValue);
-
-            // });
-
 
             document.addEventListener('DOMContentLoaded', function() {
+                // Other event listeners and AJAX calls...
+
+                // Calculate subtotal and update field
+                function calculateSubtotal() {
+                    var subtotal1Value = parseFloat($('#subtotal1').val());
+                    var subtotal2Value = parseFloat($('#subtotal2').val());
+                    var subtotal = subtotal1Value + subtotal2Value;
+                    console.log(subtotal,'skdjflksdjflksdjf;l');
+                    $('#subtotal').val(subtotal);
+                }
+
+                // Call calculateSubtotal function whenever subtotal1 or subtotal2 changes
+                $(document).on('click', calculateSubtotal);
+            });
+
+            // calculateSubtotal();
+
+            document.addEventListener('DOMContentLoaded', function() {
+                document.getElementById('selectField').addEventListener('change', function() {
+                    var selectedValue = this.value;
+                    $.ajax({
+                        url: "{{ route('fetch.data') }}",
+                        type: "GET",
+                        data: { selectedValue: selectedValue },
+                        success: function(response) {
+                            var name = document.getElementById('name');
+                            var email = document.getElementById('email');
+                            var mobile = document.getElementById('mobile');
+                            var address = document.getElementById('address');
+
+                            name.append(response.name);
+                            email.append(response.email);
+                            mobile.append(response.mobile);
+                            address.append(response.address);
+                            // Append fetched data
+                            response.forEach(function(item) {
+                                // dataContainer.innerHTML += '<p>' + item + '</p>'; // This line is not needed here
+                                // Modify 'field_name' according to your actual field name
+                            });
+                        },
+                        error: function(xhr) {
+                            console.log(xhr.responseText);
+                        }
+                    });
+                });
                 document.getElementById('selectProduct').addEventListener('change', function() {
                     var selectedValue = this.value;
                     $.ajax({
-                        url: "{{ route('product.fetch') }}",
+                        url: "{{ route('product.fetchs') }}",
                         type: "GET",
                         data: { selectedValue: selectedValue },
                         success: function(response) {
                             var productCode = document.getElementById('productCode');
                             // Clear previous data
-                            console.log(response);
+                            // console.log(response,'okkkss');
                             productCode.value = response;
 
                             // Append fetched data
@@ -815,155 +830,85 @@ nav.shift ul li a:hover:after {
                         var total_priceess = $('#total_price');
                         total_priceess.val(totall_pricess);
 
-                        var total_pri = $('#total_price').val();
-                        var total_prii = $('.total_price').val();
+                        var subtotal1 = $('#subtotal1');
+                        console.log(subtotal1,'qq');
+                        subtotal1.val(totall_pricess);
 
-                        var prices = total_pri + total_prii;
-
-                        var subtotal = $('#subtotal');
-                        subtotal.val(prices);
-
+                        // total();
                         // var total_pricee = $('.total_price').val();
                         // total_price.val(price);
 
                         console.log(selectedValue);
                     });
                 });
+
             });
 
 
             document.getElementById('discount').addEventListener('change', function() {
                 var selectedValue = this.value;
-                var sub = $('#total_price').val();
+                var sub = $('#subtotal').val();
 
                 var total_amount = sub - selectedValue;
+                alert(total_amount)
                 var total = $('#total');
                 total.val(total_amount);
                 console.log(selectedValue);
 
             });
 
-            //------------- Clone system-----------
-            // $(document).ready(function() {
-            //     $('#copyItem').click(function() {
-            //         var newItem = $('#item1').clone();
-            //         $('#item1').after(newItem);
-            //     });
-
-            //     $(document).on('click', '.delete-item', function() {
-            //         $(this).closest(newItem).remove();
-            //     });
-
-            // });
-
-
-
-
         </script>
-        {{-- <script>
-            $(document).ready(function() {
-                var i = 0;
-                $('#add').click(function(){
-                    ++i;
-                    $('#table').append(
-                        `<tr>
-                            <td> <input type = "text" name="inputs[`+i+`][qty]"> </td>
-                            <td> <button type="button" class="btn btn-danger" id="remove">Delete</button> </td>
-                        </tr>`);
-                });
-
-                $(document).on('click','#remove',function(){
-
-                    $(this).parents('tr').remove();
-                })
-            });
-        </script> --}}
-
-{{-- <script>
-   $(document).ready(function() {
-    var i = 0;
-
-    $('#add').click(function(){
-        ++i;
-        $('#table').append(
-            `<tr>
-                <td><input type="text" name="inputs[`+i+`][name]"></td>
-                <td><input type="text" name="inputs[`+i+`][qty]"></td>
-                <td><button type="button" class="btn btn-danger remove">Delete</button></td>
-            </tr>`);
-
-    });
-
-    // Remove item
-    $('#table').on('click', '.remove', function() {
-        $(this).closest('tr').remove();
-    });
-});
-
-</script> --}}
 
 
-{{-- <script>
-    $(document).ready(function() {
-
-    function CalC(v){
-        var index =$(v).parent().parent().index();
-        alert(index);
-
-    }
-    }
-</script> --}}
-
-
-@php
-$products = App\Models\Product::all();
-@endphp
+        @php
+        $products = App\Models\StockProduct::all();
+        @endphp
 
 {{-- <td class="row-index text-center"><p>${rowIdx}</p></td> --}}
 {{-- <script>
-$(document).ready(function() {
-    var rowIdx = 1;
+    $(document).ready(function() {
+        var rowIdx = 1;
 
-    $("#addBtn").on("click", function () {
-        // Adding a row inside the tbody.
-        $("#tableEstimate tbody").append(`
-            <tr id="R${rowIdx}">
+        $("#addBtn").on("click", function () {
+            // Adding a row inside the tbody.
+            $("#tableEstimate tbody").append(`
+                <tr id="R${rowIdx}">
 
-                <td>
-                        <select id="selectProduct" name="product_id[]"  style="width: 10rem" required>
-                            <option value="">select</option>
+                    <td>
+                            <select id="selectProduct" name="product_id[]"  style="width: 10rem" required>
+                                <option value="">select</option>
 
-                            @foreach ($products as $product )
-                            <option value="{{ $product->id }}">{{ $product->name }}</option>
-                            @endforeach
-                        </select>
+                                @foreach ($products as $product )
+                                <option value="{{ $product->id }}">{{ $product->name }}</option>
+                                @endforeach
+                            </select>
 
-                </td>
-                <td><input class="form-control" type="textarea" style="width:130px" name="product_id[]"></td>
-                <td><input class="form-control" type="textarea" style="width:130px" name="code[]"></td>
-                <td><input class="form-control qty" style="width:130px" type="textarea" name="qty[]"></td>
-                <td><input class="form-control unit_price" style="width:130px" type="textarea" name="unit_price[]"></td>
-                <td><input class="form-control unit_price" style="width:130px" type="textarea" name="total_price[]"></td>
-                <td><a href="javascript:void(0)" class="btn btn-danger font-18 remove" title="Remove"><i class="icon-minus"></i></a></td>
-            </tr>
-        `);
-        rowIdx++;
-    });
+                    </td>
+                    <td><input class="form-control" type="textarea" style="width:130px" name="product_id[]"></td>
+                    <td><input class="form-control" type="textarea" style="width:130px" name="code[]"></td>
+                    <td><input class="form-control qty" style="width:130px" type="textarea" name="qty[]"></td>
+                    <td><input class="form-control unit_price" style="width:130px" type="textarea" name="unit_price[]"></td>
+                    <td><input class="form-control unit_price" style="width:130px" type="textarea" name="total_price[]"></td>
+                    <td><a href="javascript:void(0)" class="btn btn-danger font-18 remove" title="Remove"><i class="icon-minus"></i></a></td>
+                </tr>
+            `);
+            rowIdx++;
+        });
 
-    $("#tableEstimate tbody").on("click", ".remove", function () {
-        // Remove the row
-        $(this).closest("tr").remove();
+        $("#tableEstimate tbody").on("click", ".remove", function () {
+            // Remove the row
+            $(this).closest("tr").remove();
 
-        // Update row indices of all subsequent rows
-        $("#tableEstimate tbody tr").each(function(index) {
-            $(this).find('.row-index p').text(index + 1);
-            $(this).attr('id', 'R' + (index + 1));
+            // Update row indices of all subsequent rows
+            $("#tableEstimate tbody tr").each(function(index) {
+                $(this).find('.row-index p').text(index + 1);
+                $(this).attr('id', 'R' + (index + 1));
+            });
         });
     });
-});
 
-var productIdValue = $("input[name='product_id[]']").val();
-console.log(productIdValue);
+    var productIdValue = $("input[name='product_id[]']").val();
+    console.log(productIdValue);
 
 
 </script> --}}
@@ -978,7 +923,7 @@ console.log(productIdValue);
             $("#tableEstimate tbody").append(`
             <tr id="R${rowIdx}">
                     <td>
-                        <select class="selectProduct" name="product_id[]" style="width: 10rem" required>
+                        <select class="selectProduct form-control" name="product_id[]" style="width: 10rem" required>
                             <option value="">select</option>
                             @foreach ($products as $product )
                             <option value="{{ $product->id }}">{{ $product->name }}</option>
@@ -996,34 +941,15 @@ console.log(productIdValue);
         });
 
 
-        $("#tableEstimate").on("change", ".unit_price", function () {
-            var rowIndex = $(this).closest('tr').index();
-            console.log("Row index:", rowIndex);
-
-            //--------- Get the selected unit price-----------
-            var selectedOption = parseFloat(this.value);
-
-            // ----------Find the quantity input field in the same row and get its value------------
-            var qty = parseFloat($(this).closest('tr').find('.qty').val());
-
-            //-------------- Calculate the total amount----------------
-            var totalAmount = qty * selectedOption;
-
-            //------------------ Find and set the value of the total_price input field in the same row---------------
-            var totalPriceInput = $(this).closest('tr').find('.total_price');
-            totalPriceInput.val(totalAmount.toFixed(2)); // Round to 2 decimal places
-
-            console.log("Selected unit price:", selectedOption);
-        });
-
-
         $("#tableEstimate").on("change", ".selectProduct", function () {
             var rowIndex = $(this).closest('tr').index();
-            console.log("Row index:", rowIndex,'index');
+            console.log("Row index:", rowIndex, 'index');
 
             // Get the selected product ID
-            var selectedOption = 6;
-           console.log(selectedOption,'ttt');
+            var selectedOption = $(this).val();
+            console.log(selectedOption, 'tttsss');
+
+            var $this = $(this); // Store the reference to $(this) in a variable
 
             $.ajax({
                 url: "{{ route('product.fetch') }}",
@@ -1031,17 +957,14 @@ console.log(productIdValue);
                 data: { selectedValue: selectedOption },
                 success: function(response) {
                     // Find the product code input field in the same row
-                    var productCodeInputs = $(this).closest('tr').find('.code');
-                    console.log(productCodeInputs,'bbbbbbo');
+                    var productCodeInputs = $this.closest('tr').find('.code');
+                    // console.log(productCodeInputs, 'bbbbbbo');
                     // Clear previous data (if needed)
-                    productCodeInput.val('');
+                    productCodeInputs.val('');
 
-                    // Check if response is not empty and assign the product code
                     if (response) {
-
-                        // Parse response to a float (if needed)
                         var productCode = parseFloat(response.data);
-                        console.log(response,'bbbbbbff');
+                        console.log(response, 'bbbbbbff');
                         productCodeInputs.val(productCode);
                     }
                 },
@@ -1052,45 +975,53 @@ console.log(productIdValue);
         });
 
 
+        $("#tableEstimate").on("change", ".unit_price", function () {
+            var rowIndex = $(this).closest('tr').index();
+            console.log("Row index:", rowIndex);
+
+            // Get the selected unit price
+            var selectedOption = parseFloat(this.value);
+
+            // Find the quantity input field in the same row and get its value
+            var qty = parseFloat($(this).closest('tr').find('.qty').val());
+
+            // Calculate the total amount
+            var totalAmount = qty * selectedOption;
+
+            // Find and set the value of the total_price input field in the same row
+            var totalPriceInput = $(this).closest('tr').find('.total_price');
+            totalPriceInput.val(totalAmount.toFixed(2)); // Round to 2 decimal places
+
+            calculation(); // Call the calculation function after updating the total price
+
+        });
+
+        // Call calculation function initially when the page loads
+        calculation();
+
+        function calculation(){
+            var totalPricesSum = 0;
+
+            $("#tableEstimate tbody tr").each(function() {
+                var totalPrice = parseFloat($(this).find('.total_price').val()); // Extract total price from each row
+                if (!isNaN(totalPrice)) { // Check if the value is a valid number
+                    totalPricesSum += totalPrice; // Add the total price to the sum
+                }
+            });
+
+            // Update the subtotal value
+
+        //   var sb =  $('#subtotal').val();
+            $('#subtotal2').val(totalPricesSum.toFixed(2));
+            console.log(totalPricesSum, 'wwwwww');
+        }
 
 
-        // $('#selectProduct').change(function(){
-        //     var selectedIndex = $(this).prop('selectedIndex');
-        //     console.log(selectedIndex);
-        //     var productCode = '';
-        //     var unitPrice = '';
-        //     switch(selectedIndex) {
-        //         case 1:
-        //             productCode = 'Code for Product 1';
-        //             unitPrice = 'Price for Product 1';
-        //             break;
-        //         case 2:
-        //             productCode = 'Code for Product 2';
-        //             unitPrice = 'Price for Product 2';
-        //             break;
-        //         case 3:
-        //             productCode = 'Code for Product 3';
-        //             unitPrice = 'Price for Product 3';
-        //             break;
-        //     }
-        //     $('#productCode').val(productCode);
-        //     $('#unit_price').val(unitPrice);
-        // });
-
-        // Listen to changes in the selectProduct dropdown
-
-        // $("#tableEstimate tbody").on("change", ".unit_price", function () {
-        //     var selectedOption = this.value;
-        //     var qty = $('.qty').val();
-        //     var totalAmount = qty * selectedOption;
-        //     var totall_price = $('.total_price');
-        //     totall_price.val(totalAmount);
-        //     console.log(selectedOption);
-
-        // });
-
-
-
+            // var sub1 = $('#subtotal1').val();
+            // var sub2 = $('#subtotal2').val();
+            // var subt = sub1 + sub2;
+            // var sub = $('#subtotal');
+            // sub.val(subt);
 
 
         $("#tableEstimate tbody").on("click", ".remove", function () {
@@ -1102,9 +1033,16 @@ console.log(productIdValue);
                 $(this).find('.row-index p').text(index + 1);
                 $(this).attr('id', 'R' + (index + 1));
             });
+            calculation();
         });
+
+
     });
-    </script>
+
+    function GetPrint(){
+        window.print();
+    }
+</script>
 
 
     </div>

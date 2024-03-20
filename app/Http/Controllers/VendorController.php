@@ -2,11 +2,14 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Vendor;
 use App\Models\Company;
 use App\Models\Product;
-use App\Models\purchase_product;
-use App\Models\Vendor;
 use Illuminate\Http\Request;
+use App\Models\Purchase_invoice;
+use App\Models\purchase_product;
+use App\Models\StockProduct;
+use Haruncpi\LaravelIdGenerator\IdGenerator;
 
 class VendorController extends Controller
 {
@@ -89,27 +92,79 @@ class VendorController extends Controller
     // }
 
     public function purchaseInvoiceStore(Request $request){
-        // Get the total number of items submitted
+        $invoiceNumber = IdGenerator::generate(['table' => 'purchase_invoices', 'length' => 8, 'prefix' =>'INV-']);
+
+    //   dd($invoiceNumber);
+
+        $invoice = new Purchase_invoice;
+        $invoice->id = $invoiceNumber;
+        $invoice->vendor_id = $request->vendor_id;
+        $invoice->sub_total = $request->sub_total;
+        $invoice->discount = $request->discount;
+        $invoice->total = $request->total;
+        $invoice->paid = $request->paid;
+        $invoice->due = $request->due;
+        $invoice->save();
+
         $totalItems = count($request->qty);
-        // dd($totalItems);
-        // Loop over each item
         for ($i = 0; $i < $totalItems; $i++) {
-            // Access the corresponding values for each field
+            $product_id = $request->product_id[$i];
+            $invoice_id = $invoiceNumber;
             $code = $request->code[$i];
             $unit_price = $request->unit_price[$i];
             $qty = $request->qty[$i];
-            // Assuming purchase_product is your model class
+            $total_price = $request->total_price[$i];
+
             purchase_product::create([
+                'product_id' => $product_id,
+                'invoice_id' => $invoice_id,
                 'code' => $code,
                 'unit_price' => $unit_price,
-                'qty' => $qty
+                'qty' => $qty,
+                'total_price' => $total_price
             ]);
+
+            $old = StockProduct::find($product_id);
+            $old_qty = $old->total_purchase_qty;
+            $old_price = $old->product_unit_price;
+            $old_available_qty = $old->available_qty;
+            $new_qty = $request->qty[$i];
+            $new_price = $request->unit_price[$i];
+
+            $main_qty = $old_qty + $new_qty;
+            $average_price = ($old_price + $new_price) / 2;
+            // dd($main_available );
+            $new_available =  $old_available_qty + $new_qty;
+            StockProduct::find($product_id)->update([   // ****Info**** don't update without protected fillable data----
+                'total_purchase_qty' => $main_qty,
+                'product_unit_price' => $average_price,
+                'available_qty' => $new_available
+            ]);
+
         }
 
         // Redirect back after processing
         return redirect()->back()->with('message','Purchase Product created successfully..');
     }
 
+    public function allPInvoice(){
+
+        $purchase_invoices = Purchase_invoice::latest()->get();
+
+        return view('purchase.all_purchase_invoice',compact('purchase_invoices'));
+    }
+    public function searchVInvoice(Request $request){
+        $id = $request->vendor_id;
+
+        if($request->vendor_id == 'all'){
+
+            $purchase_invoices = Purchase_invoice::all();
+            return view('purchase.all_purchase_invoice', compact('purchase_invoices'));
+        }
+
+        $purchase_invoices = Purchase_invoice::where('vendor_id', $id)->get();
+        return view('purchase.all_purchase_invoice', compact('purchase_invoices'));
+    }
 
     public function companyInfo(){
 
@@ -144,12 +199,22 @@ class VendorController extends Controller
         $data = Vendor::find($selectedValue);
         return response()->json($data);
     }
+    public function fetchsCode(Request $request) {
+        $selectedValue = $request->input('selectedValue');
+        // Fetch data based on $selectedValue
+        $product = StockProduct::find( $selectedValue);
+        $data =  $product->code;
+        // dd($data);
+        return response()->json($data);
+    }
     public function fetchCode(Request $request) {
         $selectedValue = $request->input('selectedValue');
         // Fetch data based on $selectedValue
-        $product = Product::find( $selectedValue);
+        $product = StockProduct::find( $selectedValue);
         $data =  $product->code;
-        dd($data);
-        return response()->json($data);
+        // dd($data);
+        return response()->json([
+          'data'=>  $data
+        ]);
     }
 }
