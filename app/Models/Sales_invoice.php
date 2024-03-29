@@ -5,20 +5,16 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 
-class Purchase_invoice extends Model
+class Sales_invoice extends Model
 {
-    // use HasFactory;
-
+    use HasFactory;
     protected $fillable = [
-        'id',
-        'vendor_id',
+        'customer_id',
         'sub_total',
         'discount',
+        'total',
         'paid',
-        'due',
-        'total'
+        'due'
     ];
-
-    // protected $primaryKey = 'id';
-// protected $visible = ['id',/* other attributes */];
+    public $timestamps = true;
 }

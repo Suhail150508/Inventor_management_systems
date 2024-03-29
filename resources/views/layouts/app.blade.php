@@ -9,6 +9,7 @@
 	<meta name="author" content="Dennis Ji">
 	<meta name="keyword" content="Metro, Metro UI, Dashboard, Bootstrap, Admin, Template, Theme, Responsive, Fluid, Retina">
 	<!-- end: Meta -->
+    <meta name="csrf-token" content="{{ csrf_token() }}">
 
 	<!-- start: Mobile Specific -->
 	<meta name="viewport" content="width=device-width, initial-scale=1">
@@ -108,6 +109,7 @@
                             <ul>
                                 <li><a class="submenu" href="/customer_invoice"><i class="icon-plus"></i><span class="hidden-tablet"> Invoice </span></a></li>
                                 <li><a class="submenu" href="#"><i class="icon-plus"></i><span class="hidden-tablet"> Invoice Return </span></a></li>
+                                <li><a class="submenu" href="/all-sales-invoice"><i class="icon-plus"></i><span class="hidden-tablet"> All Sales Invoice </span></a></li>
                                 <li><a class="submenu" href="/all-customer"><i class="icon-eye-open"></i><span class="hidden-tablet"> Customer </span></a></li>
 
                             </ul>
@@ -118,7 +120,8 @@
                                 <li><a class="submenu" href="/show-vendor"><i class="icon-plus"></i><span class="hidden-tablet"> Vendors </span></a></li>
                                 <li><a class="submenu" href="/all-products"><i class="icon-plus"></i><span class="hidden-tablet"> Add Product </span></a></li>
                                 <li><a class="submenu" href="/purchase_invoice"><i class="icon-plus"></i><span class="hidden-tablet"> Purchase Invoice </span></a></li>
-                                <li><a class="submenu" href="/all-purchase-invoice"><i class="icon-eye-open"></i><span class="hidden-tablet"> All Purchase  </span></a></li>
+                                <li><a class="submenu" href="/all-purchase-invoice"><i class="icon-eye-open"></i><span class="hidden-tablet"> All Purchase Invoice  </span></a></li>
+                                <li><a class="submenu" href="/due-payment-invoice"><i class="icon-eye-open"></i><span class="hidden-tablet"> Due Payment Invoice  </span></a></li>
                             </ul>
                         </li>
 						<li>
@@ -146,7 +149,7 @@
 			</noscript>
 
 			<div id="content" class="span10">
-                <main class="py-4" style="height:100%">
+                <main class="py-4" style="height:100%;width:100%">
                     @yield('content')
                 </main>
 	        </div>

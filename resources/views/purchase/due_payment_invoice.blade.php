@@ -99,7 +99,7 @@
         <div class="box-header" data-original-title>
             <h2><i class="halflings-icon user"></i><span class="break"></span>Invoices</h2>
             <div class="box-icon">
-                <a href="/purchase_invoice" class="" style="background-color: rgb(31, 73, 124);color:aliceblue;padding:6px;border-radius:10px"><i class="icon-plus"></i> Create Purchase</a>
+                <a href="/due-payment-invoice-create" class="" style="background-color: rgb(31, 73, 124);color:aliceblue;padding:6px;border-radius:10px"><i class="icon-plus"></i> Due Payment Create</a>
             </div>
         </div>
 
@@ -132,46 +132,32 @@
             <table class="table table-striped table-bordered bootstrap-datatable datatable">
               <thead>
                   <tr>
-                      <th>Invoice Id</th>
+                      <th>Id</th>
                       <th>Vendor Id</th>
-                      <th>Sub Total</th>
-                      <th>Discount</th>
-                      <th>Total</th>
-                      <th>Paid</th>
-                      <th>Due</th>
+                      <th>Paid Amount</th>
+                      <th>Description</th>
                       <th>Actions</th>
                   </tr>
               </thead>
 
               <tbody>
-                  {{-- @dd($purchase_invoices); --}}
-                  @foreach ($purchase_invoices as $key => $invoice )
+        @foreach ($paids as $key => $invoice )
+
                 @php
-                    $total += $invoice->total;
-                    $paid += $invoice->paid;
-                    $due += $invoice->due;
-                    $vendor_id = $invoice->vendor_id;
+                    $paid += $invoice->paid_amount;
 
                 @endphp
-                @php
-                // echo gettype($invoice->id); // Add this line
-                // $invoiceId = is_string($invoice->id) ? $invoice->id : strval($invoice->id);
-              @endphp
+
 
                     <tr>
-                        {{-- <td class="center">#INV-000{{ $key+1 }}</td> --}}
-                        <td class="center">{{  $invoice->id}}</td>
-
-
+                        <td class="center">#INV-000{{ $key+1 }}</td>
+                        {{-- <td class="center">{{ $invoice->id }}</td> --}}
                         <td class="center">{{ $invoice->vendor_id }}</td>
-                        <td class="center">{{ $invoice->sub_total }}</td>
-                        <td class="center">{{ $invoice->discount }}</td>
-                        <td class="center">{{ $invoice->total }}</td>
-                        <td class="center">{{ $invoice->paid }}</td>
-                        <td class="center">{{ $invoice->due }}</td>
-                        {{-- <td class="center">
+                        <td class="center">{{ $invoice->paid_amount }}</td>
+                        <td class="center">{{ $invoice->description }}</td>
+                        <td class="center">
 
-                            <div class="span2">
+                            {{-- <div class="span2">
 
                                 <a class="btn btn-info" href="{{url('/invoice-edit/'.$invoice->id)}}" style="margin-left:.1rem;border-radius:25%">
                                     <i class="halflings-icon white edit"></i>
@@ -185,32 +171,31 @@
                                     <button type="submit" class="btn btn-danger"> <i class="halflings-icon white trash"></i></button>
 
                                 </form>
-                            </div>
+                            </div> --}}
 
-                        </td> --}}
+                        </td>
                         <td>
-                            <div class="span2">
-
-                                <a class="btn btn-info" href="{{url('/purchase-invoice-edit/'.$invoice->vendor_id)}}" style="margin-left:.1rem;border-radius:25%">
-                                    <i class="halflings-icon white edit"></i>
-                                </a>
+                            <div class="dropdown">
+                                <div class="">
+                                <select name="name" style="width: 50%;border-radius:70px">
+                                    <option  value="">select</option>
+                                    <option  value="index"><a href="{{ url('#') }}"> Details </a> </option>
+                                    <option  value="index"><a href="{{ url('#') }}"> Edit </a> </option>
+                                    <option  value="index"><a href="{{ url('#') }}"> Delete </a> </option>
+                                    <option  value="index"><a href="{{ url('#') }}"> Pdf </a> </option>
+                                </select>
+                                </div>
                             </div>
                         </td>
                     </tr>
 
-                @endforeach
+            @endforeach
                 </tr>
               </tbody>
           </table>
-
-          {{-- @php
-            $paid_amount =  App\Models\Paid::where('vendor_id',$vendor_id )->sum('paid_amount');
-            $total_due = $due - $paid_amount;
-          @endphp --}}
                 <div style="float: right;margin:4rem 2rem;background-color:#d9d9ebc6;padding:8px;width:21%;">
-                    <p style="font-weight:bold;font-size:1rem">Total: {{ $total }}  </p>
+                    {{-- <p style="font-weight:bold;font-size:1rem">Total: {{ $total }}  </p> --}}
                     <p style="font-weight:bold;font-size:1rem">Total Paid: {{ $paid }} </p>
-                    <p style="font-weight:bold;font-size:1rem">Total Due: {{ $due }} </p>
                 </div>
         </div>
     </div>

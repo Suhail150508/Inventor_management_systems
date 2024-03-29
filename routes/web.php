@@ -2,6 +2,7 @@
 
 use App\Http\Controllers\CustomerController;
 use App\Http\Controllers\InvoiceController;
+use App\Http\Controllers\SalesProductController;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\HomeController;
@@ -81,8 +82,19 @@ Route::get('/customer_invoice',[CustomerController::class,'AllCustomerInvoice'])
 Route::post('/customer-invoice-add',[CustomerController::class,'CustomerInvoiceAdd']);
 
 Route::get('/search-invoice/{id}',[CustomerController::class,'searchInvoice']);
-
 Route::get('/invoice-details/{id}',[CustomerController::class,'invoiceDetails']);
+
+
+Route::get('/all-sales-invoice',[SalesProductController::class,'allSalesInv']);
+Route::get('/sales_invoice',[SalesProductController::class,'SalesInvoice']);
+Route::get('/sales-fetch-data', [SalesProductController::class,'fetchData'])->name('salesdatafatch');
+Route::post('/sales-invoice-store',[SalesProductController::class,'salesInvoiceStore']);
+Route::get('/sales-invoice-edit/{id}',[SalesProductController::class,'salesInvoiceEdit']);
+Route::delete('/sales-invoice-store',[SalesProductController::class,'salesInvoiceStore']);
+Route::post('/sales-invoice-update',[SalesProductController::class,'salesInvoiceUpdate']);
+// Route::post('/update-quantity', 'SalesProductController@updateQuantity');
+Route::get('/slproduct-fetchs', [SalesProductController::class,'slfetchsQty'])->name('slproduct.fetchs');
+
 
 
 
@@ -102,6 +114,9 @@ Route::post('/product-create',[VendorController::class,'storeProduct']);
 
 Route::get('/all-purchase-invoice',[VendorController::class,'allPInvoice']);
 Route::post('/search-vendor-invoice',[VendorController::class,'searchVInvoice']);
+Route::get('/due-payment-invoice',[VendorController::class,'duePayInvoice']);
+Route::get('/due-payment-invoice-create',[VendorController::class,'duePayInvoiceCreate']);
+Route::post('/due-payment-invoice-store',[VendorController::class,'duePayInvoiceStore']);
 
 
 
