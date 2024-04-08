@@ -548,56 +548,32 @@ form .form-row .textarea{
 
 </style>
 
-</head> 
+</head>
 <body>
-    <div class="container card" style="height:100%">
+    <div class="container" style="height:100%">
         <div class="card-body">
           <div class="">
             <div class="header">
               <strong style="font-size: 2rem">Invoice</strong>
             </div>
-            {{-- <div class="logo">
-              <i class="fab fa-mdb fa-4x" style="color:#5d9fc5;"></i>
-              <h2>MD Suhail</h2>
-            </div> --}}
-{{--
-            <div class="address-details"  style="width:100%; margin-bottom:2rem">
-              <div class="address" style="margin-right:12rem">
-                <ul>
-                  <li>To: <span>John Lorem</span></li>
-                  <li>Street, City</li>
-                  <li>State, Country</li>
-                  <li><i class="fas fa-phone"></i> 123-456-789</li>
-                </ul>
-              </div>
-              <div class="invoice-details" style="margin-left:12rem">
-                <p>Invoice</p>
-                <ul>
-                  <li><span class="fw-bold">ID:</span> #123-456</li>
-                  <li><span class="fw-bold">Creation Date: </span>Jun 23, 2021</li>
-                  <li><span class="fw-bold">Status:</span> <span class="badge">Unpaid</span></li>
-                </ul>
-              </div>
-            </div> --}}
+        
 
-            <section  style="display: flex">
-            <nav class="shift">
-                <ul style="background-color:rgb(31, 17, 184); color:whitesmoke;border-radius:25px;width:50%;height:100%">
-                <li><a style="color:whitesmoke;" href="#">All</a></li>
-                <li><a style="color:whitesmoke;" href="#">Paid</a></li>
-                <li><a style="color:whitesmoke;" href="#">Unpaid</a></li>
-                <li><a style="color:whitesmoke;" href="#">Overdue</a></li>
-                </ul>
-            </nav>
-            <div>
-                {{-- <h3 class="" style="background-color: #4251a8;padding:10px;margin:0 auto;border-radius:7px;font-size:1.3rem"><span><a href="#" style="color:white"> <i class="icon-plus"></i> </span> Create Invoice </a></h3> --}}
-                    <!-- Button trigger modal -->
-                <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#exampleModal" style="margin-right:1rem;font-size:1.3rem">
-                    <i class="icon-plus"></i> </span> Create Invoice
-                </button>
+            {{-- <section  style="display: flex">
+                <nav class="shift">
+                    <ul style="background-color:rgb(31, 17, 184); color:whitesmoke;border-radius:25px;width:50%;height:100%">
+                    <li><a style="color:whitesmoke;" href="#">All</a></li>
+                    <li><a style="color:whitesmoke;" href="#">Paid</a></li>
+                    <li><a style="color:whitesmoke;" href="#">Unpaid</a></li>
+                    <li><a style="color:whitesmoke;" href="#">Overdue</a></li>
+                    </ul>
+                </nav>
+                <div>
+                    <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#exampleModal" style="margin-right:1rem;font-size:1.3rem">
+                        <i class="icon-plus"></i> </span> Create Invoice
+                    </button>
 
-            </div>
-            </section>
+                </div>
+            </section> --}}
 
 
 
@@ -675,61 +651,7 @@ form .form-row .textarea{
                 </thead>
                 <tbody>
 
-                    {{-- @if($customer_invoices){ --}}
 
-                        @foreach ($customer_invoices as $customer_invoice )
-
-                        <tr>
-                            <td>{{ $customer_invoice->id }}</td>
-                            @php
-                                $customer =App\Models\Customer::where('id',$customer_invoice->customer_id)->first();
-                                // dd($investor->name);
-                            @endphp
-                            <td>
-                                <img width="40" style="border-radius:30px" src="{{URL::asset('/teacher/'. $customer->image)}}" alt="{{ $customer->image }}">
-                            </td>
-                            <td>{{ $customer->name }}</td>
-                            <td>{{ $customer_invoice->date }}</td>
-                            <td>&#2547;{{$customer_invoice->total_amount}}</td>
-                            <td>&#2547;{{$customer_invoice->due_amount}}</td>
-                            <td>{{$customer_invoice->status}}</td>
-                            <td>
-
-                                {{-- <div class="dropdown">
-                                    <div class="">
-                                    <select name="name" style="width: 50%;border-radius:70px">
-                                        <option  value="">select</option>
-                                        <option  value="index"><a href="{{ url('/invoice-details/' .$customer->id) }}"> Details </a> </option>
-                                        <option  value="index"><a href="{{url('/customer-edit/'.$customer->id)}}"> Edit </a> </option>
-                                        <option  value="index"><a href="{{ url('#') }}"> Delete </a> </option>
-                                        <option  value="index"><a href="{{ url('#') }}"> Pdf </a> </option>
-                                    </select>
-                                    </div>
-                                </div> --}}
-
-
-                                <div class="dropdown">
-                                    <div>
-                                        <select id="dropdownOptions" name="name" style="width: 50%;border-radius:70px">
-                                            <option value="">select</option>
-                                            <option value="/invoice-details/{{ $customer->id }}">Details</option>
-                                            {{-- <option value="#">Edit</option>
-                                            <option value="#">Delete</option>
-                                            <option value="#">Pdf</option> --}}
-                                        </select>
-                                    </div>
-                                </div>
-
-
-                                    <script>
-                                        document.getElementById("dropdownOptions").addEventListener("change", function() {
-                                            var selectedOption = this.value;
-                                            if (selectedOption !== "") {
-                                                window.location.href = selectedOption;
-                                            }
-                                        });
-                                    </script>
-                        @endforeach
                     {{-- } --}}
 
                         {{-- <div class="dropdown show">

@@ -5,17 +5,16 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 
-class Sales_invoice extends Model
+class Return_Invoice extends Model
 {
     use HasFactory;
+
     protected $fillable = [
-        'customer_id',
+        'vendor_id',
         'sub_total',
         'discount',
         'total',
         'paid',
-        'due',
-        'status'
+        'due'
     ];
-    public $timestamps = true;
 }

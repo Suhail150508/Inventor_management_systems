@@ -3,6 +3,9 @@
 namespace App\Http\Controllers;
 
 use App\Models\Customer;
+use App\Models\Expence_Invoice;
+use App\Models\Return_Sales_Invoice;
+use App\Models\Return_Sales_Product_Invoice;
 use App\Models\StockProduct;
 use Illuminate\Http\Request;
 use App\Models\Sales_invoice;
@@ -124,10 +127,12 @@ class SalesProductController extends Controller
         $selectedValue = $request->input('selectedValue');
         // Fetch data based on $selectedValue
         $product = StockProduct::find( $selectedValue);
+        $avl_qty =  $product->available_qty;
         $data =  $product->code;
         // dd($data);
         return response()->json([
-          'data'=>  $data
+          'data'=>  $data,
+          'avl_qty' => $avl_qty
         ]);
     }
 
@@ -159,7 +164,7 @@ class SalesProductController extends Controller
 
                 Sales_product_invoice::create([
                     'product_id' => $product_id,
-                    'invoice_id' => 1,
+                    'invoice_id' => $invoice->id,
                     'customer_id' => $request->customer_id,
                     'code' => $code,
                     'unit_price' => $unit_price,
@@ -241,8 +246,8 @@ class SalesProductController extends Controller
     public function salesInvoiceUpdate(Request $request){
 
         if($request->status == 'Paid'){
-            // dd($request->all());
             $invoice = Sales_invoice::find( $request->invoice_id);
+            // dd($invoice->all());
             if ($invoice) {
                     // Update the attributes of the Sales_invoice model
                     $invoice->update([
@@ -251,9 +256,8 @@ class SalesProductController extends Controller
                         'total' => $request->total,
                         'paid' => $request->paid,
                         'due' => $request->due,
-                        'status' => $request->status,
+                        'status' =>'Paid',
                     ]);
-            }
 
 
 
@@ -292,13 +296,85 @@ class SalesProductController extends Controller
             // Redirect back after processing
             return redirect()->back()->with('message','Sales Product created successfully..');
         }
-        }
+    }
+}
 
         public function salesInvoiceEdit($id){
 
             $sales_edits =Sales_product_invoice::where('invoice_id',$id)->get();
             // dd($sales_edits);
             return view('sales.sales_invoice_edit',compact('sales_edits'));
+        }
+        public function returnSalesInvoiceEdit($id){
+            $return_sales_invoice =Return_Sales_invoice::find($id);
+            // dd($return_sales_invoice->customer_id);
+            $return_sales_edits =Return_Sales_product_invoice::where('invoice_id',$id)->get();
+            $customers =Customer::find($id);
+
+            // $return_sales_edits = $return_sales_invoice->merge($return_sales_editss);
+            // dd($sales_edits);
+            return view('sales.return_sales_invoice_edit',compact('return_sales_edits','return_sales_invoice','customers'));
+        }
+
+
+        public function returnSalesInvoice(){
+
+            return view('sales.return_sales_invoice');
+        }
+        public function allReturnSalesInvoiceStore(){
+            $sales_invoices = Return_Sales_Invoice::all();
+
+            return view('sales.all_return_sales_invoice',compact('sales_invoices'));
+        }
+        public function returnSalesInvoiceStore(Request $request){
+            // dd($request->all());
+                $invoice = new Return_Sales_Invoice;
+                $invoice->customer_id = $request->customer_id;
+                $invoice->sub_total = $request->sub_total;
+                $invoice->discount = $request->discount;
+                $invoice->total = $request->total;
+                $invoice->paid = $request->paid;
+                $invoice->due = $request->due;
+
+                $invoice->save();
+
+
+                $totalItems = count($request->qty);
+                for ($i = 0; $i < $totalItems; $i++) {
+                    $product_id = $request->product_id[$i];
+                    $code = $request->code[$i];
+                    $unit_price = $request->unit_price[$i];
+                    $qty = $request->qty[$i];
+                    $total_price = $request->total_price[$i];
+
+                    Return_Sales_Product_Invoice::create([
+                        'product_id' => $product_id,
+                        'invoice_id' => $invoice->id,
+                        'customer_id' => $request->customer_id,
+                        'code' => $code,
+                        'unit_price' => $unit_price,
+                        'qty' => $qty,
+                        'total_price' => $total_price
+                    ]);
+
+                    $old = StockProduct::find($product_id);
+                    $old_qty = $old->total_sold_qty;
+                    $old_price = $old->product_unit_price;
+                    $old_available_qty = $old->available_qty;
+                    $new_qty = $request->qty[$i];
+                    $new_price = $request->unit_price[$i];
+
+                    $main_qty = $old_qty - $new_qty;
+                    $new_available =  $old_available_qty + $new_qty;
+                    // dd($main_qty,$new_available);
+                    StockProduct::find($product_id)->update([   // ****Info**** don't update without protected fillable data----
+                        'total_sold_qty' => $main_qty,
+                        'available_qty' => $new_available
+                    ]);
+
+                }
+                     return redirect()->back()->with('message','Purchase Product created successfully..');
+
         }
 
 

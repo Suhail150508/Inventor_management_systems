@@ -111,6 +111,7 @@
                                 <li><a class="submenu" href="#"><i class="icon-plus"></i><span class="hidden-tablet"> Invoice Return </span></a></li>
                                 <li><a class="submenu" href="/all-sales-invoice"><i class="icon-plus"></i><span class="hidden-tablet"> All Sales Invoice </span></a></li>
                                 <li><a class="submenu" href="/all-customer"><i class="icon-eye-open"></i><span class="hidden-tablet"> Customer </span></a></li>
+                                <li><a class="submenu" href="/all-return-sales-invoice"><i class="icon-eye-open"></i><span class="hidden-tablet"> Return Sales Invoice  </span></a></li>
 
                             </ul>
                         </li>
@@ -118,9 +119,10 @@
                             <a class="dropmenu" href="#"><i class="icon-barcode"></i><span class="hidden-tablet"> Purchase </span><span class="icon-arrow"></span></a>
                             <ul>
                                 <li><a class="submenu" href="/show-vendor"><i class="icon-plus"></i><span class="hidden-tablet"> Vendors </span></a></li>
-                                <li><a class="submenu" href="/all-products"><i class="icon-plus"></i><span class="hidden-tablet"> Add Product </span></a></li>
+                                <li><a class="submenu" href="/all-products"><i class="icon-plus"></i><span class="hidden-tablet"> Stock Products </span></a></li>
                                 <li><a class="submenu" href="/purchase_invoice"><i class="icon-plus"></i><span class="hidden-tablet"> Purchase Invoice </span></a></li>
                                 <li><a class="submenu" href="/all-purchase-invoice"><i class="icon-eye-open"></i><span class="hidden-tablet"> All Purchase Invoice  </span></a></li>
+                                <li><a class="submenu" href="/all-return-purchase-invoice"><i class="icon-eye-open"></i><span class="hidden-tablet"> Return Purchase Invoice  </span></a></li>
                                 <li><a class="submenu" href="/due-payment-invoice"><i class="icon-eye-open"></i><span class="hidden-tablet"> Due Payment Invoice  </span></a></li>
                             </ul>
                         </li>
@@ -133,6 +135,9 @@
 
 						<li>
                             <a href="/company-info"><i class="icon-eye-open"></i><span class="hidden-tablet"> Company Information </span></a>
+                        </li>
+						<li>
+                            <a href="/expence-invoice"><i class="icon-eye-open"></i><span class="hidden-tablet"> Expence Invoice </span></a>
                         </li>
 						<li>
                             <a href="/home"><i class="icon-eye-open"></i><span class="hidden-tablet"> All Posts</span></a>

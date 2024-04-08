@@ -99,7 +99,7 @@
         <div class="box-header" data-original-title>
             <h2><i class="halflings-icon user"></i><span class="break"></span>Invoices</h2>
             <div class="box-icon">
-                <a href="/sales_invoice" class="" style="background-color: rgb(31, 73, 124);color:aliceblue;padding:6px;border-radius:10px"><i class="icon-plus"></i> Create Sales</a>
+                <a href="/return-sales-invoice" class="" style="background-color: rgb(31, 73, 124);color:aliceblue;padding:6px;border-radius:10px"><i class="icon-plus"></i> Create Return Sales</a>
             </div>
         </div>
 
@@ -139,7 +139,6 @@
                       <th>Total</th>
                       <th>Paid</th>
                       <th>Due</th>
-                      <th>Status</th>
                       <th>Actions</th>
                   </tr>
               </thead>
@@ -157,7 +156,6 @@
 
 
                     <tr>
-                        {{-- <td class="center">#INV-000{{ $key+1 }}</td> --}}
                         <td class="center">#INV-000{{ $invoice->id }}</td>
                         <td class="center">{{ $invoice->customer_id }}</td>
                         <td class="center">{{ $invoice->sub_total }}</td>
@@ -165,54 +163,17 @@
                         <td class="center">{{ $invoice->total }}</td>
                         <td class="center">{{ $invoice->paid }}</td>
                         <td class="center">{{ $invoice->due }}</td>
-                        <td class="center">{{ $invoice->status }}</td>
 
-                        {{-- <td>
-                            <div class="dropdown">
-                                <div class="">
-                                <select name="name" style="width: 50%;border-radius:70px">
-                                    <option  value="">select</option>
-                                    <option  value="index"><a href="{{ url('#') }}"> Details </a> </option>
-                                    <option  value="index"><a href="{{ url('#') }}"> Edit </a> </option>
-                                    <option  value="index"><a href="{{ url('#') }}"> Delete </a> </option>
-                                    <option  value="index"><a href="{{ url('#') }}"> Pdf </a> </option>
-                                </select>
-                                </div>
-                            </div>
-                        </td> --}}
+
 
                         <td class="center">
-                            {{-- <div class="span2">
-
-                                @if($customer->status=='Active')
-
-                                    <a class="btn btn-success" href="{{ url('/customer-status/'.$customer->id) }}" >
-                                        <i class="halflings-icon white thumbs-down"></i>
-                                    </a>
-
-                                @else
-
-                                    <a class="btn btn-danger" href="{{ url('/customer-status/'.$customer->id)  }}" >
-                                        <i class="halflings-icon white thumbs-up"></i>
-                                    </a>
-                                @endif
-                            </div> --}}
 
                             <div class="span2">
 
-                                <a class="btn btn-info" href="{{url('/sales-invoice-edit/'.$invoice->id)}}" style="margin-left:.1rem;border-radius:25%">
+                                <a class="btn btn-info" href="{{url('/return-sales-invoice-edit/'.$invoice->id)}}" style="margin-left:.1rem;border-radius:25%">
                                     <i class="halflings-icon white edit"></i>
                                 </a>
                             </div>
-
-                            {{-- <div class="span2">
-                                <form method="post" action="{{ url('/sales-invoice-delete/'.$invoice->id ) }}" style="margin-left:1.3rem">
-                                    @csrf
-                                    @method('DELETE')
-                                    <button type="submit" class="btn btn-danger"> <i class="halflings-icon white trash"></i></button>
-
-                                </form>
-                            </div> --}}
 
                         </td>
                     </tr>

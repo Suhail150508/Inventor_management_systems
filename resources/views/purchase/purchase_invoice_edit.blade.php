@@ -297,7 +297,9 @@ nav.shift ul li a:hover:after {
   height: 100%;
 }
 
-
+.customer{
+        border:0px  white;
+    }
 
 /* Keyframes */
 @-webkit-keyframes fill {
@@ -351,17 +353,36 @@ nav.shift ul li a:hover:after {
     .form-control{
         border: 0px;
     }
+    .form-control{
+        border: 0px;
+    }
+    .customer .form-controll{
+        display: none;
+    }
+    .customer{
+        border:2px solid #000;
+    }
+    .customer-heading {
+        display: block !important;
+        background-color: red !important;
+        padding:4px;
+        margin-top: -3rem;
+        }
+        .form-controll1{
+            display: block;
+        }
+
 }
 
 </style>
 
 </head>
-<body style="height: 100%;width:100%;">
+<body style="height: 100%">
     {{-- <div class="container card"> --}}
     <div class="container">
         <div class="card-body">
-                <div class="header" style="display: flex;margin-bottom:7rem;width:97%">
-                    <strong style="font-size: 2rem">Purchase Invoice</strong>
+                <div class="header" style="display: flex;margin-bottom:7rem">
+                    <strong style="font-size: 2rem">Edit Invoice</strong>
 
                     <div style="margin-right:2rem;background-color:#aaa;min-width:10%">
 
@@ -386,55 +407,58 @@ nav.shift ul li a:hover:after {
 
                 </div>
 
-            <form action="/purchase-invoice-store" method="POST">
+            <form action="/purchase-invoice-update" method="POST">
                 @csrf
-{{--
-                @if ($errors->any())
-                    <div class="alert alert-danger">
-                        <ul>
+                <div style="display:flex">
 
-                            @foreach ($errors->any() as $error )
+                    <div class="customer" style="margin-top:-8rem;margin-bottom:10rem;width:30%;">
+                        <label class="customer-heading bg-danger"> Vendors Information </label>
 
-                                <li>{{$error}}</li>
-                            @endforeach
+                            <select class="form-controll" id="selectField" name="customer_id"  style="width: 20rem;" >
+                                <option value="">select</option>
 
-                        </ul>
+                                @php
+                                    $vendors = App\Models\Vendor::all();
+                                @endphp
+
+                                @foreach ( $vendors as $vendor )
+                                <option value="{{ $vendor->id }}">{{ $vendor->name }}</option>
+                                @endforeach
+                            </select>
+
+                            <div id="dataContainer" style="background-color: #aaa;color:#000;width:100%;">
+                                <p style="margin: .8rem " id="name"></p>
+                                <p style="margin: .8rem " id="email"></p>
+                                <p style="margin: .8rem " id="mobile"></p>
+                            </div>
 
                     </div>
-                @endif
+                    <div class="customer" style="margin-top:-8rem;margin-bottom:10rem;width:30%;">
+                        <label class="customer-heading bg-danger"> Vendors Information </label>
 
-                @if (Session::has('success'))
-                    <div class="alert alert-success text-center">
+                            <select class="form-controll1" id="selectField" name="customer_id"  style="width: 20rem;display:none" >
+                                <option value="">select</option>
 
-                        <p>{{Session::get('success')}}</p>
+                                @php
+                                    $vendors = App\Models\Vendor::all();
+                                @endphp
+
+                                @foreach ( $vendors as $vendor )
+                                <option value="{{ $vendor->id }}">{{ $vendor->name }}</option>
+                                @endforeach
+                            </select>
+
+                            <div id="dataContainer" style="background-color: #aaa;color:#000;width:100%;">
+                                <p style="margin: .8rem " id="name"></p>
+                                <p style="margin: .8rem " id="email"></p>
+                                <p style="margin: .8rem " id="mobile"></p>
+                            </div>
 
                     </div>
-                @endif --}}
-
-                <div class="shift" style="margin-top:-8rem;margin-bottom:10rem;width:20%">
-                    @php
-                        $vendors = App\Models\Vendor::all();
-                    @endphp
-
-                        <h3 for=""> Vendors </h3>
-                        <select class="form-control"  name="vendor_id"  id="selectField" required>
-
-                            <option style="font-size:1.1rem" value=""></option>
-                            @foreach ($vendors as $vendor )
-                            <option style="font-size:1.1rem" value="{{ $vendor->id }}">{{ $vendor->name  }}</option>
-                            @endforeach
-                        </select>
-
-                        <div id="dataContainer" style="background-color: #aaa;color:#000;width:100%;">
-                            <p style="margin: .8rem " id="name"></p>
-                            <p style="margin: .8rem " id="email"></p>
-                            <p style="margin: .8rem " id="mobile"></p>
-                            <p style="margin: .8rem " id="address"></p>
-                        </div>
 
                 </div>
 
-                <table class=" table table-hover table-white" id="tableEstimate" style="width:95%">
+                <table class="table table-hover table-white tableEstimate1" id="tableEstimate">
                     <thead>
                         <tr>
                             <th class="col-sm-3">product</th>
@@ -442,47 +466,45 @@ nav.shift ul li a:hover:after {
                             <th class="col-sm-3">Qty</th>
                             <th class="col-sm-3">unit_price</th>
                             <th class="col-sm-3">total_price</th>
+                            <th class="col-sm-3">Actions</th>
                             <th> </th>
                         </tr>
                     </thead>
                     <tbody>
-                    <tr>
-                        {{-- <td>1</td> --}}
-                        <td>
-                                <select class="form-control" id="selectProduct" name="product_id[]"  style="width: 10rem" required>
-                                    <option value="">select</option>
+                    @foreach ($purchase_edits as $key=>$edit )
+                        <tr>
 
-                                    @php
-                                        $products = App\Models\StockProduct::all();
-                                        // $products = App\Models\Product::all();
-                                    @endphp
+                            <td>
+                                    <select class="form-control selectProduct"  name="product_id[]"  value="{{ $edit->product_id }} style="width: 10rem" required>
+                                        <option value="">select</option>
 
-                                    @foreach ($products as $product )
-                                    <option value="{{ $product->id }}">{{ $product->name }}</option>
-                                    @endforeach
-                                </select>
+                                        @php
+                                            $products = App\Models\StockProduct::all();
+                                        @endphp
 
+                                        @foreach ($products as $product )
+                                        <option value="{{ $product->id }}">{{ $product->name }}</option>
+                                        @endforeach
+                                    </select>
+
+
+                            </td>
+                            <td><input class="form-control code"  style="width:130px" type="text"  name="code[]" value="{{ $edit->code }}"></td>
+
+                            <td>
+                                    <input class="form-control qty" style="width:130px" type="text"  name="qty[]" value="{{ $edit->qty }}">
+
+                            </td>
+                            <td><input class="form-control unit_price" style="width:130px" type="text"  name="unit_price[]" value="{{ $edit->unit_price }}"></td>
+                            <td><input class="form-control total_price" style="width:130px" type="text"  name="total_price[]" value="{{ $edit->total_price }}"></td>
+                        <td><a href="javascript:void(0)" class="btn btn-danger font-18" title="Add" id="remove" style="font-size:1.5rem"><i class="icon-minus"></i></a>
                         </td>
-                        <td><input class="form-control "  style="width:130px" type="textarea" id="productCode" name="code[]"></td>
-                        <td><input class="form-control " style="width:130px" type="textarea" id="qty" name="qty[]"></td>
-                        <td><input class="form-control " style="width:130px" type="textarea" id="unit_price" name="unit_price[]"></td>
-                        <td><input class="form-control " style="width:130px" type="textarea" id="total_price" name="total_price[]"></td>
-                    </tr>
+                        </tr>
+                        <input class="form-control code "  style="width:130px;display:none" type="text"  name="invoice_id" value="{{ $edit->invoice_id }}">
+                    @endforeach
                     </tbody>
                 </table>
 
-
-                {{-- <table class="table table-bordered" id="table">
-                    <tr>
-                        <th>qty</th>
-                        <th>*</th>
-                    </tr>
-                    <tr>
-                        <td> <input type="text" class="form-control" name="inputs[0][name]" id="name" style="width:40px"> </td>
-                        <td> <input type="text" class="form-control" name="inputs[0][qty]" id="name" style="width:40px"> </td>
-                        <td> <button type="button" id ="add" class="btn btn-success"> add item </button> </td>
-                    </tr>
-                </table> --}}
 
                 <div  style="margin:3rem .1rem;">
 
@@ -492,13 +514,14 @@ nav.shift ul li a:hover:after {
                 <div style="text-align:center;display:flex;justify-content:center">
                     <strong style="font-size: 1.7rem">Select Status</strong>
                     <select class="form-control" name="status" id="status" required style="width:14rem">
-                        <option value="Unpaid">Pending</option>
-                        <option value="Recieved">Recieved</option>
+
+                        <option>Paid</option>
                     </select>
                 </div>
 
-                <div style="float: right;margin:4rem 5rem;background-color:#d9d9ebc6;padding:8px;width:21%;">
+                <div style="float: right;margin:4rem 2rem;background-color:#d9d9ebc6;padding:8px;width:21%;">
 
+                    <p style="display:none">Sub Total2: <input type="text" id="old_qty" style="width: 60px;height:20px"></p>
                     <p style="display:none">Sub Total1: <input type="text" id="subtotal1" style="width: 60px;height:20px"></p>
                     <p style="display:none">Sub Total2: <input type="text" id="subtotal2" style="width: 60px;height:20px"></p>
                     <p style="font-weight:bold;font-size:1.7rem">Sub Total: <input type="text" class="form-control" id="subtotal" name="sub_total" style="width: 60px;height:16px"></p>
@@ -509,240 +532,12 @@ nav.shift ul li a:hover:after {
                 </div>
 
                 <div style="text-align: center;margin-top:27rem">
-                    <button type="submit" style=" padding:6px 25px;font-size:2.2rem"  class="btn btn-primary ">submit</button>
+                    <button type="submit" style=" padding:6px 25px;font-size:2.2rem"  class="btn btn-primary ">Update</button>
                     <button type="button" class="btn" style=" padding:6px 25px;font-size:2.2rem;margin-left:5rem" onclick="GetPrint()" class="btn btn-primary ">Print</button>
                 </div>
 
 
             </form>
-
-
-
-
-
-            {{-- <form action="/purchase-invoice-store" method="POST"  class="container row form-group input-group" >
-                    <div class="shift" style="margin-top:-4rem;margin-bottom:3rem">
-                        @php
-                            $vendors = App\Models\Vendor::all();
-                        @endphp
-
-                            <h3 for=""> Vendors </h3>
-                            <select  name="vendor_id"  id="selectField" required>
-
-                                <option style="font-size:1.1rem" value=""></option>
-                                @foreach ($vendors as $vendor )
-                                <option style="font-size:1.1rem" value="{{ $vendor->id }}">{{ $vendor->name  }}</option>
-                                @endforeach
-                            </select>
-
-                            <div id="dataContainer" style="background-color: #aaa;color:#000;padding:.4rem;width:20%;">
-                                <p id="name"></p>
-                                <p id="email"></p>
-                                <p id="phone"></p>
-                            </div>
-
-                    </div>
-                    <div style="display: flex;justify-content:space-evenly; flex-wrap:wrap;margin-left:-3rem">
-                        <h4>Product</h4>
-                        <h4> Code </h4>
-                        <h4 > QTY </h4>
-                        <h4>Unit Price</h4>
-                        <h4>Total Price</h4>
-
-                    </div>
-
-                <div id="item1" style="display: flex;justify-content:space-evenly; flex-wrap:wrap;margin-left:-3rem">
-                     @csrf
-                    <div class=" ">
-
-                        <div class="">
-                                    <select id="selectProduct" name="product_id"  style="width: 10rem" required>
-                                        <option value="">select</option>
-
-                                        @php
-                                            $products = App\Models\Product::all();
-                                        @endphp
-
-                                        @foreach ($products as $product )
-                                        <option value="{{ $product->id }}">{{ $product->name }}</option>
-                                        @endforeach
-                                    </select>
-                        </div>
-
-                    </div>
-                    <div class=" ">
-                        <div class="">
-                            <input type="text" name="code" id="productCode" style="width: 10rem;border:1.5px solid blue">
-                        </div>
-                    </div>
-
-                    <div class="col-md-2">
-                        <div class="">
-                            <input type="text" name="qty" id="qty" style="width: 10rem;border:1.5px solid blue">
-
-                        </div>
-                    </div>
-                    <div class=" col-md-2 ">
-                        <div class="">
-                            <input type="text" name="unit_price" id="unit_price" style="width: 10rem;border:1.5px solid blue">
-                        </div>
-                    </div>
-                    <div class=" col-md-2 ">
-                        <div class="">
-                            <input type="text" name="total_price" id="total_price"  style="width: 10rem;border:1.5px solid blue">
-                        </div>
-                    </div>
-
-                </div>
-
-                <button type="button" class="delete-item" style="margin-top: 20px;">Delete</button>
-                <div  style="text-align: center;margin:2rem">
-
-                    <button type="button" id="copyItem"><i class="icon-plus"></i> Item</button>
-                </div>
-
-                <div style="float: right;margin:6rem;background-color:#aaa;padding:8px;width:20%;">
-
-                    <h3>Sub Total: <input type="text" id="subtotal" style="width: 60px;height:12px"></h3>
-                    <h3>Discount: <input type="text" id="discount" name="discount" style="width: 60px;height:12px"></h3>
-                    <h3>Total: <input type="text" id="total" name="total" style="width: 60px;height:12px"></h3>
-                    <h3>Paid: <input type="text" id="paid" name="paid" style="width: 60px;height:12px"></h3>
-                    <h3>Due: <input type="text" id="total" name="due" style="width: 60px;height:12px"></h3>
-                </div>
-
-
-                <div  style="margin-top: 20rem;text-align:center">
-                    <button type="submit" style="padding:7px 2rem">Submit</button>
-                </div>
-            </form> --}}
-
-
-            {{-- <div class="table-container">
-              <table>
-                <thead style="background-color:white;color:#000">
-                  <tr>
-                    <th>SL</th>
-                    <th>Item</th>
-                    <th>Code</th>
-                    <th>QTY</th>
-                    <th>Unit Price</th>
-                    <th>Total Price</th>
-                  </tr>
-                </thead>
-                <tbody>
-
-                    <td>
-
-                    </td>
-                    <td>
-
-                    </td>
-                    <td>
-
-                    </td>
-                    <td>
-
-                    </td>
-                    <td>
-
-                    </td>
-
-
-                    @foreach ($product_invoices as $customer_invoice )
-
-                        <tr>
-                            <td>{{ $customer_invoice->id }}</td>
-                            @php
-                                $customer =App\Models\Customer::where('id',$customer_invoice->customer_id)->first();
-
-                            @endphp
-                            <td>
-                                <img width="40" style="border-radius:30px" src="{{URL::asset('/teacher/'. $customer->image)}}" alt="{{ $customer->image }}">
-                            </td>
-                            <td>{{ $customer->name }}</td>
-                            <td>{{ $customer_invoice->date }}</td>
-                            <td>&#2547;{{$customer_invoice->total_amount}}</td>
-                            <td>&#2547;{{$customer_invoice->due_amount}}</td>
-                            <td>{{$customer_invoice->status}}</td>
-                            <td>
-
-                                <div class="dropdown">
-                                    <div>
-                                        <select id="dropdownOptions" name="name" style="width: 50%;border-radius:70px">
-                                            <option value="">select</option>
-                                            <option value="/invoice-details/{{ $customer->id }}">Details</option>
-                                        </select>
-                                    </div>
-                                </div>
-
-
-                                    <script>
-                                        document.getElementById("dropdownOptions").addEventListener("change", function() {
-                                            var selectedOption = this.value;
-                                            if (selectedOption !== "") {
-                                                window.location.href = selectedOption;
-                                            }
-                                        });
-                                    </script>
-                    @endforeach
-
-                      </div>
-                    </td>
-                  </tr>
-                </tbody>
-              </table>
-            </div> --}}
-
-
-        {{-- <div> --}}
-            {{-- <div class="panel panel-default">
-                <div class="panel-heading">Dynamic Form Fields - Add & Remove Multiple fields</div>
-                <div class="panel-heading">Education Experience</div>
-                <div class="panel-body">
-
-                <div id="education_fields">
-
-                </div>
-                <div class="col-sm-3 nopadding">
-                    <div class="form-group">
-                        <input  class="form-control" id="Schoolname" name="Schoolname[]" value="" placeholder="School name">
-                    </div>
-                </div>
-                <div class="col-sm-3 nopadding">
-                    <div class="form-group">
-                        <input  class="form-control" id="Major" name="Major[]" value="" placeholder="Major">
-                    </div>
-                </div>
-                <div class="col-sm-3 nopadding">
-                    <div class="form-group">
-                        <input  class="form-control" id="Degree" name="Degree[]" value="" placeholder="Degree">
-                    </div>
-                </div>
-
-                <div class="col-sm-3 nopadding">
-                    <div class="form-group">
-                        <div class="input-group">
-                            <select class="form-control" id="educationDate" name="educationDate[]">
-
-                            <option value="">Date</option>
-                            <option value="2015">2015</option>
-                            <option value="2016">2016</option>
-                            <option value="2017">2017</option>
-                            <option value="2018">2018</option>
-                            </select>
-                            <div class="input-group-btn">
-                            <button class="btn btn-success" type="button"  onclick="education_fields();"> <span class="glyphicon glyphicon-plus" aria-hidden="true"></span> </button>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-                <div class="clear"></div>
-
-                </div>
-                <div class="panel-footer"><small>Press <span class="glyphicon glyphicon-plus gs"></span> to add another form field :)</small>, <small>Press <span class="glyphicon glyphicon-minus gs"></span> to remove form field :)</small></div>
-                <div class="panel-footer"><small><em><a href="http://shafi.info/">More Info - Developer Shafi (Bangladesh)</a></em></em></small></div>
-            </div> --}}
-        {{-- </div> --}}
 
             <hr>
           </div>
@@ -751,22 +546,60 @@ nav.shift ul li a:hover:after {
 
       </div>
 
-
-      <script src="//netdna.bootstrapcdn.com/bootstrap/3.0.0/js/bootstrap.min.js"></script>
+      {{-- <script src="//netdna.bootstrapcdn.com/bootstrap/3.0.0/js/bootstrap.min.js"></script>
       <script src="//code.jquery.com/jquery-1.11.1.min.js"></script>
 
-      {{-- <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script> --}}
+
+      <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script> --}}
+
+         <!-- Include jQuery -->
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+    <!-- Include Bootstrap JS -->
+    {{-- <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script> --}}
+    <!-- Your custom scripts -->
+<!-- Add this script to your HTML -->
+{{-- <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script> --}}
+{{-- <script>
+    // JavaScript function to handle quantity update
+    function updateQuantity(productId, editId, newValue) {
+        $.ajax({
+            url: '/quantity_update/' + editId,
+            method: 'POST',
+            data: {
+                _token: '{{ csrf_token() }}',
+                qty: newValue
+            },
+            success: function(response) {
+                // Update the quantity field if needed
+                console.log('Quantity updated successfully');
+            },
+            error: function(xhr, status, error) {
+                console.error('Error updating quantity:', error);
+            }
+        });
+    }
+
+    // Attach change event handler to quantity input fields
+    $(document).on('change', '.qty', function() {
+        var productId = $(this).closest('tr').find('.code').val();
+        var editId = $(this).data('edit-id');
+        var newValue = $(this).val();
+        alert( newValue, productId);
+        updateQuantity(productId, editId, newValue);
+    });
+</script> --}}
+
+
+
         <script>
 
             document.addEventListener('DOMContentLoaded', function() {
-                // Other event listeners and AJAX calls...
-
-                // Calculate subtotal and update field
                 function calculateSubtotal() {
                     var subtotal1Value = parseFloat($('#subtotal1').val());
                     var subtotal2Value = parseFloat($('#subtotal2').val());
+                    var old_qty = parseFloat($('.qty').val());
+                    // alert(old_qty);
                     var subtotal = subtotal1Value + subtotal2Value;
-                    console.log(subtotal,'skdjflksdjflksdjf;l');
                     $('#subtotal').val(subtotal);
                 }
 
@@ -780,19 +613,17 @@ nav.shift ul li a:hover:after {
                 document.getElementById('selectField').addEventListener('change', function() {
                     var selectedValue = this.value;
                     $.ajax({
-                        url: "{{ route('fetch.data') }}",
+                        url: "{{ route('salesdatafatch') }}",
                         type: "GET",
                         data: { selectedValue: selectedValue },
                         success: function(response) {
                             var name = document.getElementById('name');
                             var email = document.getElementById('email');
                             var mobile = document.getElementById('mobile');
-                            var address = document.getElementById('address');
 
                             name.append(response.name);
                             email.append(response.email);
                             mobile.append(response.mobile);
-                            address.append(response.address);
                             // Append fetched data
                             response.forEach(function(item) {
                                 // dataContainer.innerHTML += '<p>' + item + '</p>'; // This line is not needed here
@@ -804,7 +635,7 @@ nav.shift ul li a:hover:after {
                         }
                     });
                 });
-                document.getElementById('selectProduct').addEventListener('change', function() {
+                document.querySelectorAll('.selectProduct').forEach(function(element) {
                     var selectedValue = this.value;
                     $.ajax({
                         url: "{{ route('product.fetchs') }}",
@@ -828,29 +659,120 @@ nav.shift ul li a:hover:after {
                     });
                 });
 
-                document.querySelectorAll('#unit_price').forEach(function(element) {
-                    element.addEventListener('change', function() {
-                        var selectedValue = parseFloat(this.value);
+                // document.querySelectorAll('#unit_price').forEach(function(element) {
+                //     element.addEventListener('change', function() {
+                //         var selectedValue = parseFloat(this.value);
 
-                        var qty = $('#qty').val();
+                //         var qty = $('#qty').val();
 
-                        var totall_pricess = qty * selectedValue;
-                        var total_priceess = $('#total_price');
-                        total_priceess.val(totall_pricess);
+                //         var totall_pricess = qty * selectedValue;
+                //         var total_priceess = $('#total_price');
+                //         total_priceess.val(totall_pricess);
 
-                        var subtotal1 = $('#subtotal1');
-                        console.log(subtotal1,'qq');
-                        subtotal1.val(totall_pricess);
+                //         var subtotal1 = $('#subtotal1');
+                //         console.log(subtotal1,'qq');
+                //         subtotal1.val(totall_pricess);
 
-                        // total();
-                        // var total_pricee = $('.total_price').val();
-                        // total_price.val(price);
+                //         // total();
+                //         // var total_pricee = $('.total_price').val();
+                //         // total_price.val(price);
 
-                        console.log(selectedValue);
+                //         console.log(selectedValue);
+                //     });
+
+
+                //     calculation1();
+                // });
+
+            });
+            document.addEventListener('DOMContentLoaded', function() {
+                document.querySelectorAll('.qty').forEach(function(element) {
+                    element.addEventListener('click', function() {
+                        var old_qty = parseFloat($(this).closest('tr').find('.qty').val());
+                        var old_qty_store = $('#old_qty');
+                        old_qty_store.val(old_qty);
+
                     });
                 });
 
+                document.querySelectorAll('.qty').forEach(function(element) {
+                    element.addEventListener('change', function() {
+                        // var old_qty = parseFloat($(this).closest('tr').find('.qty').val());
+                        var selectedValue =  $(this).val();
+                        var ut_price = parseFloat($(this).closest('tr').find('.unit_price').val());
+                        var total_price = ut_price * selectedValue;
+                        $(this).closest('tr').find('.total_price').val(total_price.toFixed(2));
+                        var old_qty_stores = $('#old_qty').val();
+                        var code = parseFloat($(this).closest('tr').find('.code').val());
+
+                        // Include CSRF token in AJAX request headers
+                        var csrfToken = $('meta[name="csrf-token"]').attr('content');
+                        // alert(old_qty);
+                        $.ajax({
+                            url: "{{ route('purproduct.fetchs') }}",
+                            type: "GET",
+                            data: {
+                                selectedValue: selectedValue,
+                                old_qty_stores: old_qty_stores,
+                                code: code,
+                                },
+                            success: function(response) {
+                                // Find the product code input field in the same row
+                                var productCodeInputs = parseFloat($(this).closest('tr').find('.unit_price'));
+                                // console.log(productCodeInputs, 'bbbbbbo');
+                                // Clear previous data (if needed)
+                                // productCodeInputs.val('');
+
+                                if (response) {
+                                    var productCode = parseFloat(response.data);
+                                    console.log(productCode, 'bbbbbbffggg');
+                                    productCodeInputs.val(productCode);
+                                }
+                            },
+                            error: function(xhr) {
+                                console.log(xhr.responseText);
+                            }
+                        });
+
+                        // Perform any other calculations if needed
+                        calculations();
+                    });
+                });
+
+
+
+                calculations();
+                function calculations(){
+                    var totalPricesSum = 0;
+
+                    $(".tableEstimate1 tbody tr").each(function() {
+                        var totalPrice = parseFloat($(this).find('.total_price').val());
+                        if (!isNaN(totalPrice)) {
+                            totalPricesSum += totalPrice;
+                        }
+                    });
+
+
+                    var subtotal1 = $('#subtotal1');
+                    console.log(subtotal1,'qq');
+                    subtotal1.val(totalPricesSum);
+                    // $('#subtotal2').val(totalPricesSum.toFixed(2));
+                }
+
+
+                $(".tableEstimate1 tbody").on("click", "#remove", function () {
+            // Remove the row
+            $(this).closest("tr").remove();
+
+            // Update row indices of all subsequent rows
+            $("#tableEstimate1 tbody tr").each(function(index) {
+                $(this).find('.row-index p').text(index + 1);
+                $(this).attr('id', 'R' + (index + 1));
             });
+            calculations();
+        });
+            });
+
 
 
             document.getElementById('discount').addEventListener('change', function() {
@@ -858,7 +780,7 @@ nav.shift ul li a:hover:after {
                 var sub = $('#subtotal').val();
 
                 var total_amount = sub - selectedValue;
-                alert(total_amount)
+                // alert(total_amount)
                 var total = $('#total');
                 total.val(total_amount);
                 console.log(selectedValue);
@@ -939,9 +861,9 @@ nav.shift ul li a:hover:after {
                         </select>
                     </td>
                     <td><input class="form-control code" type="textarea" style="width:130px" name="code[]"></td>
-                    <td><input class="form-control qty" style="width:130px" type="textarea" name="qty[]"></td>
-                    <td><input class="form-control unit_price" style="width:130px" type="textarea" name="unit_price[]"></td>
-                    <td><input class="form-control total_price" style="width:130px" type="textarea" name="total_price[]"></td>
+                    <td><input class="form-control " style="width:130px" type="textarea" id="qty" name="qty[]"></td>
+                    <td><input class="form-control " style="width:130px" type="textarea" id="unit_price" name="unit_price[]"></td>
+                    <td><input class="form-control " style="width:130px" type="textarea" id="total_price" name="total_price[]"></td>
                     <td><a href="javascript:void(0)" class="btn btn-danger font-18 remove" title="Remove"><i class="icon-minus"></i></a></td>
                 </tr>
             `);
@@ -983,7 +905,7 @@ nav.shift ul li a:hover:after {
         });
 
 
-        $("#tableEstimate").on("change", ".unit_price", function () {
+        $("#tableEstimate").on("change", "#unit_price", function () {
             var rowIndex = $(this).closest('tr').index();
             console.log("Row index:", rowIndex);
 
@@ -991,18 +913,54 @@ nav.shift ul li a:hover:after {
             var selectedOption = parseFloat(this.value);
 
             // Find the quantity input field in the same row and get its value
-            var qty = parseFloat($(this).closest('tr').find('.qty').val());
+            var qty = parseFloat($(this).closest('tr').find('#qty').val());
 
             // Calculate the total amount
             var totalAmount = qty * selectedOption;
 
             // Find and set the value of the total_price input field in the same row
-            var totalPriceInput = $(this).closest('tr').find('.total_price');
+            var totalPriceInput = $(this).closest('tr').find('#total_price');
             totalPriceInput.val(totalAmount.toFixed(2)); // Round to 2 decimal places
 
             calculation(); // Call the calculation function after updating the total price
 
         });
+        $("#tableEstimate").on("change", "#qty", function () {
+            var rowIndex = $(this).closest('tr').index();
+            console.log("Row index:", rowIndex);
+
+            // Get the selected unit price
+            var selectedValue =  $(this).val();
+
+            // Find the quantity input field in the same row and get its value
+            var code = parseFloat($(this).closest('tr').find('.code').val());
+
+            $.ajax({
+                        url: "{{ route('purproduct.fetchs') }}",
+                        type: "GET",
+                        data: {
+                                code: code,
+                                selectedValue: selectedValue,
+                            },
+                        success: function(response) {
+                            // Find the product code input field in the same row
+                            var productCodeInputs = parseFloat($(this).closest('tr').find('.unit_price'));
+                            // console.log(productCodeInputs, 'bbbbbbo');
+                            // Clear previous data (if needed)
+                            // productCodeInputs.val('');
+
+                            if (response) {
+                                var productCode = parseFloat(response.data);
+                                console.log(productCode, 'bbbbbbffggg');
+                                productCodeInputs.val(productCode);
+                            }
+                        },
+                        error: function(xhr) {
+                            console.log(xhr.responseText);
+                        }
+                    });
+        });
+
 
         // Call calculation function initially when the page loads
         calculation();
@@ -1011,7 +969,7 @@ nav.shift ul li a:hover:after {
             var totalPricesSum = 0;
 
             $("#tableEstimate tbody tr").each(function() {
-                var totalPrice = parseFloat($(this).find('.total_price').val()); // Extract total price from each row
+                var totalPrice = parseFloat($(this).find('#total_price').val()); // Extract total price from each row
                 if (!isNaN(totalPrice)) { // Check if the value is a valid number
                     totalPricesSum += totalPrice; // Add the total price to the sum
                 }

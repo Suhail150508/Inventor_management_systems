@@ -20,6 +20,7 @@ return new class extends Migration
             $table->integer('total_sold_qty')->nullable();
             $table->integer('available_qty')->nullable();
             $table->integer('reserve_qty')->nullable();
+            $table->integer('purchase_upcoming_qty')->nullable();
             $table->integer('saleable_qty')->nullable();
             $table->timestamps();
             $table->softDeletes();

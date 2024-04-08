@@ -11,7 +11,7 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::create('purchase_products', function (Blueprint $table) {
+        Schema::create('return__product__invoices', function (Blueprint $table) {
             $table->bigIncrements('id');
             $table->integer('product_id')->nullable();
             $table->integer('vendor_id')->nullable();
@@ -30,6 +30,6 @@ return new class extends Migration
      */
     public function down(): void
     {
-        Schema::dropIfExists('purchase_products');
+        Schema::dropIfExists('return__product__invoices');
     }
 };

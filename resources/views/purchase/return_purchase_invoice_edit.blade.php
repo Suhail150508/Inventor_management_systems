@@ -361,7 +361,7 @@ nav.shift ul li a:hover:after {
     <div class="container">
         <div class="card-body">
                 <div class="header" style="display: flex;margin-bottom:7rem">
-                    <strong style="font-size: 2rem">Sales Invoice</strong>
+                    <strong style="font-size: 2rem">Edit Invoice</strong>
 
                     <div style="margin-right:2rem;background-color:#aaa;min-width:10%">
 
@@ -386,22 +386,22 @@ nav.shift ul li a:hover:after {
 
                 </div>
 
-            <form action="/sales-invoice-update" method="POST">
+            <form action="/purchase-invoice-update" method="POST">
                 @csrf
 
                 <div class="shift" style="margin-top:-8rem;margin-bottom:10rem;width:20%">
 
-                        <h3 for=""> Customers </h3>
+                        <h3 for=""> Vendors </h3>
 
                         <select class="form-control" id="selectField" name="customer_id"  style="width: 20rem">
                             <option value="">select</option>
 
                             @php
-                                $products = App\Models\Customer::all();
+                                $vendors = App\Models\Vendor::all();
                             @endphp
 
-                            @foreach ( $products as $product )
-                            <option value="{{ $product->id }}">{{ $product->name }}</option>
+                            @foreach ( $vendors as $vendor )
+                            <option value="{{ $vendor->id }}">{{ $vendor->name }}</option>
                             @endforeach
                         </select>
 
@@ -426,40 +426,36 @@ nav.shift ul li a:hover:after {
                         </tr>
                     </thead>
                     <tbody>
-                        @foreach ($sales_edits as $key=>$edit )
-                        {{-- @dd($edit->invoice_id); --}}
-                    <tr>
+                    @foreach ($purchase_edits as $key=>$edit )
+                        <tr>
 
-                        <td>
-                                <select class="form-control selectProduct"  name="product_id[]"  value="{{ $edit->product_id }} style="width: 10rem" required>
-                                    <option value="">select</option>
+                            <td>
+                                    <select class="form-control selectProduct"  name="product_id[]"  value="{{ $edit->product_id }} style="width: 10rem" required>
+                                        <option value="">select</option>
 
-                                    @php
-                                        $products = App\Models\StockProduct::all();
-                                    @endphp
+                                        @php
+                                            $products = App\Models\StockProduct::all();
+                                        @endphp
 
-                                    @foreach ($products as $product )
-                                    <option value="{{ $product->id }}">{{ $product->name }}</option>
-                                    @endforeach
-                                </select>
+                                        @foreach ($products as $product )
+                                        <option value="{{ $product->id }}">{{ $product->name }}</option>
+                                        @endforeach
+                                    </select>
 
 
+                            </td>
+                            <td><input class="form-control code"  style="width:130px" type="text"  name="code[]" value="{{ $edit->code }}"></td>
+
+                            <td>
+                                    <input class="form-control qty" style="width:130px" type="text"  name="qty[]" value="{{ $edit->qty }}">
+
+                            </td>
+                            <td><input class="form-control unit_price" style="width:130px" type="text"  name="unit_price[]" value="{{ $edit->unit_price }}"></td>
+                            <td><input class="form-control total_price" style="width:130px" type="text"  name="total_price[]" value="{{ $edit->total_price }}"></td>
+                        <td><a href="javascript:void(0)" class="btn btn-danger font-18" title="Add" id="remove" style="font-size:1.5rem"><i class="icon-minus"></i></a>
                         </td>
-                        <td><input class="form-control code"  style="width:130px" type="text"  name="code[]" value="{{ $edit->code }}"></td>
-
-                        <td>
-                            {{-- <form class="quantity_update_form" data-id="{{ $edit->id }}">
-                                @csrf --}}
-                                <input class="form-control qty" style="width:130px" type="text"  name="qty[]" value="{{ $edit->qty }}">
-                                {{-- <button class="submit1" type="submit" class="btn btn-success">Update</button>
-                            </form> --}}
-                        </td>
-                        <td><input class="form-control unit_price" style="width:130px" type="text"  name="unit_price[]" value="{{ $edit->unit_price }}"></td>
-                        <td><input class="form-control total_price" style="width:130px" type="text"  name="total_price[]" value="{{ $edit->total_price }}"></td>
-                       <td><a href="javascript:void(0)" class="btn btn-danger font-18" title="Add" id="remove" style="font-size:1.5rem"><i class="icon-minus"></i></a>
-                       </td>
-                    </tr>
-                    <input class="form-control code "  style="width:130px;display:none" type="text"  name="invoice_id" value="{{ $edit->invoice_id }}">
+                        </tr>
+                        <input class="form-control code "  style="width:130px;display:none" type="text"  name="invoice_id" value="{{ $edit->invoice_id }}">
                     @endforeach
                     </tbody>
                 </table>
@@ -473,7 +469,7 @@ nav.shift ul li a:hover:after {
                 <div style="text-align:center;display:flex;justify-content:center">
                     <strong style="font-size: 1.7rem">Select Status</strong>
                     <select class="form-control" name="status" id="status" required style="width:14rem">
-                        {{-- <option>Pending</option> --}}
+
                         <option>Paid</option>
                     </select>
                 </div>
@@ -491,8 +487,7 @@ nav.shift ul li a:hover:after {
                 </div>
 
                 <div style="text-align: center;margin-top:27rem">
-                    <button type="submit" style=" padding:6px 25px;font-size:2.2rem"  class="btn btn-primary ">Update</button>
-                    <button type="button" class="btn" style=" padding:6px 25px;font-size:2.2rem;margin-left:5rem" onclick="GetPrint()" class="btn btn-primary ">Print</button>
+                    <button type="button" style=" padding:6px 25px;font-size:2.2rem;margin-left:5rem" onclick="GetPrint()" class="btn btn-primary ">Print</button>
                 </div>
 
 
@@ -504,9 +499,6 @@ nav.shift ul li a:hover:after {
       </div>
 
       </div>
-<div>
-<h2>product:<p id="tests"></p></h2>
-</div>
 
       {{-- <script src="//netdna.bootstrapcdn.com/bootstrap/3.0.0/js/bootstrap.min.js"></script>
       <script src="//code.jquery.com/jquery-1.11.1.min.js"></script>
@@ -518,39 +510,6 @@ nav.shift ul li a:hover:after {
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
     <!-- Include Bootstrap JS -->
     {{-- <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script> --}}
-    <!-- Your custom scripts -->
-<!-- Add this script to your HTML -->
-{{-- <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script> --}}
-{{-- <script>
-    // JavaScript function to handle quantity update
-    function updateQuantity(productId, editId, newValue) {
-        $.ajax({
-            url: '/quantity_update/' + editId,
-            method: 'POST',
-            data: {
-                _token: '{{ csrf_token() }}',
-                qty: newValue
-            },
-            success: function(response) {
-                // Update the quantity field if needed
-                console.log('Quantity updated successfully');
-            },
-            error: function(xhr, status, error) {
-                console.error('Error updating quantity:', error);
-            }
-        });
-    }
-
-    // Attach change event handler to quantity input fields
-    $(document).on('change', '.qty', function() {
-        var productId = $(this).closest('tr').find('.code').val();
-        var editId = $(this).data('edit-id');
-        var newValue = $(this).val();
-        alert( newValue, productId);
-        updateQuantity(productId, editId, newValue);
-    });
-</script> --}}
-
 
 
         <script>
@@ -621,30 +580,6 @@ nav.shift ul li a:hover:after {
                     });
                 });
 
-                // document.querySelectorAll('#unit_price').forEach(function(element) {
-                //     element.addEventListener('change', function() {
-                //         var selectedValue = parseFloat(this.value);
-
-                //         var qty = $('#qty').val();
-
-                //         var totall_pricess = qty * selectedValue;
-                //         var total_priceess = $('#total_price');
-                //         total_priceess.val(totall_pricess);
-
-                //         var subtotal1 = $('#subtotal1');
-                //         console.log(subtotal1,'qq');
-                //         subtotal1.val(totall_pricess);
-
-                //         // total();
-                //         // var total_pricee = $('.total_price').val();
-                //         // total_price.val(price);
-
-                //         console.log(selectedValue);
-                //     });
-
-
-                //     calculation1();
-                // });
 
             });
             document.addEventListener('DOMContentLoaded', function() {
@@ -671,7 +606,7 @@ nav.shift ul li a:hover:after {
                         var csrfToken = $('meta[name="csrf-token"]').attr('content');
                         // alert(old_qty);
                         $.ajax({
-                            url: "{{ route('slproduct.fetchs') }}",
+                            url: "{{ route('purproduct.fetchs') }}",
                             type: "GET",
                             data: {
                                 selectedValue: selectedValue,
@@ -736,24 +671,6 @@ nav.shift ul li a:hover:after {
             });
 
 
-        // function calculation1(){
-        //     var totalPricesSum = 0;
-
-        //     $(".tableEstimate1 tbody tr").each(function() {
-        //         var totalPrice = parseFloat($(this).find('.total_price').val()); // Extract total price from each row
-        //         if (!isNaN(totalPrice)) { // Check if the value is a valid number
-        //             totalPricesSum += totalPrice; // Add the total price to the sum
-        //         }
-        //         alert(totalPricesSum,'cal');
-        //     });
-
-        //     // Update the subtotal value
-
-        // //   var sb =  $('#subtotal').val();
-        //     $('#subtotal2').val(totalPricesSum.toFixed(2));
-        //     console.log(totalPricesSum, 'wwwwww');
-        // }
-
 
             document.getElementById('discount').addEventListener('change', function() {
                 var selectedValue = this.value;
@@ -774,54 +691,7 @@ nav.shift ul li a:hover:after {
         $products = App\Models\StockProduct::all();
         @endphp
 
-{{-- <td class="row-index text-center"><p>${rowIdx}</p></td> --}}
-{{-- <script>
-    $(document).ready(function() {
-        var rowIdx = 1;
 
-        $("#addBtn").on("click", function () {
-            // Adding a row inside the tbody.
-            $("#tableEstimate tbody").append(`
-                <tr id="R${rowIdx}">
-
-                    <td>
-                            <select id="selectProduct" name="product_id[]"  style="width: 10rem" required>
-                                <option value="">select</option>
-
-                                @foreach ($products as $product )
-                                <option value="{{ $product->id }}">{{ $product->name }}</option>
-                                @endforeach
-                            </select>
-
-                    </td>
-                    <td><input class="form-control" type="textarea" style="width:130px" name="product_id[]"></td>
-                    <td><input class="form-control" type="textarea" style="width:130px" name="code[]"></td>
-                    <td><input class="form-control qty" style="width:130px" type="textarea" name="qty[]"></td>
-                    <td><input class="form-control unit_price" style="width:130px" type="textarea" name="unit_price[]"></td>
-                    <td><input class="form-control unit_price" style="width:130px" type="textarea" name="total_price[]"></td>
-                    <td><a href="javascript:void(0)" class="btn btn-danger font-18 remove" title="Remove"><i class="icon-minus"></i></a></td>
-                </tr>
-            `);
-            rowIdx++;
-        });
-
-        $("#tableEstimate tbody").on("click", ".remove", function () {
-            // Remove the row
-            $(this).closest("tr").remove();
-
-            // Update row indices of all subsequent rows
-            $("#tableEstimate tbody tr").each(function(index) {
-                $(this).find('.row-index p').text(index + 1);
-                $(this).attr('id', 'R' + (index + 1));
-            });
-        });
-    });
-
-    var productIdValue = $("input[name='product_id[]']").val();
-    console.log(productIdValue);
-
-
-</script> --}}
 
 <script>
     $(document).ready(function() {
@@ -916,7 +786,7 @@ nav.shift ul li a:hover:after {
             var code = parseFloat($(this).closest('tr').find('.code').val());
 
             $.ajax({
-                        url: "{{ route('slproduct.fetchs') }}",
+                        url: "{{ route('purproduct.fetchs') }}",
                         type: "GET",
                         data: {
                                 code: code,

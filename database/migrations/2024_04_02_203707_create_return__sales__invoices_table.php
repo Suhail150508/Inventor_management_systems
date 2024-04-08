@@ -11,9 +11,9 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::create('purchase_invoices', function (Blueprint $table) {
+        Schema::create('return__sales__invoices', function (Blueprint $table) {
             $table->bigIncrements('id');
-            $table->integer('vendor_id')->nullable();
+            $table->integer('customer_id')->nullable();
             $table->double('sub_total')->nullable();
             $table->double('discount')->nullable();
             $table->double('total')->nullable();
@@ -24,12 +24,11 @@ return new class extends Migration
         });
     }
 
-
     /**
      * Reverse the migrations.
      */
     public function down(): void
     {
-        Schema::dropIfExists('purchase_invoices');
+        Schema::dropIfExists('return__sales__invoices');
     }
 };

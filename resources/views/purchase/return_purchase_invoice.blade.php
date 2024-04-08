@@ -347,7 +347,7 @@
     <div class="container">
         <div class="card-body">
                 <div class="header" style="display: flex;margin-bottom:7rem">
-                    <strong style="font-size: 2rem">Sales Invoice</strong>
+                    <strong style="font-size: 2rem">Purchase Invoice</strong>
 
                     <div style="margin-right:2rem;background-color:#aaa;min-width:10%">
 
@@ -372,24 +372,24 @@
 
                 </div>
 
-            <form action="/sales-invoice-store" method="POST">
+            <form action="/return-purchase-invoice-store" method="POST">
                 @csrf
 
 
 
                 <div class="shift" style="margin-top:-8rem;margin-bottom:10rem;width:20%">
 
-                        <h3 for=""> Customers </h3>
+                        <h3 for=""> Vendors </h3>
 
-                        <select class="form-control" id="selectField" name="customer_id"  style="width: 20rem" required>
+                        <select class="form-control" id="selectField" name="vendor_id"  style="width: 20rem" required>
                             <option value="">select</option>
 
                             @php
-                                $products = App\Models\Customer::all();
+                                $vendors = App\Models\Vendor::all();
                             @endphp
 
-                            @foreach ($products as $product )
-                            <option value="{{ $product->id }}">{{ $product->name }}</option>
+                            @foreach ($vendors as $vendor )
+                            <option value="{{ $vendor->id }}">{{ $vendor->name }}</option>
                             @endforeach
                         </select>
 
@@ -409,7 +409,7 @@
                             <th class="col-sm-3">Qty</th>
                             <th class="col-sm-3">unit_price</th>
                             <th class="col-sm-3">total_price</th>
-                            {{-- <th> </th> --}}
+                            <th> </th>
                         </tr>
                     </thead>
                     <tbody>
@@ -424,16 +424,12 @@
                                     @endphp
 
                                     @foreach ($products as $product )
-                                    <option value="{{ $product->id }}" id="productItem">{{ $product->name }}</option>
+                                    <option value="{{ $product->id }}">{{ $product->name }}</option>
                                     @endforeach
                                 </select>
-                                {{-- <div id="dataContainer" style="background-color: #aaa;color:#000;width:100%;">
-                                    <p style="margin: .8rem " id="available">Product is available </p>
-                                    <p style="margin: .8rem " id="not_available">Product is out of stock </p>
-                                </div> --}}
 
                         </td>
-                        <td><input class="form-control " style="width:130px" type="textarea" id="productCode" name="code[]"></td>
+                        <td><input class="form-control "  style="width:130px" type="textarea" id="productCode" name="code[]"></td>
                         <td><input class="form-control " style="width:130px" type="textarea" id="qty" name="qty[]"></td>
                         <td><input class="form-control " style="width:130px" type="textarea" id="unit_price" name="unit_price[]"></td>
                         <td><input class="form-control " style="width:130px" type="textarea" id="total_price" name="total_price[]"></td>
@@ -447,13 +443,6 @@
                     <a href="javascript:void(0)" class="btn btn-success font-18" title="Add" id="addBtn" style="font-size:1.7rem"><i class="icon-plus"></i> Add Item</a>
                 </div>
 
-                <div style="text-align:center;display:flex;justify-content:center">
-                    <strong style="font-size: 1.7rem">Select Status</strong>
-                    <select class="form-control" name="status" id="status" required style="width:14rem">
-                        <option value="Unpaid">Pending</option>
-                        <option value="paid">Paid</option>
-                    </select>
-                </div>
 
                 <div style="float: right;margin:4rem 2rem;background-color:#d9d9ebc6;padding:8px;width:21%;">
 
@@ -480,11 +469,6 @@
       </div>
 
       </div>
-
-        {{-- @php
-            $products = App\Models\StockProduct::all();
-        @endphp --}}
-
 
 
       {{-- <script src="//netdna.bootstrapcdn.com/bootstrap/3.0.0/js/bootstrap.min.js"></script> --}}
@@ -542,12 +526,6 @@
                             var productCode = document.getElementById('productCode');
 
                             productCode.value = response;
-                            console.log(response.abl_qty,'ddddddd');
-
-                            // var available = document.getElementById('available');
-
-                            // available.innerText = "Product is available: " + response.avl_qty;
-
 
 
                             response.forEach(function(item) {
@@ -716,53 +694,6 @@
     </div>
 
 
-
-
-
-         <!-- Modal -->
-         <div class="modal fade" id="exampleModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
-            <div class="modal-dialog" role="document">
-            <div class="modal-content">
-                <div class="modal-header">
-                <h5 class="modal-title" id="exampleModalLabel">
-                    <div class="text">
-                        <h3 style="font-size:1.4rem"><i class="icon-plus"></i> Select Product</h3>
-                    </div>
-                </h5>
-                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                    <span aria-hidden="true">&times;</span>
-                </button>
-                </div>
-                <div class="modal-body">
-                {{-- ... --}}
-
-                <div class="container_modal" style="width:90%;">
-
-                    <table class="table">
-                        <thead>
-                          <tr>
-                            <th scope="col">Handle</th>
-                          </tr>
-                        </thead>
-                        <tbody>
-                          <tr>
-                            <th scope="row">1</th>
-                            <td>Mark</td>
-                            <td>Otto</td>
-                            <td>@mdo</td>
-                          </tr>
-
-                        </tbody>
-                      </table>
-
-                </div>
-
-
-                </div>
-            </div>
-            </div>
-        </div>
-        <!-- Modal end -->
 
 </body>
 </html>

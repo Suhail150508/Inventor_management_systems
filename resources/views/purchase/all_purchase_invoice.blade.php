@@ -191,7 +191,7 @@
                         <td>
                             <div class="span2">
 
-                                <a class="btn btn-info" href="{{url('/purchase-invoice-edit/'.$invoice->vendor_id)}}" style="margin-left:.1rem;border-radius:25%">
+                                <a class="btn btn-info" href="{{url('/purchase-invoice-edit/'.$invoice->id)}}" style="margin-left:.1rem;border-radius:25%">
                                     <i class="halflings-icon white edit"></i>
                                 </a>
                             </div>

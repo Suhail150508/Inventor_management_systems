@@ -99,7 +99,7 @@
         <div class="box-header" data-original-title>
             <h2><i class="halflings-icon user"></i><span class="break"></span>Invoices</h2>
             <div class="box-icon">
-                <a href="/sales_invoice" class="" style="background-color: rgb(31, 73, 124);color:aliceblue;padding:6px;border-radius:10px"><i class="icon-plus"></i> Create Sales</a>
+                <a href="/return-purchase-invoice" class="" style="background-color: rgb(31, 73, 124);color:aliceblue;padding:6px;border-radius:10px"><i class="icon-plus"></i> Create Return Purchase</a>
             </div>
         </div>
 
@@ -108,15 +108,15 @@
             <form action="/search-vendor-invoice" method="POST" class="row pt-5" style="width:50%;height:40%;display:flex;justify-content:center;padding:.2rem;margin:.9rem 5rem">
                 @csrf
                 @php
-                    $customers = App\Models\Customer::all();
+                    $vendors = App\Models\Vendor::all();
                 @endphp
 
-                <strong style="font-size:1.2rem" for=""> Customers </strong>
-                <select  name="customer_id"  id="selectField">
+                <strong style="font-size:1.2rem" for=""> Vendors </strong>
+                <select  name="vendor_id"  id="selectField">
 
                     <option style="font-size:1.1rem" value="all">All</option>
-                    @foreach ($customers as $customer )
-                    <option style="font-size:1.1rem" value="{{ $customer->id }}">{{ $customer->name  }}</option>
+                    @foreach ($vendors as $vendor )
+                    <option style="font-size:1.1rem" value="{{ $vendor->id }}">{{ $vendor->name  }}</option>
                     @endforeach
                 </select>
                 <button type="submit" class="col-md-3 btn btn-success" style="font-size:1.2rem;width:100px;height:32px">Search </button>
@@ -133,19 +133,18 @@
               <thead>
                   <tr>
                       <th>Invoice Id</th>
-                      <th>Customer Id</th>
+                      <th>Vendor Id</th>
                       <th>Sub Total</th>
                       <th>Discount</th>
                       <th>Total</th>
                       <th>Paid</th>
                       <th>Due</th>
-                      <th>Status</th>
                       <th>Actions</th>
                   </tr>
               </thead>
 
               <tbody>
-            @foreach ($sales_invoices as $key => $invoice )
+            @foreach ($purchase_invoices as $key => $invoice )
 
                 @php
                     $total += $invoice->total;
@@ -157,62 +156,24 @@
 
 
                     <tr>
-                        {{-- <td class="center">#INV-000{{ $key+1 }}</td> --}}
                         <td class="center">#INV-000{{ $invoice->id }}</td>
-                        <td class="center">{{ $invoice->customer_id }}</td>
+                        <td class="center">{{ $invoice->vendor_id }}</td>
                         <td class="center">{{ $invoice->sub_total }}</td>
                         <td class="center">{{ $invoice->discount }}</td>
                         <td class="center">{{ $invoice->total }}</td>
                         <td class="center">{{ $invoice->paid }}</td>
                         <td class="center">{{ $invoice->due }}</td>
-                        <td class="center">{{ $invoice->status }}</td>
 
-                        {{-- <td>
-                            <div class="dropdown">
-                                <div class="">
-                                <select name="name" style="width: 50%;border-radius:70px">
-                                    <option  value="">select</option>
-                                    <option  value="index"><a href="{{ url('#') }}"> Details </a> </option>
-                                    <option  value="index"><a href="{{ url('#') }}"> Edit </a> </option>
-                                    <option  value="index"><a href="{{ url('#') }}"> Delete </a> </option>
-                                    <option  value="index"><a href="{{ url('#') }}"> Pdf </a> </option>
-                                </select>
-                                </div>
-                            </div>
-                        </td> --}}
+
 
                         <td class="center">
-                            {{-- <div class="span2">
-
-                                @if($customer->status=='Active')
-
-                                    <a class="btn btn-success" href="{{ url('/customer-status/'.$customer->id) }}" >
-                                        <i class="halflings-icon white thumbs-down"></i>
-                                    </a>
-
-                                @else
-
-                                    <a class="btn btn-danger" href="{{ url('/customer-status/'.$customer->id)  }}" >
-                                        <i class="halflings-icon white thumbs-up"></i>
-                                    </a>
-                                @endif
-                            </div> --}}
 
                             <div class="span2">
 
-                                <a class="btn btn-info" href="{{url('/sales-invoice-edit/'.$invoice->id)}}" style="margin-left:.1rem;border-radius:25%">
+                                <a class="btn btn-info" href="{{url('/return-purchase-invoice-edit/'.$invoice->id)}}" style="margin-left:.1rem;border-radius:25%">
                                     <i class="halflings-icon white edit"></i>
                                 </a>
                             </div>
-
-                            {{-- <div class="span2">
-                                <form method="post" action="{{ url('/sales-invoice-delete/'.$invoice->id ) }}" style="margin-left:1.3rem">
-                                    @csrf
-                                    @method('DELETE')
-                                    <button type="submit" class="btn btn-danger"> <i class="halflings-icon white trash"></i></button>
-
-                                </form>
-                            </div> --}}
 
                         </td>
                     </tr>

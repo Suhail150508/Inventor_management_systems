@@ -18,6 +18,7 @@ class StockProduct extends Model
         'total_sold_qty',
         'available_qty',
         'reserve_qty',
+        'purchase_upcoming_qty',
         'saleable_qty'
     ];
 

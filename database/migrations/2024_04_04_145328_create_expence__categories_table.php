@@ -11,25 +11,19 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::create('purchase_invoices', function (Blueprint $table) {
+        Schema::create('expence__categories', function (Blueprint $table) {
             $table->bigIncrements('id');
-            $table->integer('vendor_id')->nullable();
-            $table->double('sub_total')->nullable();
-            $table->double('discount')->nullable();
-            $table->double('total')->nullable();
-            $table->double('paid')->nullable();
-            $table->double('due')->nullable();
+            $table->string('category')->nullable();
             $table->timestamps();
             $table->softDeletes();
         });
     }
-
 
     /**
      * Reverse the migrations.
      */
     public function down(): void
     {
-        Schema::dropIfExists('purchase_invoices');
+        Schema::dropIfExists('expence__categories');
     }
 };
