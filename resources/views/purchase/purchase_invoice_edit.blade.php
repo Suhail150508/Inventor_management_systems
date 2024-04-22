@@ -350,10 +350,10 @@ nav.shift ul li a:hover:after {
     .btn{
         display: none;
     }
-    .form-control{
+    /* .form-control{
         border: 0px;
-    }
-    .form-control{
+    } */
+    input .form-control{
         border: 0px;
     }
     .customer .form-controll{
@@ -363,13 +363,34 @@ nav.shift ul li a:hover:after {
         border:2px solid #000;
     }
     .customer-heading {
-        display: block !important;
-        background-color: red !important;
-        padding:4px;
-        margin-top: -3rem;
+        /* display: block !important;
+        background-color:#aaa !important;
+        padding:4px; */
+        /* margin-top: -3rem; */
         }
-        .form-controll1{
+        .form-controll2{
             display: block;
+        }
+        .origin{
+            font-size: 2rem;
+            /* background-color: #aaa !important; */
+        }
+        .origin1{
+            background-color: #aaa !important;
+            height: 200px;
+            padding-top: 10px;
+        }
+        .first{
+            margin-right: -6rem;
+            width:300px;
+        }
+        .qt{
+            margin-top:-15rem;
+            /* width: 50px;
+            border-bottom:2px solid black; */
+        }
+        #dataContainer{
+            width:100px;
         }
 
 }
@@ -406,13 +427,16 @@ nav.shift ul li a:hover:after {
                     </div>
 
                 </div>
+                <div>
+                    <h2 class="qt">Quetation </h2>
+                </div>
 
             <form action="/purchase-invoice-update" method="POST">
                 @csrf
                 <div style="display:flex">
 
                     <div class="customer" style="margin-top:-8rem;margin-bottom:10rem;width:30%;">
-                        <label class="customer-heading bg-danger"> Vendors Information </label>
+                        {{-- <label class="customer-heading bg-danger"> Vendors Information </label>
 
                             <select class="form-controll" id="selectField" name="customer_id"  style="width: 20rem;" >
                                 <option value="">select</option>
@@ -424,35 +448,60 @@ nav.shift ul li a:hover:after {
                                 @foreach ( $vendors as $vendor )
                                 <option value="{{ $vendor->id }}">{{ $vendor->name }}</option>
                                 @endforeach
-                            </select>
+                            </select> --}}
 
                             <div id="dataContainer" style="background-color: #aaa;color:#000;width:100%;">
                                 <p style="margin: .8rem " id="name"></p>
                                 <p style="margin: .8rem " id="email"></p>
                                 <p style="margin: .8rem " id="mobile"></p>
                             </div>
+                                @if ($vendorss)
+                                <div style="display: flex;justify-content:space-around">
+                                    <div id="dataContainer" style="margin: 2rem;color:#000;">
+                                        <strong>Vendors Information</strong>
+                                        <p style="margin: .8rem;background-color:#aaa; " id="name">{{ $vendorss->name ?? '' }}</p>
+                                        <p style="margin: .8rem " id="email">{{ $vendorss->email ?? '' }}</p>
+                                        <p style="margin: .8rem " id="mobile">{{ $vendorss->mobile ?? '' }}</p>
+                                    </div>
+                                    <div  class="first" style="margin-left: 6rem;border:2px solid black " id="dataContainer" style="color:#000;width:100%;">
+                                        <div style="display: flex">
 
-                    </div>
-                    <div class="customer" style="margin-top:-8rem;margin-bottom:10rem;width:30%;">
-                        <label class="customer-heading bg-danger"> Vendors Information </label>
+                                            <div class="origin1" style="width:100px">
+                                                <strong style="margin: .8rem;" id="name">Origin: </strong>
+                                                <strong style="margin: .8rem " id="email">Created_at</strong>
+                                                <strong style="margin: .8rem " id="mobile">Updated_at</strong>
 
-                            <select class="form-controll1" id="selectField" name="customer_id"  style="width: 20rem;display:none" >
-                                <option value="">select</option>
+                                            </div>
+                                            <div  class="origin_data1" style="width:220px;height:100%;padding:5px">
+                                                <p style="margin: .8rem;text-align:center " id="name">{{ $vendorss->vendor_origin ?? '' }}</p>
+                                                <p style="margin: .8rem;text-align:center " id="email">{{ $vendorss->created_at ?? '' }}</p>
+                                                <p style="margin: .8rem;text-align:center " id="mobile">{{ $vendorss->updated_at ?? '' }}</p>
 
-                                @php
-                                    $vendors = App\Models\Vendor::all();
-                                @endphp
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div style="margin-left: 6rem;border:2px solid black " id="dataContainer" style="background-color: #aaa;color:#000;width:100%;">
+                                        <div style="display: flex">
 
-                                @foreach ( $vendors as $vendor )
-                                <option value="{{ $vendor->id }}">{{ $vendor->name }}</option>
-                                @endforeach
-                            </select>
+                                            <div class="origin" style="width:6rem">
+                                                <strong style="margin: .8rem; " id="name">Origin: </strong>
+                                                <strong style="margin: .8rem; " id="email">Created_at</strong>
+                                                <strong style="margin: .8rem; " id="mobile">Updated_at</strong>
 
-                            <div id="dataContainer" style="background-color: #aaa;color:#000;width:100%;">
-                                <p style="margin: .8rem " id="name"></p>
-                                <p style="margin: .8rem " id="email"></p>
-                                <p style="margin: .8rem " id="mobile"></p>
-                            </div>
+                                            </div>
+                                            <div style="width:200px;height:100%;">
+                                                <p style="margin: .8rem;text-align:center " id="name">{{ $vendorss->vendor_origin ?? '' }}</p>
+                                                <p style="margin: .8rem;text-align:center " id="email">{{ $vendorss->created_at ?? '' }}</p>
+                                                <p style="margin: .8rem;text-align:center " id="mobile">{{ $vendorss->updated_at ?? '' }}</p>
+
+                                            </div>
+                                        </div>
+                                    </div>
+
+                                </div>
+
+                                @endif
+
 
                     </div>
 
@@ -524,11 +573,11 @@ nav.shift ul li a:hover:after {
                     <p style="display:none">Sub Total2: <input type="text" id="old_qty" style="width: 60px;height:20px"></p>
                     <p style="display:none">Sub Total1: <input type="text" id="subtotal1" style="width: 60px;height:20px"></p>
                     <p style="display:none">Sub Total2: <input type="text" id="subtotal2" style="width: 60px;height:20px"></p>
-                    <p style="font-weight:bold;font-size:1.7rem">Sub Total: <input type="text" class="form-control" id="subtotal" name="sub_total" style="width: 60px;height:16px"></p>
-                    <p style="font-weight:bold;font-size:1.7rem">Discount: <input type="text" class="form-control" id="discount" name="discount" style="width: 60px;height:16px"></p>
-                    <p style="font-weight:bold;font-size:1.7rem">Total: <input type="text" class="form-control" id="total" name="total" style="width: 60px;height:16px"></p>
-                    <p style="font-weight:bold;font-size:1.7rem">Paid: <input type="text" class="form-control" id="paid" name="paid" style="width: 60px;height:16px"></p>
-                    <p style="font-weight:bold;font-size:1.7rem">Due: <input type="text" class="form-control" id="due" name="due" style="width: 60px;height:16px"></p>
+                    <p style="font-weight:bold;font-size:1.7rem">Sub Total: <input type="text" class="form-control" id="subtotal" name="sub_total" style="width: 60px;height:16px" value="{{ $purchase_invoices->sub_total }}"></p>
+                    <p style="font-weight:bold;font-size:1.7rem">Discount: <input type="text" class="form-control" id="discount" name="discount" style="width: 60px;height:16px" value="{{ $purchase_invoices->discount }}"></p>
+                    <p style="font-weight:bold;font-size:1.7rem">Total: <input type="text" class="form-control" id="total" name="total" style="width: 60px;height:16px" value="{{ $purchase_invoices->total}}"></p>
+                    <p style="font-weight:bold;font-size:1.7rem">Paid: <input type="text" class="form-control" id="paid" name="paid" style="width: 60px;height:16px" value="{{ $purchase_invoices->paid }}"></p>
+                    <p style="font-weight:bold;font-size:1.7rem">Due: <input type="text" class="form-control" id="due" name="due" style="width: 60px;height:16px" value="{{ $purchase_invoices->due }}"></p>
                 </div>
 
                 <div style="text-align: center;margin-top:27rem">

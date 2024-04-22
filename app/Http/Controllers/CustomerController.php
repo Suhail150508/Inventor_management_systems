@@ -3,6 +3,8 @@
 namespace App\Http\Controllers;
 
 use App\Models\Customer;
+use App\Models\Due_Sales_Payment;
+use App\Models\Sales_invoice;
 use Illuminate\Http\Request;
 use App\Models\Customer_invoice;
 use Illuminate\Support\Facades\DB;
@@ -103,8 +105,43 @@ public function customerDelete($id){
         return back();
     } catch (\Exception $e) {
         DB::rollBack();
-        dd($e);
     }
+
+}
+
+public function searchCustomer(Request $request){
+    // dd($request->all());
+
+    $customer_id = $request->input('customer_id');
+    $date_from = $request->input('date_from');
+    $date_to = $request->input('date_to');
+    // $all = $request->input('all');
+    $sales_invoices = Sales_invoice::all();
+    $query = Sales_Invoice::query();
+
+    if ($customer_id =='all') {
+        session(['selectedCustomerId' => $customer_id]);
+        // $paid_invoice = Due_Sales_Payment::sum('paid_amount');
+        return view('sales.all_sales_invoice',compact('sales_invoices'));
+        // return view('sales.all_sales_invoice',compact('sales_invoices','paid_invoice'));
+    }
+
+    if (!empty($customer_id)) {
+        $query->where('customer_id', $customer_id);
+        session(['selectedCustomerId' => $customer_id]);
+    }
+
+    if (!empty($date_from)) {
+        $query->whereDate('created_at', '>=', $date_from);
+    }
+
+    if (!empty($date_to)) {
+        $query->whereDate('created_at', '<=', $date_to);
+    }
+
+    $sales_invoices = $query->get();
+
+    return view('sales.all_sales_invoice',compact('sales_invoices'));
 
 }
 
@@ -124,19 +161,19 @@ public function status(Request $request, $id)
 
 
 
- public function searchCustomer(Request $request){
+//  public function searchCustomer(Request $request){
 
-    $search = $request->search;
-    $customers = Customer::where(function($query)use($search){
-        $query->where('name','like',"%$search%")
-        ->orWhere('email','like',"%$search%")
-        ->orWhere('mobile','like',"%$search%");
-             })->paginate(6);
+//     $search = $request->search;
+//     $customers = Customer::where(function($query)use($search){
+//         $query->where('name','like',"%$search%")
+//         ->orWhere('email','like',"%$search%")
+//         ->orWhere('mobile','like',"%$search%");
+//              })->paginate(6);
 
-    // $students = NewStudent::where('class','LIKE','%'.$request->class.'%');
-    return view('customer.All_customer',compact('customers'));
+//     // $students = NewStudent::where('class','LIKE','%'.$request->class.'%');
+//     return view('customer.All_customer',compact('customers'));
 
-}
+// }
  public function searchInvoice(Request $request, $id){
 
     $customer_invoices = Customer_invoice::find($id);

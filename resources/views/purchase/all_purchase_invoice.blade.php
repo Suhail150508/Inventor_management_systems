@@ -105,7 +105,7 @@
 
 
         <div>
-            <form action="/search-vendor-invoice" method="POST" class="row pt-5" style="width:50%;height:40%;display:flex;justify-content:center;padding:.2rem;margin:.9rem 5rem">
+            {{-- <form action="/search-vendor-invoice" method="POST" class="row pt-5" style="width:50%;height:40%;display:flex;justify-content:center;padding:.2rem;margin:.9rem 5rem">
                 @csrf
                 @php
                     $vendors = App\Models\Vendor::all();
@@ -120,7 +120,39 @@
                     @endforeach
                 </select>
                 <button type="submit" class="col-md-3 btn btn-success" style="font-size:1.2rem;width:100px;height:32px">Search </button>
+            </form> --}}
+
+            <form action="{{ url('/search-purchase-invoice') }}" method="GET" style="display: flex;justify-content:center; flex-wrap:wrap">
+                @csrf
+                <div class=" col-md-1" style="margin: 0px 10px">
+                    <h4>Vendors</h4>
+                    @php
+                        $vendors = App\Models\Vendor::all();
+                    @endphp
+                    <label for="">  </label>
+                    <select type="text" name="vendor_id" id="vendor_id">
+                        <option style="font-size:1.1rem" value="all">All vendors</option>
+                        @foreach ($vendors as $vendor)
+                            <option style="font-size:1.1rem" value="{{ $vendor->id }}" {{ session('selectedVendorId') == $vendor->id ? 'selected' : '' }}>{{ $vendor->name }}</option>
+                        @endforeach
+                    </select>
+                </div>
+                <div class="col-md-1" style="margin: 0px 10px">
+                    <h4>From</h4>
+                    <div class="">
+                        <input type="date" name="date_from" id="date_from" placeholder="2018-07-03" value="{{ request()->input('date_from') }}">
+                    </div>
+                </div>
+                <div class="col-md-1" style="margin: 0px 10px">
+                    <h4>To</h4>
+                    <div class="">
+                        <input type="date" name="date_to" id="date_to" placeholder="2018-07-03" value="{{ request()->input('date_to') }}">
+                    </div>
+                </div>
+                <button class="col-md-1 btn btn-success" type="submit" style="height: 2.3rem;margin:2rem 1rem">Search</button>
             </form>
+
+
         </div>
 
         @php
@@ -202,15 +234,15 @@
                 </tr>
               </tbody>
           </table>
-
-          {{-- @php
-            $paid_amount =  App\Models\Paid::where('vendor_id',$vendor_id )->sum('paid_amount');
-            $total_due = $due - $paid_amount;
-          @endphp --}}
+          @php
+            // @dd($vendor_id);
+            $paid_invoice =  App\Models\Paid::where('vendor_id',$vendor_id )->sum('paid_amount');
+            $total_due = $due - $paid_invoice;
+          @endphp
                 <div style="float: right;margin:4rem 2rem;background-color:#d9d9ebc6;padding:8px;width:21%;">
                     <p style="font-weight:bold;font-size:1rem">Total: {{ $total }}  </p>
                     <p style="font-weight:bold;font-size:1rem">Total Paid: {{ $paid }} </p>
-                    <p style="font-weight:bold;font-size:1rem">Total Due: {{ $due }} </p>
+                    <p style="font-weight:bold;font-size:1rem">Total Due: {{ $total_due }} </p>
                 </div>
         </div>
     </div>

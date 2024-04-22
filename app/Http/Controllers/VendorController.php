@@ -201,7 +201,10 @@ class VendorController extends Controller
 
     public function purchaseInvoiceEdit($id){
         $purchase_edits =purchase_product::where('invoice_id',$id)->get();
-        return view('purchase.purchase_invoice_edit',compact('purchase_edits'));
+        $purchase_invoices =Purchase_invoice::find($id);
+        $vendorss =Vendor::find($purchase_invoices->id);
+        $vendors_info = $vendorss->created_at;
+        return view('purchase.purchase_invoice_edit',compact('purchase_edits','purchase_invoices','vendorss'));
     }
 
     public function purchaseInvoiceUpdate(Request $request){
@@ -291,7 +294,6 @@ class VendorController extends Controller
 
         public function allPInvoice(){
             $purchase_invoices = Purchase_invoice::all();
-            // dd($purchase_invoices);
 
             return view('purchase.all_purchase_invoice',compact('purchase_invoices'));
         }
@@ -413,6 +415,47 @@ class VendorController extends Controller
         return view('company.expence_invoice',compact('expences'));
 
     }
+
+
+    public function searchVendor(Request $request){
+
+        $vendor_id = $request->input('vendor_id');
+        $date_from = $request->input('date_from');
+        $date_to = $request->input('date_to');
+
+        $purchase_invoices = Purchase_invoice::all();
+        $query = Purchase_invoice::query();
+        $paid_invoice = Paid::query();
+
+        if ($vendor_id =='all') {
+            session(['selectedVendorId' => $vendor_id]);
+            $paid_invoice = Paid::sum('paid_amount');
+            return view('purchase.all_purchase_invoice',compact('purchase_invoices','paid_invoice'));
+        }
+
+        if (!empty($vendor_id)) {
+            $query->where('vendor_id', $vendor_id);
+            $paid_invoice->where('vendor_id', $vendor_id);
+            session(['selectedVendorId' => $vendor_id]);
+        }
+
+        if (!empty($date_from)) {
+            $query->whereDate('created_at', '>=', $date_from);
+            $paid_invoice->whereDate('created_at', '>=', $date_from);
+        }
+
+        if (!empty($date_to)) {
+            $query->whereDate('created_at', '<=', $date_to);
+            $paid_invoice->whereDate('created_at', '<=', $date_to);
+        }
+
+        $purchase_invoices = $query->get();
+
+        return view('purchase.all_purchase_invoice',compact('purchase_invoices','paid_invoice'));
+
+    }
+
+
     public function addCategory(){
         return view('company.add_category');
     }

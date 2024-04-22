@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Models\Customer;
+use App\Models\Due_Sales_Payment;
 use App\Models\Expence_Invoice;
 use App\Models\Return_Sales_Invoice;
 use App\Models\Return_Sales_Product_Invoice;
@@ -377,7 +378,42 @@ class SalesProductController extends Controller
 
         }
 
+        public function duePaySales(){
 
+            $paid_invoices = Due_Sales_Payment::all();
+            return view('sales.due_sales_payment',compact('paid_invoices'));
+        }
+        public function duePayInvoiceCreate(){
+            $paids = Due_Sales_Payment::all();
+            return view('sales.due_sales_payment_create',compact('paids'));
+        }
 
+        public function duePayInvoiceStore(Request $request){
+            //    $infos = Due_paid_invoice::find(1);
+            //    foreach($infos as $info){
+            //     dd($info->vendor_id);
+            //    }
+                // dd($request->vendor_id);
+                $invoice = new Due_Sales_Payment;
+                $invoice->customer_id = $request->customer_id;
+                $invoice->paid_amount = $request->paid_amount;
+                $invoice->discount = $request->discount;
+                $invoice->description = $request->description;
+                $invoice->save();
+
+                return back()->with('message','Due Amount Paided Successfully');
+            }
+
+    public function customerDuePayInvoices(Request $request){
+        if($request->customer_id == 'all'){
+
+            $paid_invoices = Due_Sales_Payment::all();
+            return view('sales.due_sales_payment',compact('paid_invoices'));
+        }
+
+        $paid_invoices = Due_Sales_Payment::where('customer_id', $request->customer_id)->get();
+
+        return view('sales.due_sales_payment',compact('paid_invoices'));
+    }
 
 }

@@ -150,24 +150,24 @@ form .form-row .textarea{
 <div class="">
     <div class="box ">
         <div class="box-header">
-            <h2 style="font-weight: bold;font-size:1.2rem"><i class="halflings-icon user"></i><span class="break"></span>Purchase Paid Amount</h2>
+            <h2 style="font-weight: bold;font-size:1.2rem"><i class="halflings-icon user"></i><span class="break"></span>Sales Paid Amount</h2>
         </div>
 
         <div class="container">
-            <form action="/due-payment-invoice-store" method="POST">
+            <form action="/due-sales-payment-store" method="POST">
                 @csrf
                <div class="form-row">
                   <div class="input-data">
 
                         @php
-                            $vendors = App\Models\Vendor::all();
+                            $customers = App\Models\Customer::all();
                         @endphp
                         <label for="">  </label>
-                        <select type="text" name="vendor_id" id="date">
+                        <select type="text" name="customer_id" id="date">
 
-                            <option style="font-size:1.1rem" value="">Vendors</option>
-                            @foreach ($vendors as $vendor )
-                            <option style="font-size:1.1rem" value="{{ $vendor->id }}">{{ $vendor->name  }}</option>
+                            <option style="font-size:1.1rem" value="">Customers</option>
+                            @foreach ($customers as $customer )
+                            <option style="font-size:1.1rem" value="{{ $customer->id }}">{{ $customer->name  }}</option>
                             @endforeach
                         </select>
 
@@ -179,6 +179,11 @@ form .form-row .textarea{
                   </div>
                </div>
                <div class="form-row">
+                  <div class="input-data">
+                     <input type="text" required name="discount">
+                     <div class="underline"></div>
+                     <label for="">Discount</label>
+                  </div>
                   <div class="input-data">
                      <input type="text" required name="description">
                      <div class="underline"></div>

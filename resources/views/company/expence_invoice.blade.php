@@ -564,17 +564,15 @@
 
 
                 <div class="col-md-1" style="margin: 0px 10px">
-                    <h4 > From </h4>
+                    <h4>From</h4>
                     <div class="">
-                        <input type="date" name="date_from" id="date" placeholder="2018-07-03">
-
+                        <input type="date" name="date_from" id="date_from" placeholder="2018-07-03" value="{{ request()->input('date_from') }}">
                     </div>
                 </div>
                 <div class="col-md-1" style="margin: 0px 10px">
-                    <h4 > To </h4>
+                    <h4>To</h4>
                     <div class="">
-                        <input type="date" name="date_to" id="date" placeholder="2018-07-03">
-
+                        <input type="date" name="date_to" id="date_to" placeholder="2018-07-03" value="{{ request()->input('date_to') }}">
                     </div>
                 </div>
                 <button class="col-md-1 btn btn-success" type="submit" style="height: 2.3rem;margin:2rem 1rem">Search</button>
@@ -649,19 +647,19 @@
                 {{-- <div class="modal-content"> --}}
                     {{-- <div class="modal-header"> --}}
                     <h5 class="modal-title" id="exampleModalLabel">
-                        <a href="/add-category" style="font-size:1.4rem;color:black;float: left;background-color:#95A5A6;padding:1.2rem 1rem;border-radius:4rem; width:90%;margin:2rem>  <i class="icon-plus"></i> Add Category</a>
+                        <a href="/add-category" style="font-size:1.4rem;color:black;float: left;background-color:#95A5A6;padding:1.2rem 1rem;border-radius:4rem; width:30%;margin:2rem>  <i class="icon-plus"></i> Add Category</a>
                         {{-- <a href="/add-category" >  <i class="icon-plus"></i> Add Category</a> --}}
 
                     </h5>
                 {{-- </div> --}}
-                <div class="modal-body">
+                <div class="modal-body" style="text-align: center">
 
                     <div class="" style="width:100%">
 
-                        <form  action="{{ url('/expence-invoice-store') }}" method="POST"  style="margin:0 auto;margin-top:3rem">
+                        <form  action="{{ url('/expence-invoice-store') }}" method="POST"  style="text-align:center;margin-top:3rem">
                             @csrf
 
-                            <div class="form-row" style="justify-content:space-between;width:100%;margin:0 auto">
+                            <div class="form-row" style="">
                                 <div class="input-data">
 
                                     @php
@@ -675,24 +673,19 @@
                                         <option style="font-size:1.1rem" value="{{ $categori->id }}">{{ $categori->category  }}</option>
                                         @endforeach
                                     </select>
+                                </div>
 
-                            </div>
-
-                                <div class="input-data">
+                                <div class="input-data" style="width:35%;margin:0 auto;margin-top:1rem">
                                     <label for="">Amount</label>
                                     <input type="text" name="amount" required>
-                                    {{-- <div class="underline"></div> --}}
                                 </div>
                             </div>
-                            <div class="form-row" style="justify-content:space-between;width:100%;margin:0 auto">
-
+                            <div class="form-row" style="margin-top:1.3rem">
                                 <div class="data">
                                     <label for="">Description</label>
                                     <input type="text" name="description" >
-
-                                    {{-- <div class="underline"></div> --}}
-                                    {{-- <label for="">Date</label> --}}
                                 </div>
+
                             </div>
 
 

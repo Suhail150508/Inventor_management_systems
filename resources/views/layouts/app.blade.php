@@ -112,6 +112,8 @@
                                 <li><a class="submenu" href="/all-sales-invoice"><i class="icon-plus"></i><span class="hidden-tablet"> All Sales Invoice </span></a></li>
                                 <li><a class="submenu" href="/all-customer"><i class="icon-eye-open"></i><span class="hidden-tablet"> Customer </span></a></li>
                                 <li><a class="submenu" href="/all-return-sales-invoice"><i class="icon-eye-open"></i><span class="hidden-tablet"> Return Sales Invoice  </span></a></li>
+                                <li><a class="submenu" href="/due-sales-payment"><i class="icon-eye-open"></i><span class="hidden-tablet"> Due Sales Payment  </span></a></li> 
+
 
                             </ul>
                         </li>

@@ -99,13 +99,13 @@
         <div class="box-header" data-original-title>
             <h2><i class="halflings-icon user"></i><span class="break"></span>Invoices</h2>
             <div class="box-icon">
-                <a href="/sales_invoice" class="" style="background-color: rgb(31, 73, 124);color:aliceblue;padding:6px;border-radius:10px"><i class="icon-plus"></i> Create Sales</a>
+                <a href="/due-sales-payment-create" class="" style="background-color: rgb(31, 73, 124);color:aliceblue;padding:6px;border-radius:10px"><i class="icon-plus"></i> Due Payment Create</a>
             </div>
         </div>
 
 
         <div>
-            {{-- <form action="/search-vendor-invoice" method="POST" class="row pt-5" style="width:50%;height:40%;display:flex;justify-content:center;padding:.2rem;margin:.9rem 5rem">
+            <form action="/search-customer-due-payment" method="GET" class="row pt-5" style="width:50%;height:40%;display:flex;justify-content:center;padding:.2rem;margin:.9rem 5rem">
                 @csrf
                 @php
                     $customers = App\Models\Customer::all();
@@ -120,40 +120,7 @@
                     @endforeach
                 </select>
                 <button type="submit" class="col-md-3 btn btn-success" style="font-size:1.2rem;width:100px;height:32px">Search </button>
-            </form> --}}
-
-            <form action="{{ url('/search-sales-invoice') }}" method="GET" style="display: flex;justify-content:center; flex-wrap:wrap">
-                @csrf
-                <div class=" col-md-1" style="margin: 0px 10px">
-                    <h4>Customers</h4>
-                    @php
-                        $customers = App\Models\Customer::all();
-                    @endphp
-                    <label for="">  </label>
-                    <select type="text" name="customer_id" id="customer_id">
-                        <option style="font-size:1.1rem" value="all">All Customers</option>
-                        @foreach ($customers as $customer)
-                            <option style="font-size:1.1rem" value="{{ $customer->id }}" {{ session('selectedCustomerId') == $customer->id ? 'selected' : '' }}>{{ $customer->name }}</option>
-                        @endforeach
-                    </select>
-                </div>
-                <div class="col-md-1" style="margin: 0px 10px">
-                    <h4>From</h4>
-                    <div class="">
-                        <input type="date" name="date_from" id="date_from" placeholder="2018-07-03" value="{{ request()->input('date_from') }}">
-                    </div>
-                </div>
-                <div class="col-md-1" style="margin: 0px 10px">
-                    <h4>To</h4>
-                    <div class="">
-                        <input type="date" name="date_to" id="date_to" placeholder="2018-07-03" value="{{ request()->input('date_to') }}">
-                    </div>
-                </div>
-                <button class="col-md-1 btn btn-success" type="submit" style="height: 2.3rem;margin:2rem 1rem">Search</button>
             </form>
-
-
-
         </div>
 
         @php
@@ -165,68 +132,54 @@
             <table class="table table-striped table-bordered bootstrap-datatable datatable">
               <thead>
                   <tr>
-                      <th>Invoice Id</th>
+                      <th>Id</th>
                       <th>Customer Id</th>
-                      <th>Sub Total</th>
+                      <th>Paid Amount</th>
                       <th>Discount</th>
-                      <th>Total</th>
-                      <th>Paid</th>
-                      <th>Due</th>
-                      <th>Status</th>
+                      <th>Description</th>
                       <th>Actions</th>
                   </tr>
               </thead>
 
               <tbody>
-                @foreach ($sales_invoices as $key => $invoice )
+            @foreach ($paid_invoices as $key => $invoice )
 
                 @php
-                    $total += $invoice->total;
-                    $paid += $invoice->paid;
-                    $due += $invoice->due;
-                    $customer_id = $invoice->customer_id;
+                    $paid += $invoice->paid_amount;
 
                 @endphp
 
 
                     <tr>
-                        {{-- <td class="center">#INV-000{{ $key+1 }}</td> --}}
-                        <td class="center">#INV-000{{ $invoice->id }}</td>
+                        <td class="center">#INV-000{{ $key+1 }}</td>
                         <td class="center">{{ $invoice->customer_id }}</td>
-                        <td class="center">{{ $invoice->sub_total }}</td>
+                        <td class="center">{{ $invoice->paid_amount }}</td>
                         <td class="center">{{ $invoice->discount }}</td>
-                        <td class="center">{{ $invoice->total }}</td>
-                        <td class="center">{{ $invoice->paid }}</td>
-                        <td class="center">{{ $invoice->due }}</td>
-                        <td class="center">{{ $invoice->status }}</td>
-
+                        <td class="center">{{ $invoice->description }}</td>
                         <td class="center">
 
-                            <div class="span2">
-
-                                <a class="btn btn-info" href="{{url('/sales-invoice-edit/'.$invoice->id)}}" style="margin-left:.1rem;border-radius:25%">
-                                    <i class="halflings-icon white edit"></i>
-                                </a>
+                        </td>
+                        <td>
+                            <div class="dropdown">
+                                <div class="">
+                                <select name="name" style="width: 50%;border-radius:70px">
+                                    <option  value="">select</option>
+                                    <option  value="index"><a href="{{ url('#') }}"> Details </a> </option>
+                                    <option  value="index"><a href="{{ url('#') }}"> Edit </a> </option>
+                                    <option  value="index"><a href="{{ url('#') }}"> Delete </a> </option>
+                                    <option  value="index"><a href="{{ url('#') }}"> Pdf </a> </option>
+                                </select>
+                                </div>
                             </div>
-
                         </td>
                     </tr>
 
-                @endforeach
+            @endforeach
                 </tr>
-            </tbody>
+              </tbody>
           </table>
-
-                @php
-
-                $paid_invoice =  App\Models\Due_Sales_Payment::where('customer_id',$customer_id )->sum('paid_amount');
-                $total_due = $due - $paid_invoice;
-                @endphp
-
                 <div style="float: right;margin:4rem 2rem;background-color:#d9d9ebc6;padding:8px;width:21%;">
-                    <p style="font-weight:bold;font-size:1rem">Total: {{ $total }}  </p>
                     <p style="font-weight:bold;font-size:1rem">Total Paid: {{ $paid }} </p>
-                    <p style="font-weight:bold;font-size:1rem">Total Due: {{ $total_due}} </p>
                 </div>
         </div>
     </div>

@@ -84,6 +84,7 @@ Route::post('/customer-invoice-add',[CustomerController::class,'CustomerInvoiceA
 Route::get('/search-invoice/{id}',[CustomerController::class,'searchInvoice']);
 Route::get('/invoice-details/{id}',[CustomerController::class,'invoiceDetails']);
 
+Route::get('/search-sales-invoice',[CustomerController::class,'searchCustomer']);
 
 Route::get('/all-sales-invoice',[SalesProductController::class,'allSalesInv']);
 Route::get('/sales_invoice',[SalesProductController::class,'SalesInvoice']);
@@ -99,8 +100,10 @@ Route::post('/return-sales-invoice-store',[SalesProductController::class,'return
 Route::get('/all-return-sales-invoice',[SalesProductController::class,'allReturnSalesInvoiceStore']);
 Route::get('/return-sales-invoice-edit/{id}',[SalesProductController::class,'returnSalesInvoiceEdit']);
 
-
-
+Route::get('/due-sales-payment',[SalesProductController::class,'duePaySales']);
+Route::get('/due-sales-payment-create',[SalesProductController::class,'duePayInvoiceCreate']);
+Route::post('/due-sales-payment-store',[SalesProductController::class,'duePayInvoiceStore']);
+Route::get('/search-customer-due-payment',[SalesProductController::class,'customerDuePayInvoices']);
 
 Route::get('/show-vendor',[VendorController::class,'showVendor']);
 Route::post('/vendor-create',[VendorController::class,'storeVendor']);
@@ -143,6 +146,7 @@ Route::get('/search-expence-invoice',[VendorController::class,'searchExpence']);
 Route::get('/company-info',[VendorController::class,'companyInfo']);
 Route::post('/company-info-create',[VendorController::class,'comInfoStore']);
 
+Route::get('/search-purchase-invoice',[VendorController::class,'searchVendor']);
 
 
 
