@@ -105,7 +105,7 @@
 
 
         <div>
-            <form action="/search-vendor-invoice" method="POST" class="row pt-5" style="width:50%;height:40%;display:flex;justify-content:center;padding:.2rem;margin:.9rem 5rem">
+            <form action="/due-vendor-payment" method="GET" class="row pt-5" style="width:50%;height:40%;display:flex;justify-content:center;padding:.2rem;margin:.9rem 5rem">
                 @csrf
                 @php
                     $vendors = App\Models\Vendor::all();
@@ -116,7 +116,7 @@
 
                     <option style="font-size:1.1rem" value="all">All</option>
                     @foreach ($vendors as $vendor )
-                    <option style="font-size:1.1rem" value="{{ $vendor->id }}">{{ $vendor->name  }}</option>
+                    <option style="font-size:1.1rem" value="{{ $vendor->id }}" {{ session('selectedVendorId') == $vendor->id ? 'selected' : '' }}>{{ $vendor->name }}</option>
                     @endforeach
                 </select>
                 <button type="submit" class="col-md-3 btn btn-success" style="font-size:1.2rem;width:100px;height:32px">Search </button>
@@ -135,6 +135,7 @@
                       <th>Id</th>
                       <th>Vendor Id</th>
                       <th>Paid Amount</th>
+                      <th>Discount</th>
                       <th>Description</th>
                       <th>Actions</th>
                   </tr>
@@ -154,6 +155,7 @@
                         {{-- <td class="center">{{ $invoice->id }}</td> --}}
                         <td class="center">{{ $invoice->vendor_id }}</td>
                         <td class="center">{{ $invoice->paid_amount }}</td>
+                        <td class="center">{{ $invoice->discount }}</td>
                         <td class="center">{{ $invoice->description }}</td>
                         <td class="center">
 

@@ -131,6 +131,7 @@ Route::post('/search-vendor-invoice',[VendorController::class,'searchVInvoice'])
 Route::get('/due-payment-invoice',[VendorController::class,'duePayInvoice']);
 Route::get('/due-payment-invoice-create',[VendorController::class,'duePayInvoiceCreate']);
 Route::post('/due-payment-invoice-store',[VendorController::class,'duePayInvoiceStore']);
+Route::get('/due-vendor-payment',[VendorController::class,'vendorDuePayInvoices']);
 
 
 

@@ -99,7 +99,7 @@
                                 <li><a class="submenu" href="/invest"><i class="icon-plus"></i><span class="hidden-tablet"> Amount-add </span></a></li>
                                 <li><a class="submenu" href="/invest_return"><i class="icon-minus"></i><span class="hidden-tablet"> Amount-return </span></a></li>
                                 <li><a class="submenu" href="/investors_statement"><i class="icon-minus"></i><span class="hidden-tablet">Investor Statement </span></a></li>
-                                <li><a class="submenu" href="/investors_invoice"><i class="icon-minus"></i><span class="hidden-tablet">Investor Invoices </span></a></li>
+                                {{-- <li><a class="submenu" href="/investors_invoice"><i class="icon-minus"></i><span class="hidden-tablet">Investor Invoices </span></a></li> importent --}}
 
                             </ul>
                         </li>
@@ -108,11 +108,11 @@
                             <a class="dropmenu" href="#"><i class="icon-folder-close-alt"></i><span class="hidden-tablet"> Sales & Payment </span><span class="icon-arrow"></span></a>
                             <ul>
                                 <li><a class="submenu" href="/customer_invoice"><i class="icon-plus"></i><span class="hidden-tablet"> Invoice </span></a></li>
-                                <li><a class="submenu" href="#"><i class="icon-plus"></i><span class="hidden-tablet"> Invoice Return </span></a></li>
+                                {{-- <li><a class="submenu" href="#"><i class="icon-plus"></i><span class="hidden-tablet"> Invoice Return </span></a></li> --}}
                                 <li><a class="submenu" href="/all-sales-invoice"><i class="icon-plus"></i><span class="hidden-tablet"> All Sales Invoice </span></a></li>
                                 <li><a class="submenu" href="/all-customer"><i class="icon-eye-open"></i><span class="hidden-tablet"> Customer </span></a></li>
                                 <li><a class="submenu" href="/all-return-sales-invoice"><i class="icon-eye-open"></i><span class="hidden-tablet"> Return Sales Invoice  </span></a></li>
-                                <li><a class="submenu" href="/due-sales-payment"><i class="icon-eye-open"></i><span class="hidden-tablet"> Due Sales Payment  </span></a></li> 
+                                <li><a class="submenu" href="/due-sales-payment"><i class="icon-eye-open"></i><span class="hidden-tablet"> Due Sales Payment  </span></a></li>
 
 
                             </ul>

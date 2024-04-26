@@ -429,10 +429,14 @@ nav.shift ul li a:hover:after {
                         @foreach ($sales_edits as $key=>$edit )
                         {{-- @dd($edit->invoice_id); --}}
                     <tr>
-
+                        @php
+                            $items = App\Models\StockProduct::where('code',$edit->code)->get();
+                        @endphp
                         <td>
                                 <select class="form-control selectProduct"  name="product_id[]"  value="{{ $edit->product_id }} style="width: 10rem" required>
-                                    <option value="">select</option>
+                                    @foreach ($items as $item )
+                                        <option value="">{{ $item->name }}</option>
+                                    @endforeach
 
                                     @php
                                         $products = App\Models\StockProduct::all();

@@ -171,6 +171,7 @@
                       <th>Total</th>
                       <th>Paid</th>
                       <th>Due</th>
+                      <th>Status</th>
                       <th>Actions</th>
                   </tr>
               </thead>
@@ -201,25 +202,7 @@
                         <td class="center">{{ $invoice->total }}</td>
                         <td class="center">{{ $invoice->paid }}</td>
                         <td class="center">{{ $invoice->due }}</td>
-                        {{-- <td class="center">
-
-                            <div class="span2">
-
-                                <a class="btn btn-info" href="{{url('/invoice-edit/'.$invoice->id)}}" style="margin-left:.1rem;border-radius:25%">
-                                    <i class="halflings-icon white edit"></i>
-                                </a>
-                            </div>
-
-                            <div class="span2">
-                                <form method="post" action="{{ url('/invoice-delete/'.$invoice->id ) }}" style="margin-left:1rem">
-                                    @csrf
-                                    @method('DELETE')
-                                    <button type="submit" class="btn btn-danger"> <i class="halflings-icon white trash"></i></button>
-
-                                </form>
-                            </div>
-
-                        </td> --}}
+                        <td class="center">{{ $invoice->status }}</td>
                         <td>
                             <div class="span2">
 
@@ -233,17 +216,63 @@
                 @endforeach
                 </tr>
               </tbody>
-          </table>
+            </table>
+            <table class="table table-striped table-bordered bootstrap-datatable datatable">
+                <h3 style="text-align: center; margin:2rem 0px">Due Paid Information</h3>
+              <thead>
+                  <tr>
+                      <th>Invoice Id</th>
+                      <th>Vendor Id</th>
+                      <th>Paid Amount</th>
+                      <th>Discount</th>
+                      <th>Discription</th>
+                      <th>Actions</th>
+                  </tr>
+              </thead>
+              @php
+                  $paid_amount=0;
+                  $discount=0;
+              @endphp
+              <tbody>
+                  @foreach ($due_paid_purchase as $key => $invoice )
+                @php
+                $paid_amount += $invoice->paid_amount;
+                $discount += $invoice->discount;
+              @endphp
+
+                    <tr>
+                        <td class="center">{{  $invoice->id}}</td>
+
+
+                        <td class="center">{{ $invoice->vendor_id }}</td>
+                        <td class="center">{{ $invoice->paid_amount }}</td>
+                        <td class="center">{{ $invoice->discount }}</td>
+                        <td class="center">{{ $invoice->description }}</td>
+                        <td>
+                            <div class="span2">
+
+                                <a class="btn btn-info" href="{{url('/purchase-invoice-edit/'.$invoice->invoice_id)}}" style="margin-left:.1rem;border-radius:25%">
+                                    <i class="halflings-icon white edit"></i>
+                                </a>
+                            </div>
+                        </td>
+                    </tr>
+
+                @endforeach
+                </tr>
+              </tbody>
+            </table>
           @php
-            // @dd($vendor_id);
-            $paid_invoice =  App\Models\Paid::where('vendor_id',$vendor_id )->sum('paid_amount');
-            $total_due = $due - $paid_invoice;
+        //   dd($paid_amount);
+            // $paid_invoice =  App\Models\Paid::where('vendor_id',$vendor_id )->sum('paid_amount');
+            // $discount =  App\Models\Paid::where('vendor_id',$vendor_id )->sum('discount');
+            $total_due = $due - $paid_amount - $discount;
           @endphp
-                <div style="float: right;margin:4rem 2rem;background-color:#d9d9ebc6;padding:8px;width:21%;">
-                    <p style="font-weight:bold;font-size:1rem">Total: {{ $total }}  </p>
-                    <p style="font-weight:bold;font-size:1rem">Total Paid: {{ $paid }} </p>
-                    <p style="font-weight:bold;font-size:1rem">Total Due: {{ $total_due }} </p>
-                </div>
+            <div style="float: right;margin:4rem 2rem;background-color:#d9d9ebc6;padding:8px;width:21%;">
+                <p style="font-weight:bold;font-size:1rem">Total: {{ $total }}  </p>
+                <p style="font-weight:bold;font-size:1rem">Total Paid: {{ $paid }} </p>
+                <p style="font-weight:bold;font-size:1rem">Total Due: {{ $total_due }} </p>
+            </div>
         </div>
     </div>
 </div>

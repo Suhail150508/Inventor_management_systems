@@ -18,10 +18,11 @@ class SalesProductController extends Controller
 {
     public function allSalesInv(){
         $sales_invoices = Sales_invoice::orderByRaw("CASE WHEN status = 'Unpaid' THEN 0 ELSE 1 END") // Order unpaid first
-        ->orderBy('created_at', 'desc') // Then order by creation date
-        ->get(); // Retrieve the records
-        // dd($sales_invoices);
-        return view('sales.all_sales_invoice',compact('sales_invoices'));
+        ->orderBy('created_at', 'desc')
+        ->paginate(6); // Retrieve the records
+
+        $due_sales_payment = Due_Sales_Payment::paginate(5);
+        return view('sales.all_sales_invoice',compact('sales_invoices','due_sales_payment'));
     }
     public function SalesInvoice(){
         return view('sales.sales_invoice_create');
@@ -412,6 +413,8 @@ class SalesProductController extends Controller
         }
 
         $paid_invoices = Due_Sales_Payment::where('customer_id', $request->customer_id)->get();
+
+        session(['selectedCustomerId' => $request->customer_id]);
 
         return view('sales.due_sales_payment',compact('paid_invoices'));
     }

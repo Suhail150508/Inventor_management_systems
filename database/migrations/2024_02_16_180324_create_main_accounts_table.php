@@ -12,16 +12,16 @@ return new class extends Migration
     public function up(): void
     {
         Schema::create('main_accounts', function (Blueprint $table) {
-            $table->bigIncrements('id')->unsigned();
-            $table->double('total_amount')->unsigned()->nullable();
-            $table->foreignId('amount_invest_id')->constrained('amount_invests')->unsigned()->nullable();
-            $table->foreignId('amount_withdraw_id')->constrained('amount_withdraws')->unsigned()->nullable();
-            $table->foreignId('purchase_id')->constrained('purchases')->unsigned()->nullable();
-            $table->foreignId('purchase_return_id')->constrained('purchase_returns')->unsigned()->nullable();
-            $table->foreignId('sales_product_id')->constrained('sales_products')->unsigned()->nullable();
-            $table->foreignId('return_product_id')->constrained('return_products')->unsigned()->nullable();
-            $table->float('unit_amount')->unsigned()->nullable();
-            $table->float('sales_amount')->unsigned()->nullable();
+            $table->bigIncrements('id');
+            $table->double('total_amount')->nullable();
+            $table->integer('amount_invest_id')->nullable();
+            $table->integer('amount_withdraw_id')->nullable();
+            $table->integer('purchase_id')->nullable();
+            $table->integer('purchase_return_id')->nullable();
+            $table->integer('sales_product_id')->nullable();
+            $table->integer('return_product_id')->nullable();
+            $table->float('unit_amount')->nullable();
+            $table->float('sales_amount')->nullable();
 			$table->integer('created_by')->nullable();
 			$table->integer('updated_by')->nullable();
             $table->timestamps();

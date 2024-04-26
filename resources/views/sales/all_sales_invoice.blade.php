@@ -105,23 +105,6 @@
 
 
         <div>
-            {{-- <form action="/search-vendor-invoice" method="POST" class="row pt-5" style="width:50%;height:40%;display:flex;justify-content:center;padding:.2rem;margin:.9rem 5rem">
-                @csrf
-                @php
-                    $customers = App\Models\Customer::all();
-                @endphp
-
-                <strong style="font-size:1.2rem" for=""> Customers </strong>
-                <select  name="customer_id"  id="selectField">
-
-                    <option style="font-size:1.1rem" value="all">All</option>
-                    @foreach ($customers as $customer )
-                    <option style="font-size:1.1rem" value="{{ $customer->id }}">{{ $customer->name  }}</option>
-                    @endforeach
-                </select>
-                <button type="submit" class="col-md-3 btn btn-success" style="font-size:1.2rem;width:100px;height:32px">Search </button>
-            </form> --}}
-
             <form action="{{ url('/search-sales-invoice') }}" method="GET" style="display: flex;justify-content:center; flex-wrap:wrap">
                 @csrf
                 <div class=" col-md-1" style="margin: 0px 10px">
@@ -163,64 +146,113 @@
         @endphp
         <div class="box-content">
             <table class="table table-striped table-bordered bootstrap-datatable datatable">
-              <thead>
-                  <tr>
-                      <th>Invoice Id</th>
-                      <th>Customer Id</th>
-                      <th>Sub Total</th>
-                      <th>Discount</th>
-                      <th>Total</th>
-                      <th>Paid</th>
-                      <th>Due</th>
-                      <th>Status</th>
-                      <th>Actions</th>
-                  </tr>
-              </thead>
-
-              <tbody>
-                @foreach ($sales_invoices as $key => $invoice )
-
-                @php
-                    $total += $invoice->total;
-                    $paid += $invoice->paid;
-                    $due += $invoice->due;
-                    $customer_id = $invoice->customer_id;
-
-                @endphp
-
-
+                <thead>
                     <tr>
-                        {{-- <td class="center">#INV-000{{ $key+1 }}</td> --}}
-                        <td class="center">#INV-000{{ $invoice->id }}</td>
-                        <td class="center">{{ $invoice->customer_id }}</td>
-                        <td class="center">{{ $invoice->sub_total }}</td>
-                        <td class="center">{{ $invoice->discount }}</td>
-                        <td class="center">{{ $invoice->total }}</td>
-                        <td class="center">{{ $invoice->paid }}</td>
-                        <td class="center">{{ $invoice->due }}</td>
-                        <td class="center">{{ $invoice->status }}</td>
-
-                        <td class="center">
-
-                            <div class="span2">
-
-                                <a class="btn btn-info" href="{{url('/sales-invoice-edit/'.$invoice->id)}}" style="margin-left:.1rem;border-radius:25%">
-                                    <i class="halflings-icon white edit"></i>
-                                </a>
-                            </div>
-
-                        </td>
+                        <th>Invoice Id</th>
+                        <th>Customer Id</th>
+                        <th>Sub Total</th>
+                        <th>Discount</th>
+                        <th>Total</th>
+                        <th>Paid</th>
+                        <th>Due</th>
+                        <th>Status</th>
+                        <th>Actions</th>
                     </tr>
+                </thead>
 
-                @endforeach
-                </tr>
-            </tbody>
-          </table>
+                <tbody>
+                    @foreach ($sales_invoices as $key => $invoice )
+
+                        @php
+                            $total += $invoice->total;
+                            $paid += $invoice->paid;
+                            $due += $invoice->due;
+                            $customer_id = $invoice->customer_id;
+
+                        @endphp
+
+
+                        <tr>
+                            {{-- <td class="center">#INV-000{{ $key+1 }}</td> --}}
+                            <td class="center">#INV-000{{ $invoice->id }}</td>
+                            <td class="center">{{ $invoice->customer_id }}</td>
+                            <td class="center">{{ $invoice->sub_total }}</td>
+                            <td class="center">{{ $invoice->discount }}</td>
+                            <td class="center">{{ $invoice->total }}</td>
+                            <td class="center">{{ $invoice->paid }}</td>
+                            <td class="center">{{ $invoice->due }}</td>
+                            <td class="center">{{ $invoice->status }}</td>
+
+                            <td class="center">
+
+                                <div class="span2">
+
+                                    <a class="btn btn-info" href="{{url('/sales-invoice-edit/'.$invoice->id)}}" style="margin-left:.1rem;border-radius:25%">
+                                        <i class="halflings-icon white edit"></i>
+                                    </a>
+                                </div>
+
+                            </td>
+                        </tr>
+
+                    @endforeach
+                    </tr>
+                </tbody>
+            </table>
+            <table class="table table-striped table-bordered bootstrap-datatable datatable">
+
+                    <h3 style="text-align: center;margin:2rem 0px"> Due Paid Information</h3>
+                <thead>
+                    <tr>
+                        <th>Invoice Id</th>
+                        <th>Customer Id</th>
+                        <th>Paid Amount</th>
+                        <th>Discount</th>
+                        <th>Discription</th>
+                        <th>Actions</th>
+                    </tr>
+                </thead>
+                        @php
+                            $paid_amount =0;
+                            $discount = 0;
+                        @endphp
+                <tbody>
+                    @foreach ($due_sales_payment as $key => $invoice )
+
+                        @php
+                            $paid_amount += $invoice->paid_amount;
+                            $discount += $invoice->discount;
+
+                        @endphp
+
+
+                        <tr>
+                            {{-- <td class="center">#INV-000{{ $key+1 }}</td> --}}
+                            <td class="center">#INV-000{{ $invoice->id }}</td>
+                            <td class="center">{{ $invoice->customer_id }}</td>
+                            <td class="center">{{ $invoice->paid_amount }}</td>
+                            <td class="center">{{ $invoice->discount }}</td>
+                            <td class="center">{{ $invoice->description }}</td>
+
+                            <td class="center">
+
+                                <div class="span2">
+
+                                    <a class="btn btn-info" href="{{url('/sales-invoice-edit/'.$invoice->id)}}" style="margin-left:.1rem;border-radius:25%">
+                                        <i class="halflings-icon white edit"></i>
+                                    </a>
+                                </div>
+
+                            </td>
+                        </tr>
+
+                    @endforeach
+                    </tr>
+                </tbody>
+            </table>
 
                 @php
-
-                $paid_invoice =  App\Models\Due_Sales_Payment::where('customer_id',$customer_id )->sum('paid_amount');
-                $total_due = $due - $paid_invoice;
+                $total_due = $due - $paid_amount - $discount;
                 @endphp
 
                 <div style="float: right;margin:4rem 2rem;background-color:#d9d9ebc6;padding:8px;width:21%;">

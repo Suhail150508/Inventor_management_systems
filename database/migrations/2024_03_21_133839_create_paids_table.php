@@ -15,6 +15,7 @@ return new class extends Migration
             $table->bigIncrements('id');
             $table->unsignedBigInteger('vendor_id')->nullable();
             $table->integer('paid_amount')->nullable();
+            $table->integer('discount')->nullable();
             $table->string('description')->nullable();
             $table->timestamps();
         });

@@ -115,15 +115,14 @@ public function searchCustomer(Request $request){
     $customer_id = $request->input('customer_id');
     $date_from = $request->input('date_from');
     $date_to = $request->input('date_to');
-    // $all = $request->input('all');
+
     $sales_invoices = Sales_invoice::all();
     $query = Sales_Invoice::query();
 
     if ($customer_id =='all') {
         session(['selectedCustomerId' => $customer_id]);
-        // $paid_invoice = Due_Sales_Payment::sum('paid_amount');
-        return view('sales.all_sales_invoice',compact('sales_invoices'));
-        // return view('sales.all_sales_invoice',compact('sales_invoices','paid_invoice'));
+        $due_sales_payment = Due_Sales_Payment::all();
+        return view('sales.all_sales_invoice',compact('sales_invoices','due_sales_payment'));
     }
 
     if (!empty($customer_id)) {
@@ -141,7 +140,9 @@ public function searchCustomer(Request $request){
 
     $sales_invoices = $query->get();
 
-    return view('sales.all_sales_invoice',compact('sales_invoices'));
+    $due_sales_payment = Due_Sales_Payment::where('customer_id',$customer_id)->get();
+
+    return view('sales.all_sales_invoice',compact('sales_invoices','due_sales_payment'));
 
 }
 

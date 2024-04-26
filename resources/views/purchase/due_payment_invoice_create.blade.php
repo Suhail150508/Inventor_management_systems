@@ -180,6 +180,11 @@ form .form-row .textarea{
                </div>
                <div class="form-row">
                   <div class="input-data">
+                     <input type="text" name="discount">
+                     <div class="underline"></div>
+                     <label for="">Discount</label>
+                  </div>
+                  <div class="input-data">
                      <input type="text" required name="description">
                      <div class="underline"></div>
                      <label for="">Description</label>

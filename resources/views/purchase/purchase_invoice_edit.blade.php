@@ -6,394 +6,400 @@
     <link href="//netdna.bootstrapcdn.com/bootstrap/3.0.0/css/bootstrap.min.css" rel="stylesheet" id="bootstrap-css">
 <style>
 
-body {
-  /* margin: 0;
-  padding: 0; */
-  font-family: Arial, sans-serif;
-}
-
-.card {
-  width: 100%;
-  margin: 50px auto;
-  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
-  border-radius: 10px;
-}
-
-.container {
-  padding: 20px;
-}
-
-.header {
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-}
-
-.actions .btn {
-  padding: 10px 15px;
-  border: none;
-  border-radius: 5px;
-  cursor: pointer;
-  transition: background-color 0.3s ease;
-}
-
-.actions .btn:hover {
-  background-color: #66e4b4;
-}
-
-.logo {
-  text-align: center;
-  margin-bottom: 20px;
-}
-
-.address-details {
-  display: flex;
-  /* justify-content: space-between; */
-}
-
-.address,
-.invoice-details {
-  flex: 1;
-  /* margin-left: 6% */
-}
-
-.address ul,
-.invoice-details ul {
-  list-style: none;
-  padding: 0;
-}
-
-.invoice-details .badge {
-  background-color: #ffc107;
-  color: #000;
-}
-
-.table-container {
-  overflow-x: auto;
-  margin-bottom: 20px;
-}
-
-table {
-  width: 100%;
-  border-collapse: collapse;
-}
-
-thead {
-  background-color: #84b0ca;
-  color: #fff;
-}
-
-thead th,
-tbody td {
-  padding: 10px;
-  text-align: left;
-}
-
-.additional-info p {
-  margin-top: 80px;
-}
-
-.total ul {
-  list-style: none;
-  padding: 0;
-}
-
-.total span {
-  font-size: 25px;
-  font-weight: bold;
-}
-
-.purchase-info {
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-}
-
-#pay-now-btn {
-  padding: 10px 20px;
-  background-color: #60bdf3;
-  color: #fff;
-  border: none;
-  border-radius: 5px;
-  cursor: pointer;
-  transition: background-color 0.3s ease;
-}
-
-#pay-now-btn:hover {
-  background-color: #3c8dbc;
-}
-
-
-
-
-
-
-/* body {
-  font-family: 'Roboto', sans-serif;
-  padding: 0;
-  margin: 0;
-} */
-
-small {
-  font-size: 12px;
-  color: rgba(0, 0, 0, 0.4);
-}
-
-h1 {
-  text-align: center;
-  padding: 50px 0;
-  font-weight: 800;
-  margin: 0;
-  letter-spacing: -1px;
-  color: inherit;
-  font-size: 40px;
-}
-
-h2 {
-  text-align: center;
-  font-size: 30px;
-  margin: 0;
-  font-weight: 300;
-  color: inherit;
-  padding: 50px;
-}
-
-.center {
-  text-align: center;
-}
-
-/* NAVIGATION */
-nav {
-  width: 80%;
-  margin: 0 auto;
-  background: #fff;
-  padding: 50px 0;
-  box-shadow: 0px 5px 0px #dedede;
-}
-nav ul {
-  list-style: none;
-  text-align: center;
-}
-nav ul li {
-  display: inline-block;
-}
-nav ul li a {
-  display: block;
-  padding: 15px;
-  text-decoration: none;
-  color: #aaa;
-  font-weight: 800;
-  text-transform: uppercase;
-  margin: 0 10px;
-}
-nav ul li a,
-nav ul li a:after,
-nav ul li a:before {
-  transition: all .5s;
-}
-nav ul li a:hover {
-  color: #555;
-}
-
-
-/* stroke */
-nav.stroke ul li a,
-nav.fill ul li a {
-  position: relative;
-}
-nav.stroke ul li a:after,
-nav.fill ul li a:after {
-  position: absolute;
-  bottom: 0;
-  left: 0;
-  right: 0;
-  margin: auto;
-  width: 0%;
-  content: '.';
-  color: transparent;
-  background: #aaa;
-  height: 1px;
-}
-nav.stroke ul li a:hover:after {
-  width: 100%;
-}
-
-nav.fill ul li a {
-  transition: all 2s;
-}
-
-nav.fill ul li a:after {
-  text-align: left;
-  content: '.';
-  margin: 0;
-  opacity: 0;
-}
-nav.fill ul li a:hover {
-  color: #fff;
-  z-index: 1;
-}
-nav.fill ul li a:hover:after {
-  z-index: -10;
-  animation: fill 1s forwards;
-  -webkit-animation: fill 1s forwards;
-  -moz-animation: fill 1s forwards;
-  opacity: 1;
-}
-
-/* Circle */
-nav.circle ul li a {
-  position: relative;
-  overflow: hidden;
-  z-index: 1;
-}
-nav.circle ul li a:after {
-  display: block;
-  position: absolute;
-  margin: 0;
-  top: 0;
-  bottom: 0;
-  left: 0;
-  right: 0;
-  content: '.';
-  color: transparent;
-  width: 1px;
-  height: 1px;
-  border-radius: 50%;
-  background: transparent;
-}
-nav.circle ul li a:hover:after {
-  -webkit-animation: circle 1.5s ease-in forwards;
-}
-
-/* SHIFT */
-nav.shift ul li a {
-  position:relative;
-  z-index: 1;
-}
-nav.shift ul li a:hover {
-  color: #91640F;
-}
-nav.shift ul li a:after {
-  display: block;
-  position: absolute;
-  top: 0;
-  left: 0;
-  bottom: 0;
-  right: 0;
-  margin: auto;
-  width: 100%;
-  height: 1px;
-  content: '.';
-  color: transparent;
-  background: #F1C40F;
-  border-radius: 3px;
-  visibility: none;
-  opacity: 0;
-  z-index: -1;
-}
-nav.shift ul li a:hover:after {
-  opacity: 1;
-  visibility: visible;
-  height: 100%;
-}
-
-.customer{
-        border:0px  white;
+    body {
+    /* margin: 0;
+    padding: 0; */
+    font-family: Arial, sans-serif;
     }
 
-/* Keyframes */
-@-webkit-keyframes fill {
-  0% {
-    width: 0%;
-    height: 1px;
-  }
-  50% {
+    .card {
     width: 100%;
-    height: 1px;
-  }
-  100% {
-    width: 100%;
-    height: 100%;
-    background: #333;
-  }
-}
-
-/* Keyframes */
-@-webkit-keyframes circle {
-  0% {
-    width: 1px;
-    top: 0;
-    left: 0;
-    bottom: 0;
-    right: 0;
-    margin: auto;
-    height: 1px;
-    z-index: -1;
-    background: #eee;
-    border-radius: 100%;
-  }
-  100% {
-    background: #aaa;
-    height: 5000%;
-    width: 5000%;
-    z-index: -1;
-    top: 0;
-    bottom: 0;
-    left: 0;
-    right: 0;
-    margin: auto;
-    border-radius: 0;
-  }
-}
-
-@media print{
-    .btn{
-        display: none;
+    margin: 50px auto;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    border-radius: 10px;
     }
-    /* .form-control{
-        border: 0px;
+
+    .container {
+    padding: 20px;
+    }
+
+    .header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    }
+
+    .actions .btn {
+    padding: 10px 15px;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+    }
+
+    .actions .btn:hover {
+    background-color: #66e4b4;
+    }
+
+    .logo {
+    text-align: center;
+    margin-bottom: 20px;
+    }
+
+    .address-details {
+    display: flex;
+    /* justify-content: space-between; */
+    }
+
+    .address,
+    .invoice-details {
+    flex: 1;
+    /* margin-left: 6% */
+    }
+
+    .address ul,
+    .invoice-details ul {
+    list-style: none;
+    padding: 0;
+    }
+
+    .invoice-details .badge {
+    background-color: #ffc107;
+    color: #000;
+    }
+
+    .table-container {
+    overflow-x: auto;
+    margin-bottom: 20px;
+    }
+
+    table {
+    width: 100%;
+    border-collapse: collapse;
+    }
+
+    thead {
+    background-color: #84b0ca;
+    color: #fff;
+    }
+
+    thead th,
+    tbody td {
+    padding: 10px;
+    text-align: left;
+    }
+
+    .additional-info p {
+    margin-top: 80px;
+    }
+
+    .total ul {
+    list-style: none;
+    padding: 0;
+    }
+
+    .total span {
+    font-size: 25px;
+    font-weight: bold;
+    }
+
+    .purchase-info {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    }
+
+    #pay-now-btn {
+    padding: 10px 20px;
+    background-color: #60bdf3;
+    color: #fff;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+    }
+
+    #pay-now-btn:hover {
+    background-color: #3c8dbc;
+    }
+
+
+
+
+
+
+    /* body {
+    font-family: 'Roboto', sans-serif;
+    padding: 0;
+    margin: 0;
     } */
-    input .form-control{
-        border: 0px;
+
+    small {
+    font-size: 12px;
+    color: rgba(0, 0, 0, 0.4);
     }
-    .customer .form-controll{
-        display: none;
+
+    h1 {
+    text-align: center;
+    padding: 50px 0;
+    font-weight: 800;
+    margin: 0;
+    letter-spacing: -1px;
+    color: inherit;
+    font-size: 40px;
     }
+
+    h2 {
+    text-align: center;
+    font-size: 30px;
+    margin: 0;
+    font-weight: 300;
+    color: inherit;
+    padding: 50px;
+    }
+
+    .center {
+    text-align: center;
+    }
+
+    /* NAVIGATION */
+    nav {
+    width: 80%;
+    margin: 0 auto;
+    background: #fff;
+    padding: 50px 0;
+    box-shadow: 0px 5px 0px #dedede;
+    }
+    nav ul {
+    list-style: none;
+    text-align: center;
+    }
+    nav ul li {
+    display: inline-block;
+    }
+    nav ul li a {
+    display: block;
+    padding: 15px;
+    text-decoration: none;
+    color: #aaa;
+    font-weight: 800;
+    text-transform: uppercase;
+    margin: 0 10px;
+    }
+    nav ul li a,
+    nav ul li a:after,
+    nav ul li a:before {
+    transition: all .5s;
+    }
+    nav ul li a:hover {
+    color: #555;
+    }
+
+
+    /* stroke */
+    nav.stroke ul li a,
+    nav.fill ul li a {
+    position: relative;
+    }
+    nav.stroke ul li a:after,
+    nav.fill ul li a:after {
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    margin: auto;
+    width: 0%;
+    content: '.';
+    color: transparent;
+    background: #aaa;
+    height: 1px;
+    }
+    nav.stroke ul li a:hover:after {
+    width: 100%;
+    }
+
+    nav.fill ul li a {
+    transition: all 2s;
+    }
+
+    nav.fill ul li a:after {
+    text-align: left;
+    content: '.';
+    margin: 0;
+    opacity: 0;
+    }
+    nav.fill ul li a:hover {
+    color: #fff;
+    z-index: 1;
+    }
+    nav.fill ul li a:hover:after {
+    z-index: -10;
+    animation: fill 1s forwards;
+    -webkit-animation: fill 1s forwards;
+    -moz-animation: fill 1s forwards;
+    opacity: 1;
+    }
+
+    /* Circle */
+    nav.circle ul li a {
+    position: relative;
+    overflow: hidden;
+    z-index: 1;
+    }
+    nav.circle ul li a:after {
+    display: block;
+    position: absolute;
+    margin: 0;
+    top: 0;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    content: '.';
+    color: transparent;
+    width: 1px;
+    height: 1px;
+    border-radius: 50%;
+    background: transparent;
+    }
+    nav.circle ul li a:hover:after {
+    -webkit-animation: circle 1.5s ease-in forwards;
+    }
+
+    /* SHIFT */
+    nav.shift ul li a {
+    position:relative;
+    z-index: 1;
+    }
+    nav.shift ul li a:hover {
+    color: #91640F;
+    }
+    nav.shift ul li a:after {
+    display: block;
+    position: absolute;
+    top: 0;
+    left: 0;
+    bottom: 0;
+    right: 0;
+    margin: auto;
+    width: 100%;
+    height: 1px;
+    content: '.';
+    color: transparent;
+    background: #F1C40F;
+    border-radius: 3px;
+    visibility: none;
+    opacity: 0;
+    z-index: -1;
+    }
+    nav.shift ul li a:hover:after {
+    opacity: 1;
+    visibility: visible;
+    height: 100%;
+    }
+
     .customer{
-        border:2px solid #000;
-    }
-    .customer-heading {
-        /* display: block !important;
-        background-color:#aaa !important;
-        padding:4px; */
-        /* margin-top: -3rem; */
-        }
-        .form-controll2{
-            display: block;
-        }
-        .origin{
-            font-size: 2rem;
-            /* background-color: #aaa !important; */
-        }
-        .origin1{
-            background-color: #aaa !important;
-            height: 200px;
-            padding-top: 10px;
-        }
-        .first{
-            margin-right: -6rem;
-            width:300px;
-        }
-        .qt{
-            margin-top:-15rem;
-            /* width: 50px;
-            border-bottom:2px solid black; */
-        }
-        #dataContainer{
-            width:100px;
+            border:0px  white;
         }
 
-}
+    /* Keyframes */
+    @-webkit-keyframes fill {
+    0% {
+        width: 0%;
+        height: 1px;
+    }
+    50% {
+        width: 100%;
+        height: 1px;
+    }
+    100% {
+        width: 100%;
+        height: 100%;
+        background: #333;
+    }
+    }
+
+    /* Keyframes */
+    @-webkit-keyframes circle {
+    0% {
+        width: 1px;
+        top: 0;
+        left: 0;
+        bottom: 0;
+        right: 0;
+        margin: auto;
+        height: 1px;
+        z-index: -1;
+        background: #eee;
+        border-radius: 100%;
+    }
+    100% {
+        background: #aaa;
+        height: 5000%;
+        width: 5000%;
+        z-index: -1;
+        top: 0;
+        bottom: 0;
+        left: 0;
+        right: 0;
+        margin: auto;
+        border-radius: 0;
+    }
+    }
+
+    @media print{
+        .btn{
+            display: none;
+        }
+        /* .form-control{
+            border: 0px;
+        } */
+        input .form-control{
+            border: 0px;
+        }
+        .customer .form-controll{
+            display: none;
+        }
+        .customer{
+            border:2px solid #000;
+        }
+        .customer-heading {
+            /* display: block !important;
+            background-color:#aaa !important;
+            padding:4px; */
+            /* margin-top: -3rem; */
+            }
+            .form-controll2{
+                display: block;
+            }
+            .origin{
+                font-size: 2rem;
+                /* background-color: #aaa !important; */
+            }
+            .origin1{
+                background-color: #aaa !important;
+                height: 200px;
+                padding-top: 10px;
+            }
+            .first{
+                margin-right: -6rem;
+                width:300px;
+            }
+            h2{
+                margin-top:-15rem;
+                text-align: center;
+                /* font-size: 30px; */
+                /* margin: 35px; */
+                font-weight: 300;
+                color: tomato;
+                /* padding: 50px; */
+                /* width: 50px;
+                border-bottom:2px solid black; */
+            }
+            #dataContainer{
+                width:100px;
+            }
+
+    }
 
 </style>
 
@@ -428,7 +434,7 @@ nav.shift ul li a:hover:after {
 
                 </div>
                 <div>
-                    <h2 class="qt">Quetation </h2>
+                    {{-- <h2 class="qt">Quetation </h2> --}}
                 </div>
 
             <form action="/purchase-invoice-update" method="POST">
@@ -522,10 +528,15 @@ nav.shift ul li a:hover:after {
                     <tbody>
                     @foreach ($purchase_edits as $key=>$edit )
                         <tr>
+                            @php
+                                $items = App\Models\StockProduct::where('code',$edit->code)->get();
 
+                            @endphp
                             <td>
                                     <select class="form-control selectProduct"  name="product_id[]"  value="{{ $edit->product_id }} style="width: 10rem" required>
-                                        <option value="">select</option>
+                                        @foreach ($items as $item )
+                                        <option value="">{{ $item->name }}</option>
+                                        @endforeach
 
                                         @php
                                             $products = App\Models\StockProduct::all();
@@ -564,7 +575,7 @@ nav.shift ul li a:hover:after {
                     <strong style="font-size: 1.7rem">Select Status</strong>
                     <select class="form-control" name="status" id="status" required style="width:14rem">
 
-                        <option>Paid</option>
+                        <option >Paid</option>
                     </select>
                 </div>
 

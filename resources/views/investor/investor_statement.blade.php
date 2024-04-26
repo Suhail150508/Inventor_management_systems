@@ -571,7 +571,7 @@ form .form-row .textarea{
                             </select> --}}
 
                             <select type="text" name="id" id="date" placeholder="Name" class="form-control" style="border:2px solid rgb(0, 204, 255)">
-                                <option value="">select</option>
+                                <option value="">Search</option>
 
                                 @php
                                     $investors =App\Models\Investor::all();
@@ -586,13 +586,6 @@ form .form-row .textarea{
                     <div class=" col-md-3">
                         <h4>Category</h4>
                         <div class="">
-                            {{-- <select type="text" name="record" placeholder="Name" class="form-control" style="border:2px solid rgb(0, 204, 255)">
-                                <option style="font-size:1.1rem" value="">Select One</option>
-                                <option style="font-size:1.1rem" value="invest_record">Invest Amount Record</option>
-                                <option style="font-size:1.1rem" value="return_record">Return Amount Record</option>
-                                <option style="font-size:1.1rem" value="">All Record</option>
-                            </select> --}}
-
                             <select type="text" name="record" placeholder="Name" class="form-control" style="border:2px solid rgb(0, 204, 255)">
                                 <option style="font-size:1.1rem" value="">Select One</option>
                                 <option style="font-size:1.1rem" value="invest_record" {{ session('selectedRecord') == 'invest_record' ? 'selected' : '' }}>Invest Amount Record</option>
@@ -606,7 +599,6 @@ form .form-row .textarea{
                         <button type="submit" class="col-md-3 btn btn-success" style="font-size:1.2rem;width:100px;height:35px;border-radius:5px">Search </button>
 
                     </div>
-
 
                 </form>
 
@@ -631,7 +623,6 @@ form .form-row .textarea{
                     $investor_invest_amounts = @$investor_invest_amounts;
                     $investor_return_amounts = @$investor_return_amounts;
                     $joined_records = @$joined_records;
-                    // dd($joined_records['investor_all_record_invests']);
                     $investor_all_amounts = @$investor_all_amounts;
 
                     @endphp
@@ -668,7 +659,6 @@ form .form-row .textarea{
                                 @endphp
                                 <td>{{ $investor ? $investor->name : 'Unknown Investor' }}</td>
                                 <td>{{ $investor_invest->amount }}</td>
-                                {{-- <td>{{ $investor_invest->return_amount }}</td> --}}
                                 <td>{{ $investor_invest->category }}</td>
                                 <td>{{ $investor_invest->date }}</td>
                                 <td>{{ $investor_invest->amount - $investor_invest->return_amount }}</td>

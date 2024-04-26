@@ -566,8 +566,8 @@ form .form-row .textarea{
                 <thead>
                   <tr>
                     <th>Total Amount</th>
-                    <th>Due Amount</th>
-                    <th>Unit Amount</th>
+                    <th>Customer Due Amount</th>
+                    <th>Vendor Due Amount</th>
                   </tr>
                 </thead>
                 <tbody>
@@ -575,7 +575,8 @@ form .form-row .textarea{
                         <tr>
 
                             <td>&#2547:{{ $total_account}}</td>
-                            <td>&#2547: Due Account</td>
+                            <td>&#2547:{{ $customer_due_account}}</td>
+                            <td>&#2547:{{ $vendor_due_account}}</td>
 
                         </tr>
                 </tbody>

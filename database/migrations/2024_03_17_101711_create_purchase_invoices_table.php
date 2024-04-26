@@ -18,6 +18,7 @@ return new class extends Migration
             $table->double('discount')->nullable();
             $table->double('total')->nullable();
             $table->double('paid')->nullable();
+            $table->enum('status',['Paid','Unpaid'])->default('Paid');
             $table->double('due')->nullable();
             $table->timestamps();
             $table->softDeletes();

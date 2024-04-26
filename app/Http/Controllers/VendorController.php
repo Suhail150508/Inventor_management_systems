@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Models\Expence_Category;
 use App\Models\Expence_Invoice;
+use App\Models\Main_account;
 use App\Models\Return_Invoice;
 use App\Models\Return_Product_Invoice;
 use App\Models\Vendor;
@@ -66,43 +67,13 @@ class VendorController extends Controller
 
     public function purchaseInvoice(){
 
-        // $companies = Company::all();
-        // return view('purchase.purchase_invoice',compact('companies'));
         return view('purchase.purchase_invoice');
     }
-    // public function purchaseInvoiceStore(Request $request){
-    //     $purchase = new purchase_product();
-    //     $purchase->vendor_id = $request->vendor_id;
-    //     $purchase->product_id = $request->product_id;
-    //     $purchase->code = $request->code;
-    //     $purchase->qty = $request->qty;
-    //     $purchase->unit_price = $request->unit_price;
-    //     $purchase->total_price = $request->total_price;
-    //     $purchase->discount = $request->discount;
-    //     $purchase->total = $request->total;
-    //     $purchase->paid = $request->paid;
-    //     $purchase->due = $request->due;
-    //     $purchase->save();
-    //     return back()->with('message','Purchase Invoice created successfully');
-    // }
-    // public function purchaseInvoiceStore(Request $request){
-
-
-    //     foreach($request->inputs as $key => $value){
-
-    //         $name = $value['name'];
-    //         $qty = $value['qty'];
-    //         dd($value,'ok');
-    //         // purchase_product::create($value);
-    //         // return back();
-    //     }
-    // }
 
     public function purchaseInvoiceStore(Request $request){
         //   dd($request->all());
 
-        // $invoiceNumber = IdGenerator::generate(['table' => 'purchase_invoices', 'length' => 8, 'prefix' =>'INV-']);
-    if( $request->status == 'Recieved'){
+    if( $request->status == 'Paid'){
         $invoice = new Purchase_invoice;
         // $invoice->id = $invoiceNumber;
         $invoice->vendor_id = $request->vendor_id;
@@ -110,6 +81,7 @@ class VendorController extends Controller
         $invoice->discount = $request->discount;
         $invoice->total = $request->total;
         $invoice->paid = $request->paid;
+        $invoice->status = $request->status;
         $invoice->due = $request->due;
         $invoice->save();
 
@@ -134,11 +106,13 @@ class VendorController extends Controller
             $old_qty = $old->total_purchase_qty;
             $old_price = $old->product_unit_price;
             $old_available_qty = $old->available_qty;
+
             $new_qty = $request->qty[$i];
             $new_price = $request->unit_price[$i];
 
             $main_qty = $old_qty + $new_qty;
-            $average_price =  ($old_price * $old_qty + $new_price * $new_qty) / $old_available_qty + $new_qty;
+            $average_price =  (($old_price * $old_qty) + ($new_price * $new_qty)) / ($old_available_qty + $new_qty);
+            // dd($old_price ,$old_qty , $new_price, $new_qty ,$old_available_qty,$new_qty,$average_price,'ok');
             // dd($main_available );
             $new_available =  $old_available_qty + $new_qty;
             StockProduct::find($product_id)->update([   // ****Info**** don't update without protected fillable data----
@@ -160,6 +134,7 @@ class VendorController extends Controller
         $invoice->discount = $request->discount;
         $invoice->total = $request->total;
         $invoice->paid = $request->paid;
+        $invoice->status = $request->status;
         $invoice->due = $request->due;
         $invoice->save();
 
@@ -202,16 +177,15 @@ class VendorController extends Controller
     public function purchaseInvoiceEdit($id){
         $purchase_edits =purchase_product::where('invoice_id',$id)->get();
         $purchase_invoices =Purchase_invoice::find($id);
-        $vendorss =Vendor::find($purchase_invoices->id);
+        $vendorss =Vendor::find($purchase_invoices->vendor_id);
         $vendors_info = $vendorss->created_at;
         return view('purchase.purchase_invoice_edit',compact('purchase_edits','purchase_invoices','vendorss'));
     }
 
     public function purchaseInvoiceUpdate(Request $request){
-
         if($request->status == 'Paid'){
-         // dd($request->all());
             $invoice = Purchase_invoice::find( $request->invoice_id);
+            // dd($invoice,'ss');
             if ($invoice) {
                     // Update the attributes of the Sales_invoice model
                     $invoice->update([
@@ -220,7 +194,7 @@ class VendorController extends Controller
                         'total' => $request->total,
                         'paid' => $request->paid,
                         'due' => $request->due,
-                        'status' => $request->status,
+                        'status' =>'Paid',
                     ]);
             }
 
@@ -241,6 +215,7 @@ class VendorController extends Controller
                     'total_price' => $total_price
                 ]);
 
+
                 $old = StockProduct::find($product_id);
 
                 $old_qty = $old->total_purchase_qty;
@@ -251,7 +226,7 @@ class VendorController extends Controller
                 $new_price = $request->unit_price[$i];
 
                 $main_qty = $old_qty + $new_qty;
-                $average_price =  ($old_price * $old_qty + $new_price * $new_qty) / $old_available_qty + $new_qty;
+                $average_price =  (($old_price * $old_qty) + ($new_price * $new_qty)) / ($old_available_qty + $new_qty);
                 // dd($main_available );
                 $new_available =  $old_available_qty + $new_qty;
                 $new_purchase_upcoming_qty = $old_purchase_upcoming_qty - $new_qty;
@@ -293,9 +268,11 @@ class VendorController extends Controller
         }
 
         public function allPInvoice(){
-            $purchase_invoices = Purchase_invoice::all();
+            $purchase_invoices = Purchase_invoice::paginate(6);
 
-            return view('purchase.all_purchase_invoice',compact('purchase_invoices'));
+            $due_paid_purchase = Paid::paginate(5);
+
+            return view('purchase.all_purchase_invoice',compact('purchase_invoices','due_paid_purchase'));
         }
     public function searchVInvoice(Request $request){
         $id = $request->vendor_id;
@@ -320,16 +297,31 @@ class VendorController extends Controller
         return view('purchase.due_payment_invoice_create');
     }
     public function duePayInvoiceStore(Request $request){
-    //    $infos = Due_paid_invoice::find(1);
-    //    foreach($infos as $info){
-    //     dd($info->vendor_id);
-    //    }
         // dd($request->vendor_id);
         $invoice = new Paid;
         $invoice->vendor_id = $request->vendor_id;
-        $invoice->description = $request->description;
         $invoice->paid_amount = $request->paid_amount;
+        $invoice->discount = $request->discount;
+        $invoice->description = $request->description;
         $invoice->save();
+
+        // $accounts = Main_account::find(1);
+        // $main = $accounts->total_amount;
+        // $new_paid = $request->paid_amount;
+        // $update_amount = $main + $new_paid;
+        // $accounts->update([
+        //     $accounts->total_amount => $update_amount
+        // ]);
+
+
+        $accounts = Main_account::find(1);
+        $main = $accounts->total_amount;
+        $new_paid = $request->paid_amount;
+        $update_amount = $main + $new_paid;
+
+        $accounts->total_amount = $update_amount;
+        $accounts->save();
+
 
         return back()->with('message','Due Amount Paided Successfully');
     }
@@ -424,36 +416,65 @@ class VendorController extends Controller
         $date_to = $request->input('date_to');
 
         $purchase_invoices = Purchase_invoice::all();
+        $due_invoices = Paid::all();
         $query = Purchase_invoice::query();
-        $paid_invoice = Paid::query();
+        $due_paid_purchase = Paid::where('vendor_id', $vendor_id)->get();
 
         if ($vendor_id =='all') {
             session(['selectedVendorId' => $vendor_id]);
-            $paid_invoice = Paid::sum('paid_amount');
-            return view('purchase.all_purchase_invoice',compact('purchase_invoices','paid_invoice'));
+            $purchase_invoices = Purchase_invoice::all();
+            $due_paid_purchase = Paid::all();
+            // dd($paid_invoice,'llll');
+            return view('purchase.all_purchase_invoice',compact('purchase_invoices','due_paid_purchase'));
         }
 
         if (!empty($vendor_id)) {
             $query->where('vendor_id', $vendor_id);
-            $paid_invoice->where('vendor_id', $vendor_id);
             session(['selectedVendorId' => $vendor_id]);
         }
 
         if (!empty($date_from)) {
             $query->whereDate('created_at', '>=', $date_from);
-            $paid_invoice->whereDate('created_at', '>=', $date_from);
         }
 
         if (!empty($date_to)) {
             $query->whereDate('created_at', '<=', $date_to);
-            $paid_invoice->whereDate('created_at', '<=', $date_to);
         }
 
         $purchase_invoices = $query->get();
 
-        return view('purchase.all_purchase_invoice',compact('purchase_invoices','paid_invoice'));
+
+
+        return view('purchase.all_purchase_invoice',compact('purchase_invoices','due_paid_purchase'));
 
     }
+
+
+    // public function searchVendor(Request $request){
+
+    //     $vendor_id = $request->input('vendor_id');
+    //     $date_from = $request->input('date_from');
+    //     $date_to = $request->input('date_to');
+
+    //     $query = Purchase_invoice::query();
+    //     $query->leftJoin('paids', 'purchase_invoices.vendor_id', '=', 'paids.vendor_id');
+
+    //     if (!empty($vendor_id) && $vendor_id != 'all') {
+    //         $query->where('purchase_invoices.vendor_id', $vendor_id);
+    //     }
+
+    //     if (!empty($date_from)) {
+    //         $query->whereDate('purchase_invoices.created_at', '>=', $date_from);
+    //     }
+
+    //     if (!empty($date_to)) {
+    //         $query->whereDate('purchase_invoices.created_at', '<=', $date_to);
+    //     }
+
+    //     $purchase_invoices = $query->get();
+
+    //     return view('purchase.all_purchase_invoice', compact('purchase_invoices'));
+    // }
 
 
     public function addCategory(){
@@ -541,7 +562,7 @@ class VendorController extends Controller
                 $new_price = $request->unit_price[$i];
 
                 $main_qty = $old_qty - $new_qty;
-                $average_price =  ($old_price * $old_qty + $new_price * $new_qty) / $old_available_qty + $new_qty;
+                $average_price =  ($old_price * $old_available_qty + $new_price * $new_qty) / $old_available_qty + $new_qty;
                 // dd($main_available );
                 $new_available =  $old_available_qty - $new_qty;
                 StockProduct::find($product_id)->update([   // ****Info**** don't update without protected fillable data----
@@ -560,5 +581,19 @@ class VendorController extends Controller
     public function returnPurchaseInvoiceEdit($id){
         $purchase_edits = Return_Product_Invoice::where('invoice_id',$id)->get();
         return view('purchase.return_purchase_invoice_edit',compact('purchase_edits'));
+    }
+
+    public function vendorDuePayInvoices(Request $request){
+        if($request->vendor_id == 'all'){
+
+            $paids = Paid::all();
+            return view('purchase.due_payment_invoice',compact('paids'));
+        }
+
+        $paids = Paid::where('vendor_id', $request->vendor_id)->get();
+
+        session(['selectedVendorId' => $request->vendor_id]);
+
+        return view('purchase.due_payment_invoice',compact('paids'));
     }
 }

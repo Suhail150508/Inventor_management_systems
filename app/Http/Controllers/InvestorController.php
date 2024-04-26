@@ -117,9 +117,13 @@ class InvestorController extends Controller
 
     public function InvestorStatement(){
 
-        // $investor_invest_amounts = Amount_invest::all();
+        $investor_all_record_invests = Amount_invest::all();
+        $investor_all_record_withdraws = Amount_withdraw::all();
 
-        return view('investor.investor_statement');
+        $investor_all_amounts = $investor_all_record_invests->merge($investor_all_record_withdraws);
+
+        return view('investor.investor_statement', compact('investor_all_amounts'));
+
     }
     public function InvestorStatementInfo(Request $request) {
         // $investor_invest_amounts = [];
@@ -186,9 +190,8 @@ class InvestorController extends Controller
             // Merge the collections
             $merged_records = $investor_all_record_invests->concat($investor_all_record_withdraws);
 
-            // Group the merged collection by created_at
             $joined_records = $merged_records->groupBy(function ($record) {
-                return $record->created_at->format('Y-m-d'); // Grouping by date portion only
+                return $record->created_at->format('Y-m-d');
             });
 
 

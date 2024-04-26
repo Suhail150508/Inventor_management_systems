@@ -116,7 +116,8 @@
 
                     <option style="font-size:1.1rem" value="all">All</option>
                     @foreach ($customers as $customer )
-                    <option style="font-size:1.1rem" value="{{ $customer->id }}">{{ $customer->name  }}</option>
+                    {{-- <option style="font-size:1.1rem" value="{{ $customer->id }}">{{ $customer->name  }}</option> --}}
+                    <option style="font-size:1.1rem" value="{{ $customer->id }}" {{ session('selectedCustomerId') == $customer->id ? 'selected' : '' }}>{{ $customer->name }}</option>
                     @endforeach
                 </select>
                 <button type="submit" class="col-md-3 btn btn-success" style="font-size:1.2rem;width:100px;height:32px">Search </button>
