@@ -247,9 +247,9 @@ class SalesProductController extends Controller
     }
     public function salesInvoiceUpdate(Request $request){
 
+        // dd($request->all());
         if($request->status == 'Paid'){
             $invoice = Sales_invoice::find( $request->invoice_id);
-            // dd($invoice->all());
             if ($invoice) {
                     // Update the attributes of the Sales_invoice model
                     $invoice->update([
@@ -304,8 +304,10 @@ class SalesProductController extends Controller
         public function salesInvoiceEdit($id){
 
             $sales_edits =Sales_product_invoice::where('invoice_id',$id)->get();
-            // dd($sales_edits);
-            return view('sales.sales_invoice_edit',compact('sales_edits'));
+            $sales_invoice_edits =Sales_invoice::find($id);
+            $customer_edits =Customer::find($sales_invoice_edits->customer_id);
+            // dd($sales_invoice_edits,$customer_edits);
+            return view('sales.sales_invoice_edit',compact('sales_edits','sales_invoice_edits','customer_edits'));
         }
         public function returnSalesInvoiceEdit($id){
             $return_sales_invoice =Return_Sales_invoice::find($id);

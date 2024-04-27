@@ -16,7 +16,8 @@ class Purchase_invoice extends Model
         'discount',
         'paid',
         'due',
-        'total'
+        'total',
+        'status'
     ];
 
     // protected $primaryKey = 'id';

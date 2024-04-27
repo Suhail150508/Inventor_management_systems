@@ -394,7 +394,7 @@ nav.shift ul li a:hover:after {
                         <h3 for=""> Customers </h3>
 
                         <select class="form-control" id="selectField" name="customer_id"  style="width: 20rem">
-                            <option value="">select</option>
+                            <option value="">{{ $customer_edits->name }}</option>
 
                             @php
                                 $products = App\Models\Customer::all();
@@ -433,9 +433,9 @@ nav.shift ul li a:hover:after {
                             $items = App\Models\StockProduct::where('code',$edit->code)->get();
                         @endphp
                         <td>
-                                <select class="form-control selectProduct"  name="product_id[]"  value="{{ $edit->product_id }} style="width: 10rem" required>
+                                {{-- <select class="form-control selectProduct"  name="product_id[]" style="width: 10rem">
                                     @foreach ($items as $item )
-                                        <option value="">{{ $item->name }}</option>
+                                        <option value="{{ $item->id }}>{{ $item->name }}</option>
                                     @endforeach
 
                                     @php
@@ -443,9 +443,20 @@ nav.shift ul li a:hover:after {
                                     @endphp
 
                                     @foreach ($products as $product )
-                                    <option value="{{ $product->id }}">{{ $product->name }}</option>
+                                    <option value="{{ $edit->product_id }}">{{ $product->name }}</option>
+                                    @endforeach
+                                </select> --}}
+
+                                <select class="form-control selectProduct" name="product_id[]" style="width: 10rem">
+                                    @foreach ($items as $item)
+                                        <option value="{{ $item->id }}" {{ $edit->product_id == $item->id ? 'selected' : '' }}>{{ $item->name }}</option>
+                                    @endforeach
+
+                                    @foreach ($products as $product)
+                                        <option value="{{ $product->id }}" {{ $edit->product_id == $product->id ? 'selected' : '' }}>{{ $product->name }}</option>
                                     @endforeach
                                 </select>
+
 
 
                         </td>
@@ -487,11 +498,11 @@ nav.shift ul li a:hover:after {
                     <p style="display:none">Sub Total2: <input type="text" id="old_qty" style="width: 60px;height:20px"></p>
                     <p style="display:none">Sub Total1: <input type="text" id="subtotal1" style="width: 60px;height:20px"></p>
                     <p style="display:none">Sub Total2: <input type="text" id="subtotal2" style="width: 60px;height:20px"></p>
-                    <p style="font-weight:bold;font-size:1.7rem">Sub Total: <input type="text" class="form-control" id="subtotal" name="sub_total" style="width: 60px;height:16px"></p>
-                    <p style="font-weight:bold;font-size:1.7rem">Discount: <input type="text" class="form-control" id="discount" name="discount" style="width: 60px;height:16px"></p>
-                    <p style="font-weight:bold;font-size:1.7rem">Total: <input type="text" class="form-control" id="total" name="total" style="width: 60px;height:16px"></p>
-                    <p style="font-weight:bold;font-size:1.7rem">Paid: <input type="text" class="form-control" id="paid" name="paid" style="width: 60px;height:16px"></p>
-                    <p style="font-weight:bold;font-size:1.7rem">Due: <input type="text" class="form-control" id="due" name="due" style="width: 60px;height:16px"></p>
+                    <p style="font-weight:bold;font-size:1.7rem">Sub Total: <input type="text" class="form-control" id="subtotal" name="sub_total" style="width: 60px;height:16px" value="{{ $sales_invoice_edits->sub_total }}"></p>
+                    <p style="font-weight:bold;font-size:1.7rem">Discount: <input type="text" class="form-control" id="discount" name="discount" style="width: 60px;height:16px" value="{{ $sales_invoice_edits->discount }}"></p>
+                    <p style="font-weight:bold;font-size:1.7rem">Total: <input type="text" class="form-control" id="total" name="total" style="width: 60px;height:16px" value="{{ $sales_invoice_edits->total }}"></p>
+                    <p style="font-weight:bold;font-size:1.7rem">Paid: <input type="text" class="form-control" id="paid" name="paid" style="width: 60px;height:16px" value="{{ $sales_invoice_edits->paid }}"></p>
+                    <p style="font-weight:bold;font-size:1.7rem">Due: <input type="text" class="form-control" id="due" name="due" style="width: 60px;height:16px" value="{{ $sales_invoice_edits->due }}"></p>
                 </div>
 
                 <div style="text-align: center;margin-top:27rem">

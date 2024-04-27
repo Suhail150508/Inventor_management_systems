@@ -184,8 +184,8 @@ class VendorController extends Controller
 
     public function purchaseInvoiceUpdate(Request $request){
         if($request->status == 'Paid'){
+            // dd($request->all(),'ss');
             $invoice = Purchase_invoice::find( $request->invoice_id);
-            // dd($invoice,'ss');
             if ($invoice) {
                     // Update the attributes of the Sales_invoice model
                     $invoice->update([
@@ -226,16 +226,22 @@ class VendorController extends Controller
                 $new_price = $request->unit_price[$i];
 
                 $main_qty = $old_qty + $new_qty;
-                $average_price =  (($old_price * $old_qty) + ($new_price * $new_qty)) / ($old_available_qty + $new_qty);
-                // dd($main_available );
-                $new_available =  $old_available_qty + $new_qty;
-                $new_purchase_upcoming_qty = $old_purchase_upcoming_qty - $new_qty;
-                StockProduct::find($product_id)->update([   // ****Info**** don't update without protected fillable data----
-                    'total_purchase_qty' => $main_qty,
-                    'product_unit_price' => $average_price,
-                    'available_qty' => $new_available,
-                    'purchase_upcoming_qty' => $new_purchase_upcoming_qty
-                ]);
+                // dd($old_price ,$old_qty , $new_price, $new_qty ,$old_available_qty,'ok');
+
+                if ($old_available_qty + $new_qty != 0) {
+                    $average_price = (($old_price * $old_qty) + ($new_price * $new_qty)) / ($old_available_qty + $new_qty);
+
+                    // $average_price =  (($old_price * $old_qty) + ($new_price * $new_qty)) / ($old_available_qty + $new_qty);
+
+                    $new_available =  $old_available_qty + $new_qty;
+                    $new_purchase_upcoming_qty = $old_purchase_upcoming_qty - $new_qty;
+                    StockProduct::find($product_id)->update([   // ****Info**** don't update without protected fillable data----
+                        'total_purchase_qty' => $main_qty,
+                        'product_unit_price' => $average_price,
+                        'available_qty' => $new_available,
+                        'purchase_upcoming_qty' => $new_purchase_upcoming_qty
+                    ]);
+                }
 
             }
 
@@ -314,13 +320,22 @@ class VendorController extends Controller
         // ]);
 
 
-        $accounts = Main_account::find(1);
-        $main = $accounts->total_amount;
-        $new_paid = $request->paid_amount;
-        $update_amount = $main + $new_paid;
+        $accounts = Main_account::all();
+        foreach ($accounts as $account) {
+            try {
+                $main = $account->total_amount;
+                $new_paid = $request->paid_amount;
+                $update_amount = $main + $new_paid;
 
-        $accounts->total_amount = $update_amount;
-        $accounts->save();
+                $account->total_amount = $update_amount;
+                $account->save();
+            } catch (\Exception $e) {
+                // Log the error or handle it appropriately
+                // You can also use dd($e) to see the full error message for debugging
+                dd($e->getMessage());
+            }
+        }
+
 
 
         return back()->with('message','Due Amount Paided Successfully');
@@ -562,17 +577,14 @@ class VendorController extends Controller
                 $new_price = $request->unit_price[$i];
 
                 $main_qty = $old_qty - $new_qty;
-                $average_price =  ($old_price * $old_available_qty + $new_price * $new_qty) / $old_available_qty + $new_qty;
-                // dd($main_available );
+                // $average_price =  (($old_price * $old_available_qty) + ($new_price * $new_qty) / ($old_available_qty + $new_qty);
                 $new_available =  $old_available_qty - $new_qty;
-                StockProduct::find($product_id)->update([   // ****Info**** don't update without protected fillable data----
-                    'total_purchase_qty' => $main_qty,
-                    'product_unit_price' => $average_price,
+                StockProduct::find($product_id)->update([   // **** ******* Info**** don't update without protected fillable data----
+                    // 'total_purchase_qty' => $main_qty,
+                    // 'product_unit_price' => $average_price,
                     'available_qty' => $new_available
                 ]);
 
-
-            // Redirect back after processing
         }
 
         return redirect()->back()->with('message','Purchase Return invoice created successfully..');

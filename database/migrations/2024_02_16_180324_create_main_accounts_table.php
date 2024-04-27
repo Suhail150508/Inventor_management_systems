@@ -13,7 +13,9 @@ return new class extends Migration
     {
         Schema::create('main_accounts', function (Blueprint $table) {
             $table->bigIncrements('id');
-            $table->double('total_amount')->nullable();
+            $table->double('total_amount')->default(0)->nullable();
+            $table->double('customer_due')->default(0)->nullable();
+            $table->double('supliyer_due')->default(0)->nullable();
             $table->integer('amount_invest_id')->nullable();
             $table->integer('amount_withdraw_id')->nullable();
             $table->integer('purchase_id')->nullable();

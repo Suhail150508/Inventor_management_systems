@@ -533,7 +533,7 @@
 
                             @endphp
                             <td>
-                                    <select class="form-control selectProduct"  name="product_id[]"  value="{{ $edit->product_id }} style="width: 10rem" required>
+                                    {{-- <select class="form-control selectProduct"  name="product_id[]"  value="{{ $edit->product_id }} style="width: 10rem">
                                         @foreach ($items as $item )
                                         <option value="">{{ $item->name }}</option>
                                         @endforeach
@@ -545,7 +545,20 @@
                                         @foreach ($products as $product )
                                         <option value="{{ $product->id }}">{{ $product->name }}</option>
                                         @endforeach
+                                    </select> --}}
+
+                                    <select class="form-control selectProduct" name="product_id[]" style="width: 10rem">
+                                        @foreach ($items as $item)
+                                            <option value="{{ $item->id }}" {{ $edit->product_id == $item->id ? 'selected' : '' }}>{{ $item->name }}</option>
+                                        @endforeach
+                                        @php
+                                            $products = App\Models\StockProduct::all();
+                                        @endphp
+                                        @foreach ($products as $product)
+                                            <option value="{{ $product->id }}" {{ $edit->product_id == $product->id ? 'selected' : '' }}>{{ $product->name }}</option>
+                                        @endforeach
                                     </select>
+
 
 
                             </td>
@@ -575,7 +588,7 @@
                     <strong style="font-size: 1.7rem">Select Status</strong>
                     <select class="form-control" name="status" id="status" required style="width:14rem">
 
-                        <option >Paid</option>
+                        <option value="Paid" >Paid</option>
                     </select>
                 </div>
 
