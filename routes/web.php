@@ -155,3 +155,7 @@ Route::get('/main_account',[MainAccountController::class,'mainAccount']);
 
 Route::get('/download-pdf-student',[InvestorController::class,'downloadPDFStudentInfo']);
 
+
+
+Route::get('/logout',[InvestorController::class,'logout']);
+

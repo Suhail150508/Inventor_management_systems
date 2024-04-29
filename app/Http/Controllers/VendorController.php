@@ -200,7 +200,7 @@ class VendorController extends Controller
 
 
 
-            $totalItems = count($request->qty);
+                $totalItems = count($request->qty);
             for ($i = 0; $i < $totalItems; $i++) {
                 $product_id = $request->product_id[$i];
                 // $customer_id = $request->customer_id[$i];

@@ -62,15 +62,19 @@
                         @endphp --}}
                             <li class="dropdown">
                                 <a class="btn dropdown-toggle" data-toggle="dropdown" href="#">
-                                    <i class="halflings-icon white user"></i> Dennis Ji
+                                    <i class="halflings-icon white user"></i> User
                                     <span class="caret"></span>
                                 </a>
                                 <ul class="dropdown-menu">
                                     <li class="dropdown-menu-title">
                                         <span>Account Settings</span>
                                     </li>
+                                    {{-- @php
+                                         $message = Session::get('message');
+                                    @endphp --}}
                                     <li><a href="#"><i class="halflings-icon user"></i> Profile</a></li>
-                                    <li><a href="/admin-logout"><i class="halflings-icon off"></i> Logout</a></li>
+                                    <li><a href="/logout"><i class="halflings-icon off"></i> Logout</a></li>
+                                    {{-- <li><a href="/admin-logout"><i class="halflings-icon off"></i> Logout</a></li> --}}
                                 </ul>
                             </li>
 						<!-- end: User Dropdown -->

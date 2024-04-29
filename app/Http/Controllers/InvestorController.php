@@ -9,6 +9,7 @@ use App\Models\Amount_withdraw;
 use Barryvdh\DomPDF\Facade\Pdf;
 use App\Models\Investor_invoice;
 use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Redirect;
 
 class InvestorController extends Controller
 {
@@ -274,5 +275,12 @@ class InvestorController extends Controller
     //     // Set headers for download
     //     return $pdf->download('student_info.pdf');
     // }
+
+
+        public function logout()
+            {
+                Session()->flush();
+                return Redirect::to('/');
+            }
 
 }
