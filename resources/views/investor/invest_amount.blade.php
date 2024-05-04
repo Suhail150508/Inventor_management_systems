@@ -141,7 +141,8 @@ form .form-row .textarea{
   width: 300%;
   position: absolute;
   left: -100%;
-  background: -webkit-linear-gradient(right, #56d8e4, #9f01ea, #56d8e4, #9f01ea);
+  /* margin-left:6rem; */
+  background: -webkit-linear-gradient(right, #768182, #bacec9, #8da5a7, #b4aeb7);
   transition: all 0.4s;
 }
 .submit-btn .input-data:hover .inner{
@@ -171,6 +172,7 @@ form .form-row .textarea{
   }
   form .form-row .input-data{
     margin: 35px 0!important;
+    text-align: center !important;
   }
   .submit-btn .input-data{
     width: 40%!important;
@@ -196,9 +198,9 @@ form .form-row .textarea{
             <h2  style="font-weight: bold;font-size:1.2rem"><i class="halflings-icon user"></i><span class="break"></span>Invest Amount</h2>
         </div>
 
-        <button type="button" class="btn btn-secondary" data-toggle="modal" data-target="#exampleModal" style="margin-right:1rem;font-size:1.2rem;float: left;padding:15px;border-radius:20px;margin:.4rem 6rem">
+        {{-- <button type="button" class="btn btn-secondary" data-toggle="modal" data-target="#exampleModal" style="margin-right:1rem;font-size:1.2rem;float: left;padding:15px;border-radius:20px;margin:.4rem 6rem">
             <i class="icon-plus"></i> <i class="icon-user"></i> <br/> New Investor
-        </button>
+        </button> --}}
 
         <div class="container">
             <div class="text">
@@ -253,7 +255,7 @@ form .form-row .textarea{
                   <div class="form-row submit-btn">
                      <div class="input-data">
                         <div class="inner"></div>
-                        <input type="submit" value="submit">
+                        <input class="btn btn-secondary" type="submit" value="submit">
                      </div>
                   </div>
             </form>

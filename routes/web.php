@@ -26,6 +26,11 @@ Route::get('/', function () {
     return view('welcome');
 });
 
+
+Route::get('/dashboard',[HomeController::class,'dashboard']);
+
+
+
 Route::get('/post-create',[HomeController::class,'userCreate']);
 Route::post('/post-store',[PostsController::class,'userStore']);
 Route::get("/post-edit/{id}",[PostsController::class,'userEdit']);

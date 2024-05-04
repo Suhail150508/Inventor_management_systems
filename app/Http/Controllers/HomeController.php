@@ -29,6 +29,11 @@ class HomeController extends Controller
         return view('customer.All_customer', compact('customers'));
 
     }
+    public function dashboard(){
+
+        return view('dashboard.dashboard');
+
+    }
     public function userCreate(){
         return view('layouts.user-create');
     }

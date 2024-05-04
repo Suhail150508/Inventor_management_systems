@@ -91,7 +91,7 @@ h2 {
         <a href="/">Home</a>
         <i class="icon-angle-right"></i>
     </li>
-    <li><a href="#">invests</a></li>
+    <li><a href="#">investors</a></li>
 </ul>
 
 <div class="row-fluid sortable">
@@ -112,7 +112,7 @@ h2 {
                       <th>Name</th>
                       <th>Email</th>
                       <th>Mobile</th>
-                      <th>Status</th>
+                      {{-- <th>Status</th> --}}
                       <th>Actions</th>
                   </tr>
               </thead>
@@ -127,15 +127,15 @@ h2 {
                         <td class="center">{{ $invest->name }}</td>
                         <td class="center">{{ $invest->email }}</td>
                         <td class="center">{{ $invest->mobile }}</td>
-                        <td class="center">
+                        {{-- <td class="center">
                                 @if($invest->status=='Active')
                                 <span class="label label-important">Active</span>
                                 @else
                                 <span class="label label-secondary">Inactive</span>
                                 @endif
-                        </td>
+                        </td> --}}
                         <td class="center">
-                            <div class="span2">
+                            {{-- <div class="span2">
 
                                 @if($invest->status=='Active')
 
@@ -149,7 +149,7 @@ h2 {
                                         <i class="halflings-icon white thumbs-up"></i>
                                     </a>
                                 @endif
-                            </div>
+                            </div> --}}
 
                             <div class="span2">
 
@@ -159,7 +159,7 @@ h2 {
                             </div>
 
                             <div class="span2">
-                                <form method="post" action="{{ url('/investor-delete/'.$invest->id ) }}" style="margin-left:.1">
+                                <form method="post" action="{{ url('/investor-delete/'.$invest->id ) }}" style="margin-left:1rem">
                                     @csrf
                                     @method('DELETE')
                                     <button type="submit" class="btn btn-danger"> <i class="halflings-icon white trash"></i></button>

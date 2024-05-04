@@ -91,7 +91,7 @@
         <a href="/">Home</a>
         <i class="icon-angle-right"></i>
     </li>
-    <li><a href="#">Invoices</a></li>
+    <li><a href="#">Sales & Payment</a></li>
 </ul>
 
 <div class="row-fluid sortable">
@@ -105,7 +105,7 @@
 
 
         <div>
-            <form action="{{ url('/search-sales-invoice') }}" method="GET" style="display: flex;justify-content:center; flex-wrap:wrap">
+            <form action="{{ url('/search-sales-invoice') }}" method="GET" style="display: flex;justify-content:center; flex-wrap:wrap;margin-top:3rem">
                 @csrf
                 <div class=" col-md-1" style="margin: 0px 10px">
                     <h4>Customers</h4>
@@ -113,7 +113,7 @@
                         $customers = App\Models\Customer::all();
                     @endphp
                     <label for="">  </label>
-                    <select type="text" name="customer_id" id="customer_id">
+                    <select class="form-control" type="textarea" name="customer_id" id="customer_id">
                         <option style="font-size:1.1rem" value="all">All Customers</option>
                         @foreach ($customers as $customer)
                             <option style="font-size:1.1rem" value="{{ $customer->id }}" {{ session('selectedCustomerId') == $customer->id ? 'selected' : '' }}>{{ $customer->name }}</option>
@@ -123,16 +123,22 @@
                 <div class="col-md-1" style="margin: 0px 10px">
                     <h4>From</h4>
                     <div class="">
-                        <input type="date" name="date_from" id="date_from" placeholder="2018-07-03" value="{{ request()->input('date_from') }}">
+                        <input class="form-control" type="date" name="date_from" id="date_from" placeholder="2018-07-03" value="{{ request()->input('date_from') }}">
                     </div>
                 </div>
                 <div class="col-md-1" style="margin: 0px 10px">
                     <h4>To</h4>
                     <div class="">
-                        <input type="date" name="date_to" id="date_to" placeholder="2018-07-03" value="{{ request()->input('date_to') }}">
+                        <input class="form-control" type="date" name="date_to" id="date_to" placeholder="2018-07-03" value="{{ request()->input('date_to') }}">
                     </div>
                 </div>
-                <button class="col-md-1 btn btn-success" type="submit" style="height: 2.3rem;margin:2rem 1rem">Search</button>
+                <div class="col-md-1" style="margin: 0px 10px">
+                    {{-- <h4>To</h4>
+                    <div class="">
+                        <input class="form-control" type="date" name="date_to" id="date_to" placeholder="2018-07-03" value="{{ request()->input('date_to') }}">
+                    </div> --}}
+                    <button class="col-md-1 btn btn-success" type="submit" style="height: 2.3rem;margin:2rem 1rem">Search</button>
+                </div>
             </form>
 
 
@@ -146,6 +152,7 @@
         @endphp
         <div class="box-content">
             <table class="table table-striped table-bordered bootstrap-datatable datatable">
+                <h3 style="text-align: center;margin-bottom:2rem">Paid & Unpaid Invoices</h3>
                 <thead>
                     <tr>
                         <th>Invoice Id</th>
@@ -156,6 +163,7 @@
                         <th>Paid</th>
                         <th>Due</th>
                         <th>Status</th>
+                        <th>Date</th>
                         <th>Actions</th>
                     </tr>
                 </thead>
@@ -182,6 +190,7 @@
                             <td class="center">{{ $invoice->paid }}</td>
                             <td class="center">{{ $invoice->due }}</td>
                             <td class="center">{{ $invoice->status }}</td>
+                            <td class="center">{{ $invoice->created_at }}</td>
 
                             <td class="center">
 
@@ -201,7 +210,7 @@
             </table>
             <table class="table table-striped table-bordered bootstrap-datatable datatable">
 
-                    <h3 style="text-align: center;margin:2rem 0px"> Due Paid Information</h3>
+                    <h3 style="text-align: center;margin:2rem 0px"> Due Paid Invoices</h3>
                 <thead>
                     <tr>
                         <th>Invoice Id</th>
@@ -209,6 +218,7 @@
                         <th>Paid Amount</th>
                         <th>Discount</th>
                         <th>Discription</th>
+                        <th>Date</th>
                         <th>Actions</th>
                     </tr>
                 </thead>
@@ -233,6 +243,7 @@
                             <td class="center">{{ $invoice->paid_amount }}</td>
                             <td class="center">{{ $invoice->discount }}</td>
                             <td class="center">{{ $invoice->description }}</td>
+                            <td class="center">{{ $invoice->created_at }}</td>
 
                             <td class="center">
 

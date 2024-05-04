@@ -141,7 +141,7 @@ form .form-row .textarea{
   width: 300%;
   position: absolute;
   left: -100%;
-  background: -webkit-linear-gradient(right, #56d8e4, #9f01ea, #56d8e4, #9f01ea);
+  background: -webkit-linear-gradient(right, #768182, #bacec9, #8da5a7, #b4aeb7);
   transition: all 0.4s;
 }
 .submit-btn .input-data:hover .inner{

@@ -48,7 +48,7 @@
 					<span class="icon-bar"></span>
 					<span class="icon-bar"></span>
 				</a>
-				<a class="brand" href="#"><span><i class="fas fa-tachometer-alt"></i> Dashboard</span></a>
+				<a class="brand" href="/dashboard"><span><i class="fas fa-tachometer-alt"></i> Dashboard</span></a>
 
 				<!-- start: Header Menu -->
 				<div class="nav-no-collapse header-nav">
@@ -70,32 +70,44 @@
                                         <span>Account Settings</span>
                                     </li>
                                     {{-- @php
-                                         $message = Session::get('message');
-                                    @endphp --}}
-                                    <li><a href="#"><i class="halflings-icon user"></i> Profile</a></li>
-                                    <li><a href="/logout"><i class="halflings-icon off"></i> Logout</a></li>
-                                    {{-- <li><a href="/admin-logout"><i class="halflings-icon off"></i> Logout</a></li> --}}
-                                </ul>
-                            </li>
-						<!-- end: User Dropdown -->
-					</ul>
-				</div>
-				<!-- end: Header Menu -->
+                                        $message = Session::get('message');
+                                        @endphp --}}
+                                        <li><a href="#"><i class="halflings-icon user"></i> Profile</a></li>
+                                        <li><a href="/logout"><i class="halflings-icon off"></i> Logout</a></li>
+                                        {{-- <li><a href="/admin-logout"><i class="halflings-icon off"></i> Logout</a></li> --}}
+                                    </ul>
+                                </li>
+                                <!-- end: User Dropdown -->
+                            </ul>
+                        </div>
+                        <!-- end: Header Menu -->
 
-			</div>
-		</div>
-	</div>
-	<!-- start: Header -->
+                    </div>
+                </div>
+            </div>
+            <!-- start: Header -->
 
-	<div class="container-fluid-full" style="min-height:100vh">
-		<div class="row-fluid">
-			<div id="sidebar-left" class="span2">
-				<div class="nav-collapse sidebar-nav">
-					<ul class="nav nav-tabs nav-stacked main-menu">
-						<li>
-                            <a href="#"><i class="icon-bar-chart"></i><span class="hidden-tablet"> Dashboard</span></a>
+            <div class="container-fluid-full" style="min-height:100vh">
+                <div class="row-fluid">
+                    <div id="sidebar-left" class="span2">
+                        <div class="nav-collapse sidebar-nav">
+                            <ul class="nav nav-tabs nav-stacked main-menu">
+
+                                <li>
+                                    <a class="dropmenu" href="/dashboard"><i class="icon-bar-chart"></i></i><span class="hidden-tablet">Reports </span><span class="icon-arrow"></span></a>
+                                    <ul>
+                                        <li><a class="submenu" href="/investor"><i class="icon-eye-open"></i><span class="hidden-tablet"> All Investors </span></a></li>
+                                        <li><a class="submenu" href="/investors_statement"><i class="icon-eye-open"></i><span class="hidden-tablet">Investor Statement </span></a></li>
+                                        <li><a class="submenu" href="/all-purchase-invoice"><i class="icon-eye-open"></i><span class="hidden-tablet"> All Purchase Invoice  </span></a></li>
+                                        <li><a class="submenu" href="/all-return-purchase-invoice"><i class="icon-eye-open"></i><span class="hidden-tablet"> Return Purchase Invoice  </span></a></li>
+                                        <li><a class="submenu" href="/all-sales-invoice"><i class="icon-eye-open"></i><span class="hidden-tablet"> All Sales Invoice </span></a></li>
+                                        <li><a class="submenu" href="/all-return-sales-invoice"><i class="icon-eye-open"></i><span class="hidden-tablet"> Return Sales Invoice  </span></a></li>
+                                        <li><a href="/expence-invoice"><i class="icon-eye-open"></i><span class="hidden-tablet"> Expence Invoice </span></a></li>
+                                        <li><a class="submenu" href="/main_account"><i class="icon-eye-open"></i><span class="hidden-tablet"> Main Accounts </span></a></li>
+                                        {{-- <li><a class="submenu" href="/investors_invoice"><i class="icon-minus"></i><span class="hidden-tablet">Investor Invoices </span></a></li> importent --}}
+
+                            </ul>
                         </li>
-
 						<li>
                             <a class="dropmenu" href="#"><i class="icon-folder-close-alt"></i><span class="hidden-tablet">Investors </span><span class="icon-arrow"></span></a>
                             <ul>
@@ -111,7 +123,7 @@
 						<li>
                             <a class="dropmenu" href="#"><i class="icon-folder-close-alt"></i><span class="hidden-tablet"> Sales & Payment </span><span class="icon-arrow"></span></a>
                             <ul>
-                                <li><a class="submenu" href="/customer_invoice"><i class="icon-plus"></i><span class="hidden-tablet"> Invoice </span></a></li>
+                                {{-- <li><a class="submenu" href="/customer_invoice"><i class="icon-plus"></i><span class="hidden-tablet"> Invoice </span></a></li> --}}
                                 {{-- <li><a class="submenu" href="#"><i class="icon-plus"></i><span class="hidden-tablet"> Invoice Return </span></a></li> --}}
                                 <li><a class="submenu" href="/all-sales-invoice"><i class="icon-plus"></i><span class="hidden-tablet"> All Sales Invoice </span></a></li>
                                 <li><a class="submenu" href="/all-customer"><i class="icon-eye-open"></i><span class="hidden-tablet"> Customer </span></a></li>

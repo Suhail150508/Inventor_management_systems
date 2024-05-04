@@ -584,7 +584,7 @@ form .form-row .textarea{
                         </div>
                     </div>
                     <div class=" col-md-3">
-                        <h4>Category</h4>
+                        <h4>Search by</h4>
                         <div class="">
                             <select type="text" name="record" placeholder="Name" class="form-control" style="border:2px solid rgb(0, 204, 255)">
                                 <option style="font-size:1.1rem" value="">Select One</option>
