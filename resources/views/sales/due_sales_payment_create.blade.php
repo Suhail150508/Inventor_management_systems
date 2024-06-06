@@ -35,9 +35,9 @@ body{
   margin: 32px 0;
 }
 form .form-row .input-data{
-  width: 100%;
-  height: 40px;
-  margin: 0 20px;
+  width: 70%;
+  height: 20px;
+  margin: 10px 15px;
   position: relative;
 }
 form .form-row .textarea{
@@ -46,15 +46,15 @@ form .form-row .textarea{
 .input-data input,
 .textarea textarea{
   display: block;
-  width: 100%;
+  width: 90%;
   height: 100%;
-  border: none;
+  /* border: none; */
   font-size: 17px;
-  border-bottom: 2px solid rgba(0,0,0, 0.12);
+  /* border-bottom: 2px solid rgba(0,0,0, 0.12); */
 }
 .input-data input:focus ~ label, .textarea textarea:focus ~ label,
 .input-data input:valid ~ label, .textarea textarea:valid ~ label{
-  transform: translateY(-20px);
+  /* transform: translateY(-20px); */
   font-size: 14px;
   color: #3498db;
 }
@@ -65,7 +65,7 @@ form .form-row .textarea{
 .input-data label{
   position: absolute;
   pointer-events: none;
-  bottom: 10px;
+  bottom: 20px;
   font-size: 16px;
   transition: all 0.3s ease;
 }
@@ -106,7 +106,7 @@ form .form-row .textarea{
   width: 300%;
   position: absolute;
   left: -100%;
-  background: -webkit-linear-gradient(right, #56d8e4, #9f01ea, #56d8e4, #9f01ea);
+  background: -webkit-linear-gradient(right, #cdcfcf, #898c8d, #636565, #5d6162);
   transition: all 0.4s;
 }
 .submit-btn .input-data:hover .inner{
@@ -129,16 +129,17 @@ form .form-row .textarea{
     font-size: 30px;
   }
   .container form{
-    padding: 10px 0 0 0;
+    padding: 20px 0 0 30;
   }
   .container form .form-row{
     display: block;
   }
   form .form-row .input-data{
-    margin: 35px 0!important;
+    margin-top: 50px !important;
+    width: 40%!important;
   }
   .submit-btn .input-data{
-    width: 40%!important;
+    width: 60%!important;
   }
 }
 
@@ -162,10 +163,10 @@ form .form-row .textarea{
                         @php
                             $customers = App\Models\Customer::all();
                         @endphp
-                        <label for="">  </label>
+                        <label for=""> Customers </label>
                         <select type="text" name="customer_id" id="date">
 
-                            <option style="font-size:1.1rem" value="">Customers</option>
+                            <option style="font-size:1.1rem" value="">Select One</option>
                             @foreach ($customers as $customer )
                             <option style="font-size:1.1rem" value="{{ $customer->id }}">{{ $customer->name  }}</option>
                             @endforeach
@@ -174,19 +175,16 @@ form .form-row .textarea{
                   </div>
                   <div class="input-data">
                      <input type="text" required name="paid_amount">
-                     <div class="underline"></div>
                      <label for="">Paid Amount</label>
                   </div>
                </div>
                <div class="form-row">
                   <div class="input-data">
                      <input type="text" required name="discount">
-                     <div class="underline"></div>
                      <label for="">Discount</label>
                   </div>
                   <div class="input-data">
                      <input type="text" required name="description">
-                     <div class="underline"></div>
                      <label for="">Description</label>
                   </div>
                 </div>

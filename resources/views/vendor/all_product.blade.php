@@ -229,24 +229,23 @@
         <a href="/">Home</a>
         <i class="icon-angle-right"></i>
     </li>
-    <li><a href="#">invests</a></li>
 </ul>
 
-<div class="row-fluid sortable">
+<div class="row-fluid sortable" style="width:97%">
     <div class="box span12">
         <div class="box-header" data-original-title>
-            <h2><i class="halflings-icon user"></i><span class="break"></span>Products</h2>
+            <h2><i class="halflings-icon user"></i><span class="break"></span>Stock Information</h2>
             {{-- <div class="box-icon">
                 <a href="/create-vendor" class="" style="background-color: rgb(31, 73, 124);color:aliceblue;padding:6px;border-radius:10px"><i class="icon-plus"></i> Create Vendor</a>
             </div> --}}
 
-            <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#exampleModal" style="margin-right:1rem;font-size:1.2rem;float:right;margin-bottom:2rem;padding-bottom:7px">
+            {{-- <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#exampleModal" style="margin-right:1rem;font-size:1.2rem;float:right;margin-bottom:2rem;padding-bottom:7px">
                 <i class="icon-plus"></i> </span> Create Product
-            </button>
+            </button> --}}
 
         </div>
 
-        <div class="box-content">
+        <div class="box-content" style="margin-top:5rem">
             <table class="table table-striped table-bordered bootstrap-datatable datatable">
               <thead>
                   <tr>
@@ -260,12 +259,21 @@
                       <th>Reserve Qty</th>
                       <th>Purchase Upcoming Qty</th>
                       <th>Saleable Qty</th>
+                      <th>Stock Value</th>
                       <th>Actions</th>
                   </tr>
               </thead>
-
+              @php
+                  $available_qties = 0;
+                  $total_unit_price = 0;
+              @endphp
               <tbody>
                 @foreach ($products as $key => $product )
+                @php
+                    $available_qties += $product->available_qty;
+                    $total_unit_price += $product->product_unit_price;
+
+                @endphp
                     <tr>
                         <td class="center">{{ $key+1 }}</td>
                         <td class="center">{{ $product->name }}</td>
@@ -280,6 +288,7 @@
                         <td class="center">{{ $product->reserve_qty }}</td>
                         <td class="center">{{ $product->purchase_upcoming_qty }}</td>
                         <td class="center">{{ $product->saleable_qty }}</td>
+                        <td class="center">{{ $product->product_unit_price * $product->available_qty }}</td>
                         <td class="center">
                             <div class="span2">
 
@@ -305,6 +314,17 @@
                 </tr>
               </tbody>
           </table>
+
+          @php
+
+              $total_stock_value = $available_qties * $total_unit_price;
+
+            @endphp
+              <div style="float: right;margin:4rem 2rem;background-color:#d9d9ebc6;padding:8px;width:25%;">
+                  <p style="font-weight:bold;font-size:1rem">Total Stock Value: {{ $total_stock_value  }}  </p>
+              </div>
+          </div>
+
         </div>
     </div>
 </div>

@@ -236,13 +236,11 @@ form .form-row .textarea{
     <div class="box span12">
         <div class="box-header" data-original-title>
             <h2><i class="halflings-icon user"></i><span class="break"></span>Company Informations</h2>
-            {{-- <div class="box-icon">
-                <a href="/create-vendor" class="" style="background-color: rgb(31, 73, 124);color:aliceblue;padding:6px;border-radius:10px"><i class="icon-plus"></i> Create Vendor</a>
-            </div> --}}
 
-            <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#exampleModal" style="margin-right:1rem;font-size:1.2rem;float:right;margin-bottom:2rem;padding-bottom:7px">
+
+            {{-- <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#exampleModal" style="margin-right:1rem;font-size:1.2rem;float:right;margin-bottom:2rem;padding-bottom:7px">
                 <i class="icon-plus"></i> </span> Company Info
-            </button>
+            </button> --}}
 
         </div>
 

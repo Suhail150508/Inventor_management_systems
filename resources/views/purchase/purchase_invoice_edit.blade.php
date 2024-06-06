@@ -3,7 +3,7 @@
 @section('content')
 
     {{-- <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap/5.3.2/css/bootstrap.min.css" integrity="sha512-b2QcS5SsA8tZodcDtGRELiGv5SaKSk1vDHDaQRda0htPYWZ6046lr3kJ5bAAQdpV2mmA/4v0wQF9MyU6/pDIAg==" crossorigin="anonymous" referrerpolicy="no-referrer" /> --}}
-    <link href="//netdna.bootstrapcdn.com/bootstrap/3.0.0/css/bootstrap.min.css" rel="stylesheet" id="bootstrap-css">
+    {{-- <link href="//netdna.bootstrapcdn.com/bootstrap/3.0.0/css/bootstrap.min.css" rel="stylesheet" id="bootstrap-css"> --}}
 <style>
 
     body {
@@ -406,114 +406,90 @@
 </head>
 <body style="height: 100%">
     {{-- <div class="container card"> --}}
-    <div class="container">
-        <div class="card-body">
-                <div class="header" style="display: flex;margin-bottom:7rem">
-                    <strong style="font-size: 2rem">Edit Invoice</strong>
+    <div class="">
+        <div class="card-body" style="">
 
-                    <div style="margin-right:2rem;background-color:#aaa;min-width:10%">
+            <form action="/purchase-invoice-update" method="POST" >
+                @csrf
+                <div style="width:95%;text-align:center">
+                    @php
+                        $company = App\Models\Company::latest()->first();
+                    @endphp
+                      <div style="">
+                            <img width="80" style="border-radius:25%" src="{{ URL::asset('/teacher/'.$company->logo) }}" alt="{{ $company->logo }}">
+
+                    </div>
+
+                </div>
+                <div class="header" style="display: flex;margin-top:3rem;margin-bottom:5rem;width:95%">
+
+                    <div style="width:20%">
+                        @php
+                            $vendors = App\Models\Vendor::all();
+                        @endphp
+                            <div style="width:60%">
+                                <select class="form-control"  name="vendor_id"  id="selectField" style="display:none">
+
+                                    <option style="" value=""></option>
+                                    @foreach ($vendors as $vendor )
+                                    <option class="vendor_name" value="{{ $vendor->id }}">{{ $vendor->name  }}</option>
+                                    @endforeach
+                                </select>
+                            </div>
+
+                            <div id="dataContainer" style="background-color: #aaa;color:#000">
+                                <p style="margin:1px;padding: 0px 5px" id="name"></p>
+                                <p style="margin:1px;padding: 0px 5px" id="email"></p>
+                                <p style="margin:1px;padding: 0px 5px" id="mobile"></p>
+                                <p style="margin:1px;padding: 0px 5px" id="address"></p>
+                            </div>
+
+                            @if ($vendorss)
+
+                                <div id="dataContainer" style="margin: 2rem;color:#000;">
+                                    <strong>Vendors Information</strong>
+                                    <p style="margin: 1px" id="name">{{ $vendorss->name ?? '' }}</p>
+                                    <p style="margin: 1px" id="email">{{ $vendorss->email ?? '' }}</p>
+                                    <p style="margin: 1px" id="mobile">{{ $vendorss->mobile ?? '' }}</p>
+                                </div>
+                            @endif
+                            {{-- <div>
+                                <strong>Shipinng Information:</strong>
+                                <div>
+                                    <small style="color:black;font-size:1.3rem">Dinajpur</small>
+                                </div>
+                                <div>
+                                    <small style="color:black;font-size:1.3rem">Chirirbander</small>
+                                </div>
+                                <div>
+                                    <small style="color:black;font-size:1.3rem">Parbotipur</small>
+                                </div>
+                            </div> --}}
+                    </div>
+
+                    <div style="margin-top:-8rem;text-align:center">
+                        <strong style="font-size: 1.5rem;">Purchase Edit</strong>
+                    </div>
+                    <div style="background-color:#aaa;padding:7px;">
 
                         @php
-                            $companies = App\Models\Company::all();
+                            $company = App\Models\Company::latest()->first();
                         @endphp
 
 
-                        <div style="text-align: left">
-                            @foreach ($companies as $company )
-                                <div style="text-align: center">
-                                    <img width="80" style="border-radius:25%" src="{{ URL::asset('/teacher/'.$company->logo) }}" alt="{{ $company->logo }}">
-                                </div>
-                                <h3 style="text-align: center;padding:.2rem">{{ $company->name }}</h3>
-                                <h4 style="text-align: center;padding:.2rem">{{ $company->email }}</h4>
-                                <p style="text-align: center;padding:.2rem">{{ $company->address }}</p>
+                        <div style="">
 
-                            @endforeach
+                                <h4 style="text-align: center;padding:0 .2rem">{{ $company->name }}</h4>
+                                <p style="text-align: center;padding:0 .2rem">{{ $company->email }}</p>
+                                <p style="text-align: center;padding:0 .2rem">{{ $company->address }}</p>
+
                         </div>
 
                     </div>
 
                 </div>
-                <div>
-                    {{-- <h2 class="qt">Quetation </h2> --}}
-                </div>
 
-            <form action="/purchase-invoice-update" method="POST">
-                @csrf
-                <div style="display:flex">
-
-                    <div class="customer" style="margin-top:-8rem;margin-bottom:10rem;width:30%;">
-                        {{-- <label class="customer-heading bg-danger"> Vendors Information </label>
-
-                            <select class="form-controll" id="selectField" name="customer_id"  style="width: 20rem;" >
-                                <option value="">select</option>
-
-                                @php
-                                    $vendors = App\Models\Vendor::all();
-                                @endphp
-
-                                @foreach ( $vendors as $vendor )
-                                <option value="{{ $vendor->id }}">{{ $vendor->name }}</option>
-                                @endforeach
-                            </select> --}}
-
-                            <div id="dataContainer" style="background-color: #aaa;color:#000;width:100%;">
-                                <p style="margin: .8rem " id="name"></p>
-                                <p style="margin: .8rem " id="email"></p>
-                                <p style="margin: .8rem " id="mobile"></p>
-                            </div>
-                                @if ($vendorss)
-                                <div style="display: flex;justify-content:space-around">
-                                    <div id="dataContainer" style="margin: 2rem;color:#000;">
-                                        <strong>Vendors Information</strong>
-                                        <p style="margin: .8rem;background-color:#aaa; " id="name">{{ $vendorss->name ?? '' }}</p>
-                                        <p style="margin: .8rem " id="email">{{ $vendorss->email ?? '' }}</p>
-                                        <p style="margin: .8rem " id="mobile">{{ $vendorss->mobile ?? '' }}</p>
-                                    </div>
-                                    <div  class="first" style="margin-left: 6rem;border:2px solid black " id="dataContainer" style="color:#000;width:100%;">
-                                        <div style="display: flex">
-
-                                            <div class="origin1" style="width:100px">
-                                                <strong style="margin: .8rem;" id="name">Origin: </strong>
-                                                <strong style="margin: .8rem " id="email">Created_at</strong>
-                                                <strong style="margin: .8rem " id="mobile">Updated_at</strong>
-
-                                            </div>
-                                            <div  class="origin_data1" style="width:220px;height:100%;padding:5px">
-                                                <p style="margin: .8rem;text-align:center " id="name">{{ $vendorss->vendor_origin ?? '' }}</p>
-                                                <p style="margin: .8rem;text-align:center " id="email">{{ $vendorss->created_at ?? '' }}</p>
-                                                <p style="margin: .8rem;text-align:center " id="mobile">{{ $vendorss->updated_at ?? '' }}</p>
-
-                                            </div>
-                                        </div>
-                                    </div>
-                                    <div style="margin-left: 6rem;border:2px solid black " id="dataContainer" style="background-color: #aaa;color:#000;width:100%;">
-                                        <div style="display: flex">
-
-                                            <div class="origin" style="width:6rem">
-                                                <strong style="margin: .8rem; " id="name">Origin: </strong>
-                                                <strong style="margin: .8rem; " id="email">Created_at</strong>
-                                                <strong style="margin: .8rem; " id="mobile">Updated_at</strong>
-
-                                            </div>
-                                            <div style="width:200px;height:100%;">
-                                                <p style="margin: .8rem;text-align:center " id="name">{{ $vendorss->vendor_origin ?? '' }}</p>
-                                                <p style="margin: .8rem;text-align:center " id="email">{{ $vendorss->created_at ?? '' }}</p>
-                                                <p style="margin: .8rem;text-align:center " id="mobile">{{ $vendorss->updated_at ?? '' }}</p>
-
-                                            </div>
-                                        </div>
-                                    </div>
-
-                                </div>
-
-                                @endif
-
-
-                    </div>
-
-                </div>
-
-                <table class="table table-hover table-white tableEstimate1" id="tableEstimate">
+                <table class="table table-hover table-white tableEstimate1" id="tableEstimate" style="width:95%">
                     <thead>
                         <tr>
                             <th class="col-sm-3">product</th>
@@ -528,37 +504,31 @@
                     <tbody>
                     @foreach ($purchase_edits as $key=>$edit )
                         <tr>
-                            @php
-                                $items = App\Models\StockProduct::where('code',$edit->code)->get();
+                                @php
+                                    $items = App\Models\Product::where('code',$edit->code)->get();
 
-                            @endphp
-                            <td>
-                                    {{-- <select class="form-control selectProduct"  name="product_id[]"  value="{{ $edit->product_id }} style="width: 10rem">
-                                        @foreach ($items as $item )
-                                        <option value="">{{ $item->name }}</option>
-                                        @endforeach
+                                @endphp
+                            <td style="display: flex">
 
-                                        @php
-                                            $products = App\Models\StockProduct::all();
-                                        @endphp
+                                <select class="form-control" id="selectProduct" name="product_id[]"  style="width: 10rem">
+                                    @foreach ($items as $item)
+                                    <option value="{{ $item->id }}">{{ $item->name }}</option>
 
-                                        @foreach ($products as $product )
-                                        <option value="{{ $product->id }}">{{ $product->name }}</option>
-                                        @endforeach
-                                    </select> --}}
+                                    @endforeach
 
-                                    <select class="form-control selectProduct" name="product_id[]" style="width: 10rem">
-                                        @foreach ($items as $item)
-                                            <option value="{{ $item->id }}" {{ $edit->product_id == $item->id ? 'selected' : '' }}>{{ $item->name }}</option>
-                                        @endforeach
-                                        @php
-                                            $products = App\Models\StockProduct::all();
-                                        @endphp
-                                        @foreach ($products as $product)
-                                            <option value="{{ $product->id }}" {{ $edit->product_id == $product->id ? 'selected' : '' }}>{{ $product->name }}</option>
-                                        @endforeach
-                                    </select>
+                                    @php
+                                        // $products = App\Models\StockProduct::all();
+                                        $products = App\Models\Product::all();
+                                    @endphp
 
+                                    @foreach ($products as $product )
+                                    {{-- <option value="{{ $product->id }}">{{ $product->name }}</option> --}}
+                                    <option value="{{ $product->id }}" data-image="{{ URL::asset('/teacher/'.$product->image) }}">{{ $product->name }}</option>
+                                    @endforeach
+                                </select>
+                                <div id="productImageContainer" style="display: none;margin-left:.3rem">
+                                    <img id="productImage" width="35" style="border-radius: 50%" src="" alt="Product Image">
+                                </div>
 
 
                             </td>
@@ -581,32 +551,50 @@
 
                 <div  style="margin:3rem .1rem;">
 
-                    <a href="javascript:void(0)" class="btn btn-success font-18" title="Add" id="addBtn" style="font-size:1.7rem"><i class="icon-plus"></i> Add Item</a>
+                    <a href="javascript:void(0)" class="btn btn-success font-18" title="Add" id="addBtn" style="font-size:1.1rem"><i class="icon-plus"></i> Add Item</a>
                 </div>
 
-                <div style="text-align:center;display:flex;justify-content:center">
-                    <strong style="font-size: 1.7rem">Select Status</strong>
-                    <select class="form-control" name="status" id="status" required style="width:14rem">
+                <div style="display: flex;justify-content:space-around">
+                    <div></div>
+                    <div style="display:flex;">
+                        <strong style="margin-top:5px;font-size:1.2rem">Select Status</strong>
+                        <select class="form-control" name="status" id="status" required style="width:8rem;">
+                            <option value="Paid" >Paid</option>
+                        </select>
+                    </div>
 
-                        <option value="Paid" >Paid</option>
-                    </select>
+                    <div style="background-color:#d9d9ebc6;padding:8px;">
+                        <p style="display:none">Sub Total1: <input type="text" id="subtotal1" style="width: 60px;height:20px"></p>
+                        <p style="display:none">Sub Total2: <input type="text" id="subtotal2" style="width: 60px;height:20px"></p>
+                        <div>
+
+                        </div>
+                        <div>
+                            <small style="font-weight:bold;color:#000;font-size:1rem;">Sub Total: <input type="text" class="form-control" id="subtotal" name="sub_total" style="width: 60px;height:9px;margin-left:2rem" value="{{ $purchase_invoices->sub_total }}"></small>
+
+                        </div>
+                        <div>
+                            <small style="font-weight:bold;color:#000;font-size:1rem;padding-top:-1rem">Discount: <input type="text" class="form-control" id="discount" name="discount" style="width: 60px;height:9px;margin-left:2rem" value="{{ $purchase_invoices->discount }}"></small>
+
+                        </div>
+                        <div>
+                            <small style="font-weight:bold;color:#000;font-size:1rem;padding-top:-1rem">Total: <input type="text" class="form-control" id="total" name="total" style="width: 60px;height:9px;margin-left:4rem" value="{{ $purchase_invoices->total}}"></small>
+
+                        </div>
+                        <div>
+                            <small style="font-weight:bold;color:#000;font-size:1rem;padding-top:-1rem">Paid: <input type="text" class="form-control" id="paid" name="paid" style="width: 60px;height:9px;margin-left:4.3rem" value="{{ $purchase_invoices->paid }}"></small>
+
+                        </div>
+                        <div>
+                            <small style="font-weight:bold;color:#000;font-size:1rem;padding-top:-1rem">Due: <input type="text" class="form-control" id="due" name="due" style="width: 60px;height:9px;margin-left:4.5rem" value="{{ $purchase_invoices->due }}"></small>
+
+                        </div>
+                    </div>
                 </div>
 
-                <div style="float: right;margin:4rem 2rem;background-color:#d9d9ebc6;padding:8px;width:21%;">
-
-                    <p style="display:none">Sub Total2: <input type="text" id="old_qty" style="width: 60px;height:20px"></p>
-                    <p style="display:none">Sub Total1: <input type="text" id="subtotal1" style="width: 60px;height:20px"></p>
-                    <p style="display:none">Sub Total2: <input type="text" id="subtotal2" style="width: 60px;height:20px"></p>
-                    <p style="font-weight:bold;font-size:1.7rem">Sub Total: <input type="text" class="form-control" id="subtotal" name="sub_total" style="width: 60px;height:16px" value="{{ $purchase_invoices->sub_total }}"></p>
-                    <p style="font-weight:bold;font-size:1.7rem">Discount: <input type="text" class="form-control" id="discount" name="discount" style="width: 60px;height:16px" value="{{ $purchase_invoices->discount }}"></p>
-                    <p style="font-weight:bold;font-size:1.7rem">Total: <input type="text" class="form-control" id="total" name="total" style="width: 60px;height:16px" value="{{ $purchase_invoices->total}}"></p>
-                    <p style="font-weight:bold;font-size:1.7rem">Paid: <input type="text" class="form-control" id="paid" name="paid" style="width: 60px;height:16px" value="{{ $purchase_invoices->paid }}"></p>
-                    <p style="font-weight:bold;font-size:1.7rem">Due: <input type="text" class="form-control" id="due" name="due" style="width: 60px;height:16px" value="{{ $purchase_invoices->due }}"></p>
-                </div>
-
-                <div style="text-align: center;margin-top:27rem">
-                    <button type="submit" style=" padding:6px 25px;font-size:2.2rem"  class="btn btn-primary ">Update</button>
-                    <button type="button" class="btn" style=" padding:6px 25px;font-size:2.2rem;margin-left:5rem" onclick="GetPrint()" class="btn btn-primary ">Print</button>
+                <div style="text-align: center;margin-top:15rem">
+                    <button type="submit" style=" padding:6px 25px;font-size:1.3rem"  class="btn btn-primary ">Update</button>
+                    <button type="button" class="btn" style=" padding:6px 25px;font-size:1.3rem;margin-left:5rem" onclick="GetPrint()" class="btn btn-primary ">Print</button>
                 </div>
 
 
@@ -662,7 +650,26 @@
     });
 </script> --}}
 
+<script>
 
+    document.addEventListener("DOMContentLoaded", function () {
+      var selectProduct = document.getElementById('selectProduct');
+      var productImage = document.getElementById('productImage');
+
+      selectProduct.addEventListener('click', function () {
+          var selectedOption = selectProduct.options[selectProduct.selectedIndex];
+          var imageSrc = selectedOption.getAttribute('data-image');
+
+          if (imageSrc) {
+              productImage.src = imageSrc;
+              document.getElementById('productImageContainer').style.display = 'block';
+          } else {
+              productImage.src = '';
+              document.getElementById('productImageContainer').style.display = 'none';
+          }
+      });
+  });
+</script>
 
         <script>
 

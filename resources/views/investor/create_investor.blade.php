@@ -16,7 +16,7 @@
             display: flex;
             justify-content: center;
             align-items: center;
-            background-color: #0d06d6;
+            background-color: #799dc3;
             cursor: pointer;
             transition: all 0.5s;
             border-radius: 6px;
@@ -45,7 +45,7 @@
             <h2><i class="halflings-icon user"></i><span class="break"></span>Investor</h2>
         </div>
 
-        <div style="margin:0 auto;background-color:rgb(110, 136, 237);color:white;padding:4px;width:50%">
+        <div style="margin:0 auto;background-color:rgb(43, 111, 110);color:white;padding:4px;width:50%">
             <h1 style="text-align: center" >Create Investor</h1>
         </div>
         <div class="" style="background-color:lightgray;color:black;width:30%;margin:0 auto;padding-top:3rem;padding:6rem">

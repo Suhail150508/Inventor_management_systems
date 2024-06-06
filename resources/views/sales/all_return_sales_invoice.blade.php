@@ -83,6 +83,74 @@
         }
     }
     }
+
+    @media print{
+        .btn{
+            display: none;
+        }
+        /* .form-control{
+            border: 0px;
+        } */
+        input .form-control{
+            border: 0px;
+        }
+        .customer .form-controll{
+            display: none;
+        }
+        .customer{
+            border:2px solid #000;
+        }
+        .customer-heading {
+            /* display: block !important;
+            background-color:#aaa !important;
+            padding:4px; */
+            /* margin-top: -3rem; */
+            }
+            .form-controll2{
+                display: block;
+            }
+            .origin{
+                font-size: 2rem;
+                /* background-color: #aaa !important; */
+            }
+            .origin1{
+                background-color: #aaa !important;
+                height: 200px;
+                padding-top: 10px;
+            }
+            .first{
+                margin-right: -6rem;
+                width:300px;
+            }
+            h2{
+                margin-top:-15rem;
+                text-align: center;
+                /* font-size: 30px; */
+                /* margin: 35px; */
+                font-weight: 300;
+                color: tomato;
+                /* padding: 50px; */
+                /* width: 50px;
+                border-bottom:2px solid black; */
+            }
+            #dataContainer{
+                width:100px;
+            }
+            .form_section{
+                display:none;
+            }
+            .breadcrumb{
+                display:none;
+
+            }
+            .action{
+                display:none;
+
+            }
+
+    }
+
+
 </style>
 
 <ul class="breadcrumb">
@@ -97,15 +165,15 @@
 <div class="row-fluid sortable">
     <div class="box span12">
         <div class="box-header" data-original-title>
-            <h2><i class="halflings-icon user"></i><span class="break"></span>Invoices</h2>
-            <div class="box-icon">
+            <h2><i class="halflings-icon user"></i><span class="break"></span>Return Sales Invoices</h2>
+            {{-- <div class="box-icon">
                 <a href="/return-sales-invoice" class="" style="background-color: rgb(31, 73, 124);color:aliceblue;padding:6px;border-radius:10px"><i class="icon-plus"></i> Create Return Sales</a>
-            </div>
+            </div> --}}
         </div>
 
 
         <div>
-            <form action="/search-vendor-invoice" method="POST" class="row pt-5" style="width:50%;height:40%;display:flex;justify-content:center;padding:.2rem;margin:.9rem 5rem">
+            <form action="/search-customer-invoice" method="POST" class="row pt-5" style="display:flex;justify-content:center;padding:.2rem;margin-top:4rem">
                 @csrf
                 @php
                     $customers = App\Models\Customer::all();
@@ -114,12 +182,12 @@
                 <strong style="font-size:1.2rem" for=""> Customers </strong>
                 <select  name="customer_id"  id="selectField">
 
-                    <option style="font-size:1.1rem" value="all">All</option>
+                    <option style="font-size:1.1rem" value="All">All</option>
                     @foreach ($customers as $customer )
-                    <option style="font-size:1.1rem" value="{{ $customer->id }}">{{ $customer->name  }}</option>
+                    <option style="font-size:1.1rem" value="{{ $customer->id }}" {{ session('selectedCustomerId') == $customer->id ? 'selected' : '' }}>{{ $customer->name  }}</option>
                     @endforeach
                 </select>
-                <button type="submit" class="col-md-3 btn btn-success" style="font-size:1.2rem;width:100px;height:32px">Search </button>
+                <button type="submit" class="col-md-3 btn btn-secondary" style="font-size:1.2rem;width:100px;height:30px">Search </button>
             </form>
         </div>
 
@@ -139,7 +207,7 @@
                       <th>Total</th>
                       <th>Paid</th>
                       <th>Due</th>
-                      <th>Actions</th>
+                      <th class="action">Actions</th>
                   </tr>
               </thead>
 
@@ -166,7 +234,7 @@
 
 
 
-                        <td class="center">
+                        <td class="center action">
 
                             <div class="span2">
 
@@ -192,9 +260,15 @@
     </div>
 </div>
 
+<div style="text-align: center;">
+    <button type="button" class="btn" style=" padding:6px 25px;font-size:1.3rem;" onclick="GetPrint()" class="btn btn-primary ">Print</button>
+</div>
 
 
-
-
+<script>
+     function GetPrint(){
+        window.print();
+    }
+</script>
 
 @endsection

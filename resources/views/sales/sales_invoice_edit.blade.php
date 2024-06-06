@@ -2,8 +2,7 @@
 
 @section('content')
 
-    {{-- <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap/5.3.2/css/bootstrap.min.css" integrity="sha512-b2QcS5SsA8tZodcDtGRELiGv5SaKSk1vDHDaQRda0htPYWZ6046lr3kJ5bAAQdpV2mmA/4v0wQF9MyU6/pDIAg==" crossorigin="anonymous" referrerpolicy="no-referrer" /> --}}
-    <link href="//netdna.bootstrapcdn.com/bootstrap/3.0.0/css/bootstrap.min.css" rel="stylesheet" id="bootstrap-css">
+    {{-- <link href="//netdna.bootstrapcdn.com/bootstrap/3.0.0/css/bootstrap.min.css" rel="stylesheet" id="bootstrap-css"> --}}
 <style>
 
 body {
@@ -358,58 +357,89 @@ nav.shift ul li a:hover:after {
 </head>
 <body style="height: 100%">
     {{-- <div class="container card"> --}}
-    <div class="container">
+    <div class="">
         <div class="card-body">
-                <div class="header" style="display: flex;margin-bottom:7rem">
-                    <strong style="font-size: 2rem">Sales Invoice</strong>
 
-                    <div style="margin-right:2rem;background-color:#aaa;min-width:10%">
-
-                        @php
-                            $companies = App\Models\Company::all();
-                        @endphp
-
-
-                        <div style="text-align: left">
-                            @foreach ($companies as $company )
-                                <div style="text-align: center">
-                                    <img width="80" style="border-radius:25%" src="{{ URL::asset('/teacher/'.$company->logo) }}" alt="{{ $company->logo }}">
-                                </div>
-                                <h3 style="text-align: center;padding:.2rem">{{ $company->name }}</h3>
-                                <h4 style="text-align: center;padding:.2rem">{{ $company->email }}</h4>
-                                <p style="text-align: center;padding:.2rem">{{ $company->address }}</p>
-
-                            @endforeach
-                        </div>
+            <form action="/sales-invoice-update" method="POST">
+                @csrf
+                <div style="width:95%;text-align:center">
+                    @php
+                        $company = App\Models\Company::latest()->first();
+                    @endphp
+                      <div style="">
+                            <img width="80" style="border-radius:25%" src="{{ URL::asset('/teacher/'.$company->logo) }}" alt="{{ $company->logo }}">
 
                     </div>
 
                 </div>
 
-            <form action="/sales-invoice-update" method="POST">
-                @csrf
+                <div class="header" style="display: flex;margin-top:3rem;margin-bottom:5rem;width:95%">
 
-                <div class="shift" style="margin-top:-8rem;margin-bottom:10rem;width:20%">
+                    <div style="width:20%">
 
-                        <h3 for=""> Customers </h3>
+                            <div style="width:60%">
 
-                        <select class="form-control" id="selectField" name="customer_id"  style="width: 20rem">
-                            <option value="">{{ $customer_edits->name }}</option>
+                                <select class="form-control" id="selectField" name="customer_id"  style="display:none">
+                                    <option value=""></option>
+                                        @php
+                                            $products = App\Models\Customer::all();
+                                        @endphp
 
-                            @php
-                                $products = App\Models\Customer::all();
-                            @endphp
+                                    @foreach ( $products as $product )
+                                    <option value="{{ $product->id }}">{{ $product->name }}</option>
+                                    @endforeach
+                                </select>
+                            </div>
 
-                            @foreach ( $products as $product )
-                            <option value="{{ $product->id }}">{{ $product->name }}</option>
-                            @endforeach
-                        </select>
+                            <div id="dataContainer" style="background-color: #aaa;color:#000">
+                                <p style="margin:1px;padding: 0px 5px" id="name"></p>
+                                <p style="margin:1px;padding: 0px 5px" id="email"></p>
+                                <p style="margin:1px;padding: 0px 5px" id="mobile"></p>
+                                <p style="margin:1px;padding: 0px 5px" id="address"></p>
+                            </div>
 
-                        <div id="dataContainer" style="background-color: #aaa;color:#000;width:100%;">
-                            <p style="margin: .8rem " id="name"></p>
-                            <p style="margin: .8rem " id="email"></p>
-                            <p style="margin: .8rem " id="mobile"></p>
+                            @if ($customer_edits)
+
+                                <div id="dataContainer" style="margin: 2rem;color:#000;">
+                                    <strong>Customers Information</strong>
+                                    <p style="margin: 1px" id="name">{{ $customer_edits->name ?? '' }}</p>
+                                    <p style="margin: 1px" id="email">{{ $customer_edits->email ?? '' }}</p>
+                                    <p style="margin: 1px" id="mobile">{{ $customer_edits->mobile ?? '' }}</p>
+                                </div>
+                            @endif
+                            {{-- <div>
+                                <strong>Shipinng Information:</strong>
+                                <div>
+                                    <small style="color:black;font-size:1.3rem">Dinajpur</small>
+                                </div>
+                                <div>
+                                    <small style="color:black;font-size:1.3rem">Chirirbander</small>
+                                </div>
+                                <div>
+                                    <small style="color:black;font-size:1.3rem">Parbotipur</small>
+                                </div>
+                            </div> --}}
+                    </div>
+
+                    <div style="margin-top:-8rem;text-align:center">
+                        <strong style="font-size: 1.5rem;">Sales Edit</strong>
+                    </div>
+                    <div style="background-color:#aaa;padding:7px;">
+
+                        @php
+                            $company = App\Models\Company::latest()->first();
+                        @endphp
+
+
+                        <div style="">
+
+                                <h4 style="text-align: center;padding:0 .2rem">{{ $company->name }}</h4>
+                                <p style="text-align: center;padding:0 .2rem">{{ $company->email }}</p>
+                                <p style="text-align: center;padding:0 .2rem">{{ $company->address }}</p>
+
                         </div>
+
+                    </div>
 
                 </div>
 
@@ -430,33 +460,29 @@ nav.shift ul li a:hover:after {
                         {{-- @dd($edit->invoice_id); --}}
                     <tr>
                         @php
-                            $items = App\Models\StockProduct::where('code',$edit->code)->get();
+                            $items = App\Models\Product::where('code',$edit->code)->get();
                         @endphp
-                        <td>
-                                {{-- <select class="form-control selectProduct"  name="product_id[]" style="width: 10rem">
-                                    @foreach ($items as $item )
-                                        <option value="{{ $item->id }}>{{ $item->name }}</option>
-                                    @endforeach
+                        <td style="display: flex">
 
-                                    @php
-                                        $products = App\Models\StockProduct::all();
-                                    @endphp
+                            <select class="form-control" id="selectProduct" name="product_id[]"  style="width: 10rem">
+                                @foreach ($items as $item)
+                                <option value="{{ $item->id }}">{{ $item->name }}</option>
 
-                                    @foreach ($products as $product )
-                                    <option value="{{ $edit->product_id }}">{{ $product->name }}</option>
-                                    @endforeach
-                                </select> --}}
+                                @endforeach
 
-                                <select class="form-control selectProduct" name="product_id[]" style="width: 10rem">
-                                    @foreach ($items as $item)
-                                        <option value="{{ $item->id }}" {{ $edit->product_id == $item->id ? 'selected' : '' }}>{{ $item->name }}</option>
-                                    @endforeach
+                                @php
+                                    // $products = App\Models\StockProduct::all();
+                                    $products = App\Models\Product::all();
+                                @endphp
 
-                                    @foreach ($products as $product)
-                                        <option value="{{ $product->id }}" {{ $edit->product_id == $product->id ? 'selected' : '' }}>{{ $product->name }}</option>
-                                    @endforeach
-                                </select>
-
+                                @foreach ($products as $product )
+                                {{-- <option value="{{ $product->id }}">{{ $product->name }}</option> --}}
+                                <option value="{{ $product->id }}" data-image="{{ URL::asset('/teacher/'.$product->image) }}">{{ $product->name }}</option>
+                                @endforeach
+                            </select>
+                            <div id="productImageContainer" style="display: none;margin-left:.3rem">
+                                <img id="productImage" width="35" style="border-radius: 50%" src="" alt="Product Image">
+                            </div>
 
 
                         </td>
@@ -482,32 +508,51 @@ nav.shift ul li a:hover:after {
 
                 <div  style="margin:3rem .1rem;">
 
-                    <a href="javascript:void(0)" class="btn btn-success font-18" title="Add" id="addBtn" style="font-size:1.7rem"><i class="icon-plus"></i> Add Item</a>
+                    <a href="javascript:void(0)" class="btn btn-success font-18" title="Add" id="addBtn" style="font-size:1.1rem"><i class="icon-plus"></i> Add Item</a>
                 </div>
 
-                <div style="text-align:center;display:flex;justify-content:center">
-                    <strong style="font-size: 1.7rem">Select Status</strong>
-                    <select class="form-control" name="status" id="status" required style="width:14rem">
-                        {{-- <option>Pending</option> --}}
-                        <option>Paid</option>
-                    </select>
+
+                <div style="display: flex;justify-content:space-around">
+                    <div></div>
+                    <div style="display:flex;">
+                        <strong style="margin-top:5px;font-size:1.2rem">Select Status</strong>
+                        <select class="form-control" name="status" id="status" required style="width:8rem;">
+                            <option value="Paid" >Paid</option>
+                        </select>
+                    </div>
+
+                    <div style="background-color:#d9d9ebc6;padding:8px;">
+                        <p style="display:none">Sub Total1: <input type="text" id="subtotal1" style="width: 60px;height:20px"></p>
+                        <p style="display:none">Sub Total2: <input type="text" id="subtotal2" style="width: 60px;height:20px"></p>
+                        <div>
+
+                        </div>
+                        <div>
+                            <small style="font-weight:bold;color:#000;font-size:1rem;">Sub Total: <input type="text" class="form-control" id="subtotal" name="sub_total" style="width: 60px;height:9px;margin-left:2rem" value="{{ $sales_invoice_edits->sub_total }}"></small>
+
+                        </div>
+                        <div>
+                            <small style="font-weight:bold;color:#000;font-size:1rem;padding-top:-1rem">Discount: <input type="text" class="form-control" id="discount" name="discount" style="width: 60px;height:9px;margin-left:2rem" value="{{ $sales_invoice_edits->discount }}"></small>
+
+                        </div>
+                        <div>
+                            <small style="font-weight:bold;color:#000;font-size:1rem;padding-top:-1rem">Total: <input type="text" class="form-control" id="total" name="total" style="width: 60px;height:9px;margin-left:4rem" value="{{ $sales_invoice_edits->total}}"></small>
+
+                        </div>
+                        <div>
+                            <small style="font-weight:bold;color:#000;font-size:1rem;padding-top:-1rem">Paid: <input type="text" class="form-control" id="paid" name="paid" style="width: 60px;height:9px;margin-left:4.3rem" value="{{ $sales_invoice_edits->paid }}"></small>
+
+                        </div>
+                        <div>
+                            <small style="font-weight:bold;color:#000;font-size:1rem;padding-top:-1rem">Due: <input type="text" class="form-control" id="due" name="due" style="width: 60px;height:9px;margin-left:4.5rem" value="{{ $sales_invoice_edits->due }}"></small>
+
+                        </div>
+                    </div>
                 </div>
 
-                <div style="float: right;margin:4rem 2rem;background-color:#d9d9ebc6;padding:8px;width:21%;">
-
-                    <p style="display:none">Sub Total2: <input type="text" id="old_qty" style="width: 60px;height:20px"></p>
-                    <p style="display:none">Sub Total1: <input type="text" id="subtotal1" style="width: 60px;height:20px"></p>
-                    <p style="display:none">Sub Total2: <input type="text" id="subtotal2" style="width: 60px;height:20px"></p>
-                    <p style="font-weight:bold;font-size:1.7rem">Sub Total: <input type="text" class="form-control" id="subtotal" name="sub_total" style="width: 60px;height:16px" value="{{ $sales_invoice_edits->sub_total }}"></p>
-                    <p style="font-weight:bold;font-size:1.7rem">Discount: <input type="text" class="form-control" id="discount" name="discount" style="width: 60px;height:16px" value="{{ $sales_invoice_edits->discount }}"></p>
-                    <p style="font-weight:bold;font-size:1.7rem">Total: <input type="text" class="form-control" id="total" name="total" style="width: 60px;height:16px" value="{{ $sales_invoice_edits->total }}"></p>
-                    <p style="font-weight:bold;font-size:1.7rem">Paid: <input type="text" class="form-control" id="paid" name="paid" style="width: 60px;height:16px" value="{{ $sales_invoice_edits->paid }}"></p>
-                    <p style="font-weight:bold;font-size:1.7rem">Due: <input type="text" class="form-control" id="due" name="due" style="width: 60px;height:16px" value="{{ $sales_invoice_edits->due }}"></p>
-                </div>
-
-                <div style="text-align: center;margin-top:27rem">
-                    <button type="submit" style=" padding:6px 25px;font-size:2.2rem"  class="btn btn-primary ">Update</button>
-                    <button type="button" class="btn" style=" padding:6px 25px;font-size:2.2rem;margin-left:5rem" onclick="GetPrint()" class="btn btn-primary ">Print</button>
+                <div style="text-align: center;margin-top:15rem">
+                    <button type="submit" style=" padding:6px 25px;font-size:1.3rem"  class="btn btn-primary ">Update</button>
+                    <button type="button" class="btn" style=" padding:6px 25px;font-size:1.3rem;margin-left:5rem" onclick="GetPrint()" class="btn btn-primary ">Print</button>
                 </div>
 
 
@@ -519,17 +564,30 @@ nav.shift ul li a:hover:after {
       </div>
 
       </div>
-<div>
-<h2>product:<p id="tests"></p></h2>
-</div>
-
-      {{-- <script src="//netdna.bootstrapcdn.com/bootstrap/3.0.0/js/bootstrap.min.js"></script>
-      <script src="//code.jquery.com/jquery-1.11.1.min.js"></script>
 
 
-      <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script> --}}
+<script>
 
-         <!-- Include jQuery -->
+    document.addEventListener("DOMContentLoaded", function () {
+      var selectProduct = document.getElementById('selectProduct');
+      var productImage = document.getElementById('productImage');
+
+      selectProduct.addEventListener('click', function () {
+          var selectedOption = selectProduct.options[selectProduct.selectedIndex];
+          var imageSrc = selectedOption.getAttribute('data-image');
+
+          if (imageSrc) {
+              productImage.src = imageSrc;
+              document.getElementById('productImageContainer').style.display = 'block';
+          } else {
+              productImage.src = '';
+              document.getElementById('productImageContainer').style.display = 'none';
+          }
+      });
+  });
+</script>
+
+
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
     <!-- Include Bootstrap JS -->
     {{-- <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script> --}}
@@ -783,12 +841,6 @@ nav.shift ul li a:hover:after {
             });
 
         </script>
-
-
-        @php
-        $products = App\Models\StockProduct::all();
-        @endphp
-
 {{-- <td class="row-index text-center"><p>${rowIdx}</p></td> --}}
 {{-- <script>
     $(document).ready(function() {
@@ -847,13 +899,20 @@ nav.shift ul li a:hover:after {
             // Adding a row inside the tbody.
             $("#tableEstimate tbody").append(`
             <tr id="R${rowIdx}">
-                    <td>
+                <td style="display:flex">
                         <select class="selectProduct form-control" name="product_id[]" style="width: 10rem" required>
                             <option value="">select</option>
+                            @php
+
+                                $products = App\Models\Product::all();
+                            @endphp
                             @foreach ($products as $product )
-                            <option value="{{ $product->id }}">{{ $product->name }}</option>
+                            <option value="{{ $product->id }}" data-image="{{ URL::asset('/teacher/'.$product->image) }}">{{ $product->name }}</option>
                             @endforeach
                         </select>
+                        <div class="productImageContainer" style="display: none;margin-left:.3rem">
+                            <img class="productImage" width="35" style="border-radius: 15%" src="" alt="Product Image">
+                        </div>
                     </td>
                     <td><input class="form-control code" type="textarea" style="width:130px" name="code[]"></td>
                     <td><input class="form-control " style="width:130px" type="textarea" id="qty" name="qty[]"></td>
@@ -865,6 +924,21 @@ nav.shift ul li a:hover:after {
             rowIdx++;
         });
 
+
+        $(document).on('click', '.selectProduct', function () {
+            var selectedOption = $(this).find('option:selected');
+            var imageSrc = selectedOption.attr('data-image');
+            var productImageContainer = $(this).closest('tr').find('.productImageContainer');
+            var productImage = productImageContainer.find('.productImage');
+
+            if (imageSrc) {
+                productImage.attr('src', imageSrc);
+                productImageContainer.css('display', 'block');
+            } else {
+                productImage.attr('src', '');
+                productImageContainer.css('display', 'none');
+            }
+        });
 
         $("#tableEstimate").on("change", ".selectProduct", function () {
             var rowIndex = $(this).closest('tr').index();

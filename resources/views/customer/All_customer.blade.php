@@ -83,6 +83,32 @@ h2 {
     }
   }
 }
+
+
+/* HTML: <div class="loader"></div> */
+.loader {
+  width: 50px;
+  aspect-ratio: 1;
+  display: grid;
+  animation: l14 4s infinite;
+}
+.loader::before,
+.loader::after {
+  content: "";
+  grid-area: 1/1;
+  border: 8px solid;
+  border-radius: 50%;
+  border-color: red red #0000 #0000;
+  mix-blend-mode: darken;
+  animation: l14 1s infinite linear;
+}
+.loader::after {
+  border-color: #0000 #0000 blue blue;
+  animation-direction: reverse;
+}
+@keyframes l14{
+  100%{transform: rotate(1turn)}
+}
 </style>
 
 <ul class="breadcrumb">
@@ -97,18 +123,18 @@ h2 {
 <div class="row-fluid sortable">
     <div class="box span12">
         <div class="box-header" data-original-title>
-            <h2><i class="halflings-icon user"></i><span class="break"></span>Customers</h2>
-            <div class="box-icon">
+            <h2><i class="halflings-icon user"></i><span class="break"></span>All Customers</h2>
+            {{-- <div class="box-icon">
                 <a href="/customer-create" class="" style="background-color: rgb(31, 73, 124);color:aliceblue;padding:6px;border-radius:10px"><i class="icon-plus"></i> Create customer</a>
-            </div>
+            </div> --}}
         </div>
 
 
         <div>
-            <form action="/search-vendor-invoice" class="row pt-5" style="width:50%;height:40%;display:flex;justify-content:center;padding:.2rem;margin:.9rem 5rem">
+            <form action="/search-customer-info" class="row pt-5" style="width:50%;height:40%;display:flex;justify-content:center;padding:.2rem;margin:.9rem 5rem">
                 @csrf
                 <input class="col-md-9 form-control" style="font-size:1.2rem;padding:.8rem 2.3rem" type="text" name="search" placeholder="Search: Name, Email.." value="{{ isset($search) ? $search :'' }}">
-                <button type="submit" class="col-md-3 btn btn-success" style="font-size:1.2rem;width:100px;height:48px">Search </button>
+                <button type="submit" class="col-md-3 btn btn-secondary" style="font-size:1.2rem;width:100px;height:46px">Search </button>
             </form>
         </div>
 
@@ -187,9 +213,6 @@ h2 {
         </div>
     </div>
 </div>
-
-
-
 
 
 

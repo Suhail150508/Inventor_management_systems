@@ -83,6 +83,75 @@
         }
     }
     }
+
+    @media print{
+        .btn{
+            display: none;
+        }
+        /* .form-control{
+            border: 0px;
+        } */
+        input .form-control{
+            border: 0px;
+        }
+        .customer .form-controll{
+            display: none;
+        }
+        .customer{
+            border:2px solid #000;
+        }
+        .customer-heading {
+            /* display: block !important;
+            background-color:#aaa !important;
+            padding:4px; */
+            /* margin-top: -3rem; */
+            }
+            .form-controll2{
+                display: block;
+            }
+            .origin{
+                font-size: 2rem;
+                /* background-color: #aaa !important; */
+            }
+            .origin1{
+                background-color: #aaa !important;
+                height: 200px;
+                padding-top: 10px;
+            }
+            .first{
+                margin-right: -6rem;
+                width:300px;
+            }
+            h2{
+                margin-top:-15rem;
+                text-align: center;
+                /* font-size: 30px; */
+                /* margin: 35px; */
+                font-weight: 300;
+                color: tomato;
+                /* padding: 50px; */
+                /* width: 50px;
+                border-bottom:2px solid black; */
+            }
+            #dataContainer{
+                width:100px;
+            }
+            .form_section{
+                display:none;
+            }
+            .breadcrumb{
+                display:none;
+
+            }
+            .action{
+                display:none;
+
+            }
+            .sub_total{
+                margin-top:.06rem !important;
+            }
+
+    }
 </style>
 
 <ul class="breadcrumb">
@@ -97,14 +166,14 @@
 <div class="row-fluid sortable">
     <div class="box span12">
         <div class="box-header" data-original-title>
-            <h2><i class="halflings-icon user"></i><span class="break"></span>Invoices</h2>
-            <div class="box-icon">
+            <h2><i class="halflings-icon user"></i><span class="break"></span>Sales Invoices</h2>
+            {{-- <div class="box-icon">
                 <a href="/sales_invoice" class="" style="background-color: rgb(31, 73, 124);color:aliceblue;padding:6px;border-radius:10px"><i class="icon-plus"></i> Create Sales</a>
-            </div>
+            </div> --}}
         </div>
 
 
-        <div>
+        <div class="action">
             <form action="{{ url('/search-sales-invoice') }}" method="GET" style="display: flex;justify-content:center; flex-wrap:wrap;margin-top:3rem">
                 @csrf
                 <div class=" col-md-1" style="margin: 0px 10px">
@@ -137,7 +206,7 @@
                     <div class="">
                         <input class="form-control" type="date" name="date_to" id="date_to" placeholder="2018-07-03" value="{{ request()->input('date_to') }}">
                     </div> --}}
-                    <button class="col-md-1 btn btn-success" type="submit" style="height: 2.3rem;margin:2rem 1rem">Search</button>
+                    <button class="col-md-1 btn btn-secondary" type="submit" style="height: 2.3rem;margin:2rem 1rem">Search</button>
                 </div>
             </form>
 
@@ -147,6 +216,7 @@
 
         @php
             $total = 0;
+            $invoice_discount = 0;
             $paid = 0;
             $due = 0;
         @endphp
@@ -164,7 +234,7 @@
                         <th>Due</th>
                         <th>Status</th>
                         <th>Date</th>
-                        <th>Actions</th>
+                        <th class="action">Actions</th>
                     </tr>
                 </thead>
 
@@ -173,6 +243,7 @@
 
                         @php
                             $total += $invoice->total;
+                            $invoice_discount += $invoice->discount;
                             $paid += $invoice->paid;
                             $due += $invoice->due;
                             $customer_id = $invoice->customer_id;
@@ -192,13 +263,18 @@
                             <td class="center">{{ $invoice->status }}</td>
                             <td class="center">{{ $invoice->created_at }}</td>
 
-                            <td class="center">
+                            <td class="center action">
 
                                 <div class="span2">
-
-                                    <a class="btn btn-info" href="{{url('/sales-invoice-edit/'.$invoice->id)}}" style="margin-left:.1rem;border-radius:25%">
-                                        <i class="halflings-icon white edit"></i>
-                                    </a>
+                                    @if ($invoice->status && $invoice->status == 'Paid')
+                                        <a class="btn btn-info" href="{{ url('/sales-invoice-show/'.$invoice->id) }}" style="margin-left:.1rem; border-radius: 25%;">
+                                            <i class=" white icon-eye-open"></i>
+                                        </a>
+                                    @else
+                                        <a class="btn btn-info" href="{{url('/sales-invoice-edit/'.$invoice->id)}}" style="margin-left:.1rem;border-radius:25%">
+                                            <i class="halflings-icon white edit"></i>
+                                        </a>
+                                    @endif
                                 </div>
 
                             </td>
@@ -219,7 +295,7 @@
                         <th>Discount</th>
                         <th>Discription</th>
                         <th>Date</th>
-                        <th>Actions</th>
+                        <th class="action">Actions</th>
                     </tr>
                 </thead>
                         @php
@@ -245,7 +321,7 @@
                             <td class="center">{{ $invoice->description }}</td>
                             <td class="center">{{ $invoice->created_at }}</td>
 
-                            <td class="center">
+                            {{-- <td class="center">
 
                                 <div class="span2">
 
@@ -254,7 +330,7 @@
                                     </a>
                                 </div>
 
-                            </td>
+                            </td> --}}
                         </tr>
 
                     @endforeach
@@ -263,21 +339,33 @@
             </table>
 
                 @php
-                $total_due = $due - $paid_amount - $discount;
+                $total_paid = $paid + $paid_amount;
+                $total_due = $due - ($paid_amount + $discount);
+                $total_discount = $invoice_discount + $discount;
                 @endphp
 
-                <div style="float: right;margin:4rem 2rem;background-color:#d9d9ebc6;padding:8px;width:21%;">
-                    <p style="font-weight:bold;font-size:1rem">Total: {{ $total }}  </p>
-                    <p style="font-weight:bold;font-size:1rem">Total Paid: {{ $paid }} </p>
+                <div class="sub_total" style="float: right;margin:4rem 2rem;background-color:#d9d9ebc6;padding:8px;width:21%;">
+                    <p style="font-weight:bold;font-size:1rem">Invoice Total: {{ $total }}  </p>
+                    <p style="font-weight:bold;font-size:1rem">Total Discount: {{ $total_discount }} </p>
+                    <p style="font-weight:bold;font-size:1rem">Total Paid: {{ $total_paid }} </p>
                     <p style="font-weight:bold;font-size:1rem">Total Due: {{ $total_due}} </p>
                 </div>
         </div>
     </div>
 </div>
 
+<div style="text-align: center;">
+    <button type="button" class="btn" style=" padding:6px 25px;font-size:1.3rem;" onclick="GetPrint()" class="btn btn-primary ">Print</button>
+</div>
 
 
+<script>
 
+    function GetPrint(){
+        window.print();
+    }
+
+</script>
 
 
 @endsection

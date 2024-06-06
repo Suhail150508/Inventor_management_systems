@@ -548,7 +548,7 @@ form .form-row .textarea{
 
 </style>
 
-</head> 
+</head>
 <body>
     <div class="container card" style="height:100%">
         <div class="card-body">

@@ -403,199 +403,63 @@ body {
 }
 
 
-body{
-  align-items: center;
-  /* justify-content: center; */
-  min-height: 100vh;
-  width: 100%;
-  padding: 10px;
-  font-family: 'Poppins', sans-serif;
-  /* background: linear-gradient(115deg, #56d8e4 10%, #9f01ea 90%); */
+
+/* HTML: <div class="loader"></div> */
+.loader {
+  width: 50px;
+  aspect-ratio: 1;
+  background:
+    linear-gradient(45deg,#60B99A 30%,#0000 0),
+    linear-gradient(45deg,#0000 30%,#60B99A 0),
+    linear-gradient(-45deg,#f77825 30%,#0000 0),
+    linear-gradient(-45deg,#0000 30%,#f77825 0),
+    linear-gradient(#554236 0 0);
+  background-size: 30% 30%;
+  background-repeat: no-repeat;
+  animation: l18 1.5s infinite;
 }
-.container_modal{
-  max-width: 100vw;
-  background: #fff;
-  width: 100%;
-  padding: 25px 40px 10px 40px;
-  box-shadow: 0px 0px 10px rgba(0,0,0,0.1);
-}
-.container_modal .text{
-  text-align: center;
-  font-size: 20px;
-  font-weight: 600;
-  font-family: 'Poppins', sans-serif;
-  background: -webkit-linear-gradient(right, #56d8e4, #9f01ea, #56d8e4, #9f01ea);
-  -webkit-background-clip: text;
-  -webkit-text-fill-color: transparent;
-}
-.container_modal form{
-  padding: 30px 0 0 0;
-}
-.container_modal form .form-row{
-  display: flex;
-  margin: 32px 0;
-}
-form .form-row .input-data{
-  width: 100%;
-  height: 40px;
-  margin: 0 20px;
-  position: relative;
-}
-form .form-row .textarea{
-  height: 70px;
-}
-.input-data input,
-.textarea textarea{
-  display: block;
-  width: 100%;
-  height: 100%;
-  border: none;
-  font-size: 17px;
-  border-bottom: 2px solid rgba(0,0,0, 0.12);
-}
-.input-data input:focus ~ label, .textarea textarea:focus ~ label,
-.input-data input:valid ~ label, .textarea textarea:valid ~ label{
-  transform: translateY(-20px);
-  font-size: 14px;
-  color: #3498db;
-}
-.textarea textarea{
-  resize: none;
-  padding-top: 10px;
-}
-.input-data label{
-  position: absolute;
-  pointer-events: none;
-  bottom: 10px;
-  font-size: 16px;
-  transition: all 0.3s ease;
-}
-.textarea label{
-  width: 100%;
-  bottom: 40px;
-  background: #fff;
-}
-.input-data .underline{
-  position: absolute;
-  bottom: 0;
-  height: 2px;
-  width: 100%;
-}
-.input-data .underline:before{
-  position: absolute;
-  content: "";
-  height: 2px;
-  width: 100%;
-  background: #3498db;
-  transform: scaleX(0);
-  transform-origin: center;
-  transition: transform 0.3s ease;
-}
-.input-data input:focus ~ .underline:before,
-.input-data input:valid ~ .underline:before,
-.textarea textarea:focus ~ .underline:before,
-.textarea textarea:valid ~ .underline:before{
-  transform: scale(1);
-}
-.submit-btn .input-data{
-  overflow: hidden;
-  height: 45px!important;
-  width: 25%!important;
-}
-.submit-btn .input-data .inner{
-  height: 100%;
-  width: 300%;
-  position: absolute;
-  left: -100%;
-  background: -webkit-linear-gradient(right, #56d8e4, #9f01ea, #56d8e4, #9f01ea);
-  transition: all 0.4s;
-}
-.submit-btn .input-data:hover .inner{
-  left: 0;
-}
-.submit-btn .input-data input{
-  background: none;
-  border: none;
-  color: #fff;
-  font-size: 17px;
-  font-weight: 500;
-  text-transform: uppercase;
-  letter-spacing: 1px;
-  cursor: pointer;
-  position: relative;
-  z-index: 2;
-}
-@media (max-width: 700px) {
-  .container_modal .text{
-    font-size: 30px;
-  }
-  .container_modal form{
-    padding: 10px 0 0 0;
-  }
-  .container_modal form .form-row{
-    display: block;
-  }
-  form .form-row .input-data{
-    margin: 35px 0!important;
-  }
-  .submit-btn .input-data{
-    width: 40%!important;
-  }
+@keyframes l18{
+  0%   {background-position:50% 50%,50% 50%,50%  50% ,50% 50%,50% 50%}
+  25%  {background-position:0  100%,100%  0,50%  50% ,50% 50%,50% 50%}
+  50%  {background-position:0  100%,100%  0,100% 100%,0   0  ,50% 50%}
+  75%  {background-position:50% 50%,50% 50%,100% 100%,0   0  ,50% 50%}
+  100% {background-position:50% 50%,50% 50%,50%  50% ,50% 50%,50% 50%}
 }
 
 </style>
 
 </head>
-<body>
-    <div class="container card" style="height:100%">
-        <div class="card-body">
-          <div class="">
-            <div class="">
-                <a href="/total_information" class="btn btn-primary" style="float:right;margin-right:1rem">Export Pdf</a>
-              </div>
+<body class="">
+    <div  style="">
 
-            <div class="header" style="margin-bottom:7rem">
-              <strong style="font-size: 1.6rem">Main Accounts</strong>
-            </div>
-
-
-
-
-            <div class="table-container" style="padding-bottom: 2rem">
-              <table>
-                <thead>
-                  <tr>
-                    <th>Total Amount</th>
-                    <th>Customer Due Amount</th>
-                    <th>Vendor Due Amount</th>
-                  </tr>
-                </thead>
-                <tbody>
-
-                        <tr>
-
-                            <td>&#2547:{{ $total_account}}</td>
-                            <td>&#2547:{{ $customer_due_account}}</td>
-                            <td>&#2547:{{ $vendor_due_account}}</td>
-
-                        </tr>
-                </tbody>
-              </table>
-            </div>
-
-
-            <hr>
-          </div>
+        <div class="">
+            <a href="/total_information" class="btn btn-primary" style="float:right;margin-right:1rem">Export Pdf</a>
         </div>
-      </div>
 
-      </div>
+        <div class="loader" style="margin-bottom:7rem">
+            <strong style="font-size: 1.6rem">Main Accounts</strong>
+        </div>
 
-      </div>
-
-
-
-
+        <div class="table-container" style="padding-bottom: 2rem">
+            <table>
+            <thead>
+                <tr>
+                <th>Total Amount</th>
+                <th>Customer Due Amount</th>
+                <th>Vendor Due Amount</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <td>&#2547:{{ $total_account}}</td>
+                    <td>&#2547:{{ $customer_due_account}}</td>
+                    <td>&#2547:{{ $vendor_due_account}}</td>
+                </tr>
+            </tbody>
+            </table>
+        </div>
+        <hr>
+    </div>
       {{-- <script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap/5.3.3/js/bootstrap.min.js" integrity="sha512-ykZ1QQr0Jy/4ZkvKuqWn4iF3lqPZyij9iRv6sGqLRdTPkY69YX6+7wvVGmsdBbiIfN/8OdsI7HABjvEok6ZopQ==" crossorigin="anonymous" referrerpolicy="no-referrer"></script> --}}
 
 </body>

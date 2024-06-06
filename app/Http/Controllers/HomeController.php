@@ -37,4 +37,7 @@ class HomeController extends Controller
     public function userCreate(){
         return view('layouts.user-create');
     }
+    public function newpemplate(){
+        return view('layouts.apps');
+    }
 }

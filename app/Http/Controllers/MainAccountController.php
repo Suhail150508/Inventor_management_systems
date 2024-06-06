@@ -52,6 +52,14 @@ class MainAccountController extends Controller
         $purchase_return
     );
 
+$main_account_update = Main_account::find(1);
+if($main_account_update){
+
+    $main_account_update->update([
+        'total_amount' => $total_account
+    ]);
+}
+
 
     $customer_due_account =( $sales_invoice_due - $due_payment_sales );
     $vendor_due_account =( $return_purchase_product - $due_payment_purchase );

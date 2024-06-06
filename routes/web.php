@@ -27,6 +27,9 @@ Route::get('/', function () {
 });
 
 
+
+// Route::get('/new',[HomeController::class,'newpemplate']);
+
 Route::get('/dashboard',[HomeController::class,'dashboard']);
 
 
@@ -78,11 +81,13 @@ Route::get('/all-customer',[CustomerController::class,'customers']);
 Route::get('/customer-create',[CustomerController::class, 'customerCreate']);
 Route::post('/customer-store',[CustomerController::class, 'customerStore']);
 Route::get("/customer-edit/{id}",[CustomerController::class,'customerEdit']);
-Route::put("/customer-update/{post}",[CustomerController::class,'customerUpdate'])->name('customer.update');
+Route::put("/customer-update/{id}",[CustomerController::class,'customerUpdate'])->name('customer.update');
 Route::delete("/customer-delete/{id}",[CustomerController::class,'customerDelete']);
 Route::get('/customer-status/{id}',[CustomerController::class,'status']);
 
 Route::get('/search-customer',[CustomerController::class,'searchCustomer']);
+Route::get('/search-customer-info',[CustomerController::class,'searchCustomerInfo']);
+Route::post('/search-customer-invoice',[CustomerController::class,'searchCustomerInvoice']);
 Route::get('/customer_invoice',[CustomerController::class,'AllCustomerInvoice']);
 Route::post('/customer-invoice-add',[CustomerController::class,'CustomerInvoiceAdd']);
 
@@ -96,6 +101,7 @@ Route::get('/sales_invoice',[SalesProductController::class,'SalesInvoice']);
 Route::get('/sales-fetch-data', [SalesProductController::class,'fetchData'])->name('salesdatafatch');
 Route::post('/sales-invoice-store',[SalesProductController::class,'salesInvoiceStore']);
 Route::get('/sales-invoice-edit/{id}',[SalesProductController::class,'salesInvoiceEdit']);
+Route::get('/sales-invoice-show/{id}',[SalesProductController::class,'salesInvoiceShow']);
 Route::delete('/sales-invoice-store',[SalesProductController::class,'salesInvoiceStore']);
 Route::post('/sales-invoice-update',[SalesProductController::class,'salesInvoiceUpdate']);
 // Route::post('/update-quantity', 'SalesProductController@updateQuantity');
@@ -111,6 +117,13 @@ Route::post('/due-sales-payment-store',[SalesProductController::class,'duePayInv
 Route::get('/search-customer-due-payment',[SalesProductController::class,'customerDuePayInvoices']);
 
 Route::get('/show-vendor',[VendorController::class,'showVendor']);
+Route::get('/vendor-edit/{id}',[VendorController::class,'VendorEdit']);
+Route::put('/vendor-update/{id}',[VendorController::class,'VendorUpdate']);
+Route::get('/search-vendor-info',[VendorController::class,'searchVendorInfo']);
+Route::post('/search-vendor-invoice',[VendorController::class,'searchVendorInvoice']);
+Route::delete('vendor-delete/{id}',[VendorController::class,'vendorDelete']);
+
+Route::get('/create-vendor',[VendorController::class,'CreateVendor']);
 Route::post('/vendor-create',[VendorController::class,'storeVendor']);
 Route::get('/fetch-data', [VendorController::class,'fetchData'])->name('fetch.data');
 Route::get('/product-fetchs', [VendorController::class,'fetchsCode'])->name('product.fetchs');
@@ -118,11 +131,13 @@ Route::get('/product-fetch', [VendorController::class,'fetchCode'])->name('produ
 
 
 Route::get('/all-products',[VendorController::class,'showProduct']);
+
 Route::post('/product-create',[VendorController::class,'storeProduct']);
 
 Route::get('/purchase_invoice',[VendorController::class,'purchaseInvoice']);
 Route::post('/purchase-invoice-store',[VendorController::class,'purchaseInvoiceStore']);
 Route::get('/purchase-invoice-edit/{id}',[VendorController::class,'purchaseInvoiceEdit']);
+Route::get('/purchase-invoice-show/{id}',[VendorController::class,'purchaseInvoiceShow']);
 Route::post('/purchase-invoice-update',[VendorController::class,'purchaseInvoiceUpdate']);
 Route::post('/product-create',[VendorController::class,'storeProduct']);
 Route::get('/slproduct-fetchs', [VendorController::class,'purfetchsQty'])->name('purproduct.fetchs');
@@ -132,16 +147,20 @@ Route::post('/return-purchase-invoice-store',[VendorController::class,'returnPur
 Route::get('/return-purchase-invoice-edit/{id}',[VendorController::class,'returnPurchaseInvoiceEdit']);
 
 Route::get('/all-purchase-invoice',[VendorController::class,'allPInvoice']);
-Route::post('/search-vendor-invoice',[VendorController::class,'searchVInvoice']);
+// Route::post('/search-customer',[VendorController::class,'searchCustomer']);
 Route::get('/due-payment-invoice',[VendorController::class,'duePayInvoice']);
 Route::get('/due-payment-invoice-create',[VendorController::class,'duePayInvoiceCreate']);
 Route::post('/due-payment-invoice-store',[VendorController::class,'duePayInvoiceStore']);
 Route::get('/due-vendor-payment',[VendorController::class,'vendorDuePayInvoices']);
 
 
+Route::get('/pdf',[VendorController::class,'pdfExport']);
+
+
 
 
 Route::get('/expence-invoice',[VendorController::class,'expenceInvoice']);
+Route::get('/expence-create',[VendorController::class,'expenceInvoiceCreate']);
 Route::post('/expence-invoice-store',[VendorController::class,'expenceInvoiceStore']);
 Route::get('/expence-edit/{id}',[VendorController::class,'expenceInvoiceEdit']);
 Route::get('/add-category',[VendorController::class,'addCategory']);
@@ -150,6 +169,9 @@ Route::get('/search-expence-invoice',[VendorController::class,'searchExpence']);
 
 
 Route::get('/company-info',[VendorController::class,'companyInfo']);
+Route::get('/company-create',[VendorController::class,'companyCreate']);
+Route::get('/company-edit/{id}',[VendorController::class,'companyEdit']);
+Route::put('/company-info-update/{id}',[VendorController::class,'companyUpdate']);
 Route::post('/company-info-create',[VendorController::class,'comInfoStore']);
 
 Route::get('/search-purchase-invoice',[VendorController::class,'searchVendor']);
@@ -163,4 +185,7 @@ Route::get('/download-pdf-student',[InvestorController::class,'downloadPDFStuden
 
 
 Route::get('/logout',[InvestorController::class,'logout']);
+
+
+Route::get('/test',[InvestorController::class,'test']);
 

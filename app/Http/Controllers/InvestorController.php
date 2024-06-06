@@ -282,5 +282,9 @@ class InvestorController extends Controller
                 Session()->flush();
                 return Redirect::to('/');
             }
+        public function test()
+            {
+                return view('vendor.vendor_update');
+            }
 
 }

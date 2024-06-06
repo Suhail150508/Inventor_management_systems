@@ -1,8 +1,8 @@
 @extends('layouts.app')
 
+{{-- <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap/5.3.2/css/bootstrap.min.css" integrity="sha512-b2QcS5SsA8tZodcDtGRELiGv5SaKSk1vDHDaQRda0htPYWZ6046lr3kJ5bAAQdpV2mmA/4v0wQF9MyU6/pDIAg==" crossorigin="anonymous" referrerpolicy="no-referrer" /> --}}
 @section('content')
 
-    {{-- <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap/5.3.2/css/bootstrap.min.css" integrity="sha512-b2QcS5SsA8tZodcDtGRELiGv5SaKSk1vDHDaQRda0htPYWZ6046lr3kJ5bAAQdpV2mmA/4v0wQF9MyU6/pDIAg==" crossorigin="anonymous" referrerpolicy="no-referrer" /> --}}
 
 <style>
 
@@ -462,15 +462,15 @@
     background: #fff;
     }
     .input-data .underline{
-    position: absolute;
-    bottom: 0;
-    height: 2px;
-    width: 100%;
+        position: absolute;
+        bottom: 0;
+        height: 2px;
+        width: 100%;
     }
     .input-data .underline:before{
-    position: absolute;
-    content: "";
-    height: 2px;
+        position: absolute;
+        content: "";
+        height: 2px;
     width: 100%;
     background: #3498db;
     transform: scaleX(0);
@@ -487,19 +487,19 @@
     overflow: hidden;
     height: 45px!important;
     width: 25%!important;
-    }
-    .submit-btn .input-data .inner{
+}
+.submit-btn .input-data .inner{
     height: 100%;
     width: 300%;
     position: absolute;
     left: -100%;
     background: -webkit-linear-gradient(right, #56d8e4, #9f01ea, #56d8e4, #9f01ea);
     transition: all 0.4s;
-    }
-    .submit-btn .input-data:hover .inner{
+}
+.submit-btn .input-data:hover .inner{
     left: 0;
-    }
-    .submit-btn .input-data input{
+}
+.submit-btn .input-data input{
     background: none;
     border: none;
     color: #fff;
@@ -510,8 +510,8 @@
     cursor: pointer;
     position: relative;
     z-index: 2;
-    }
-    @media (max-width: 700px) {
+}
+@media (max-width: 700px) {
     .container_modal .text{
         font-size: 30px;
     }
@@ -529,28 +529,101 @@
     }
     }
 
+
+    @media print{
+        .btn{
+            display: none;
+        }
+        /* .form-control{
+            border: 0px;
+        } */
+        input .form-control{
+            border: 0px;
+        }
+        .customer .form-controll{
+            display: none;
+        }
+        .customer{
+            border:2px solid #000;
+        }
+        .customer-heading {
+            /* display: block !important;
+            background-color:#aaa !important;
+            padding:4px; */
+            /* margin-top: -3rem; */
+        }
+        .form-controll2{
+            display: block;
+        }
+        .origin{
+            font-size: 2rem;
+                /* background-color: #aaa !important; */
+            }
+            .origin1{
+                background-color: #aaa !important;
+                height: 200px;
+                padding-top: 10px;
+            }
+            .first{
+                margin-right: -6rem;
+                width:300px;
+            }
+            h2{
+                margin-top:-15rem;
+                text-align: center;
+                /* font-size: 30px; */
+                /* margin: 35px; */
+                font-weight: 300;
+                color: tomato;
+                /* padding: 50px; */
+                /* width: 50px;
+                border-bottom:2px solid black; */
+            }
+            #dataContainer{
+                width:100px;
+            }
+            .form_section{
+                display:none;
+            }
+            .breadcrumb{
+                display:none;
+
+            }
+            .action{
+                display:none;
+
+            }
+
+    }
+
 </style>
 {{--
 </head>
 <body> --}}
     <div class="container" style="height:100%">
         {{-- <div class="card-body"> --}}
-          {{-- <div class=""> --}}
-            <div class="header" style="display: flex;justify-content:space-between;width:90%">
-                <strong style="font-size: 2rem">Invoice</strong>
-                <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#exampleModal" style="margin-right:1rem;font-size:1.2rem;float:right;margin-bottom:2rem;padding-bottom:7px">
-                    <i class="icon-plus"></i> </span> Expence Invoice
-                </button>
+            {{-- <div class=""> --}}
+                <div class="header" style="display: flex;justify-content:space-between;width:100%">
+                    <strong style="font-size: 2rem">Expence Invoice</strong>
+                    {{-- <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#exampleModal" style="margin-right:1rem;font-size:1.2rem;float:right;margin-bottom:2rem;padding-bottom:7px">
+                        <i class="icon-plus"></i> </span> Expence Invoice
+                    </button> --}}
+                    <div></div>
+                    <div></div>
+                <div >
+                    <button type="button" class="btn" style=" padding:6px 25px;font-size:1.3rem;" onclick="GetPrint()" class="btn btn-primary ">Print</button>
+                </div>
+                <div></div>
             </div>
 
-            <form  action="{{ url('/search-expence-invoice') }}" method="GET" style="display: flex;justify-content:center; flex-wrap:wrap">
+            <form  action="{{ url('/search-expence-invoice') }}" method="GET" style="display: flex;justify-content:center; flex-wrap:wrap;margin-top:7rem">
                 @csrf
-                <div class=" col-md-1" style="margin: 0px 10px">
+                <div class=" col-md-1" style="margin: 0px 6px">
 
                     <h4>Category</h4>
                     @php
                         $categories = App\Models\Expence_Category::all();
-                    @endphp
+                        @endphp
                     <label for="">  </label>
                     <select type="text" name="category_id" id="date">
 
@@ -563,20 +636,22 @@
                 </div>
 
 
-                <div class="col-md-1" style="margin: 0px 10px">
+                <div class="col-md-1" style="margin: 0px 6px">
                     <h4>From</h4>
                     <div class="">
                         <input type="date" name="date_from" id="date_from" placeholder="2018-07-03" value="{{ request()->input('date_from') }}">
                     </div>
                 </div>
-                <div class="col-md-1" style="margin: 0px 10px">
+                <div class="col-md-1" style="margin: 0px 6px">
                     <h4>To</h4>
                     <div class="">
                         <input type="date" name="date_to" id="date_to" placeholder="2018-07-03" value="{{ request()->input('date_to') }}">
                     </div>
                 </div>
-                <button class="col-md-1 btn btn-success" type="submit" style="height: 2.3rem;margin:2rem 1rem">Search</button>
-
+                <button class="col-md-1 btn btn-secondary" type="submit" style="height: 2.3rem;margin:2rem .4rem">Search</button>
+                <div class=" col-md-1"></div>
+                <div class=" col-md-1"></div>
+                <div></div>
             </form>
 
             <div class="box-content">
@@ -587,7 +662,7 @@
                           <th>category</th>
                           <th>Amount</th>
                           <th>Description</th>
-                          <th>Actions</th>
+                          {{-- <th>Actions</th> --}}
                       </tr>
                   </thead>
 
@@ -598,7 +673,7 @@
                             <td class="center">{{ $expence->category_id }}</td>
                             <td class="center">{{ $expence->amount }}</td>
                             <td class="center">{{ $expence->description }}</td>
-                            <td class="center">
+                            {{-- <td class="center">
                                 <div class="span2">
 
                                     <a class="btn btn-info" href="{{url('/expence-edit/'.$expence->id)}}" style="margin-left:.1rem;border-radius:25%">
@@ -606,7 +681,7 @@
                                     </a>
                                 </div>
 
-                            </td>
+                            </td> --}}
                         </tr>
 
 
@@ -616,7 +691,7 @@
               </table>
             </div>
 
-            <div class="additional-info">
+            {{-- <div class="additional-info">
               <p>Add additional notes and payment information</p>
             </div>
             <div class="total">
@@ -630,16 +705,9 @@
             <div class="purchase-info">
               <p>Thank you for your purchase</p>
               <button type="button" id="pay-now-btn">Pay Now</button>
-            </div>
+            </div> --}}
         {{-- </div> --}}
     </div>
-      {{-- </div>
-
-      </div>
-
-
-      </div> --}}
-
 
         <!-- Modal -->
         <div class="modal fade" id="exampleModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
@@ -647,7 +715,7 @@
                 {{-- <div class="modal-content"> --}}
                     {{-- <div class="modal-header"> --}}
                     <h5 class="modal-title" id="exampleModalLabel">
-                        <a href="/add-category" style="font-size:1.4rem;color:black;float: left;background-color:#95A5A6;padding:1.2rem 1rem;border-radius:4rem; width:30%;margin:2rem>  <i class="icon-plus"></i> Add Category</a>
+                        <a href="/add-category" style="font-size:1.4rem;color:black;float: left;padding:1.2rem 1rem;border-radius:4rem; width:30%;margin:2rem>  <i class="icon-plus"></i> Add Category</a>
                         {{-- <a href="/add-category" >  <i class="icon-plus"></i> Add Category</a> --}}
 
                     </h5>
@@ -707,9 +775,13 @@
             {{-- </div> --}}
         </div>
 
-    <!-- Modal end -->
-{{--
-</body>
-</html> --}}
+
+
+
+        <script>
+             function GetPrint(){
+                window.print();
+            }
+        </script>
 
 @endsection

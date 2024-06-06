@@ -7,6 +7,7 @@ use App\Models\Due_Sales_Payment;
 use App\Models\Sales_invoice;
 use Illuminate\Http\Request;
 use App\Models\Customer_invoice;
+use App\Models\Return_Sales_Invoice;
 use Illuminate\Support\Facades\DB;
 
 class CustomerController extends Controller
@@ -21,7 +22,13 @@ class CustomerController extends Controller
 
    public function customerStore(Request $request)
    {
-       // dd($request->all());
+        $request->validate([
+            'name' => 'required|string|max:255',
+            'email' => 'required|email|max:255|unique:users,email',
+            'mobile' => 'required|string|min:10|max:15',
+            'image' => 'nullable|image|mimes:jpg,jpeg,png|max:2048',
+        ]);
+
        $customer_information = new Customer();
        $customer_information->name = $request->name;
        $customer_information->email = $request->email;
@@ -39,12 +46,12 @@ class CustomerController extends Controller
 
 
 
-       return redirect()->back()->with('message','customer created successfully..');
+       return redirect('all-customer')->with('message','customer created successfully..');
    }
 
 public function customerEdit($id){
-    $editinvestor = Customer::findOrFail($id);
-    return view('customer.customer_update',compact('editinvestor'));
+    $edit_customer = Customer::findOrFail($id);
+    return view('customer.customer_update',compact('edit_customer'));
 }
 public function customerUpdate(Request $request, $id)
 {
@@ -68,7 +75,7 @@ public function customerUpdate(Request $request, $id)
 
     $user->save();
 
-    return back();
+    return redirect('all-customer')->with('message','Customer Updated Successfully');
 }
 
 public function AllCustomerInvoice(){
@@ -98,14 +105,25 @@ public function invoiceDetails($id){
 }
 
 public function customerDelete($id){
-    DB::beginTransaction();
-    try {
-        $delete = Customer::find($id)->delete();
-        DB::commit($delete);
-        return back();
-    } catch (\Exception $e) {
-        DB::rollBack();
-    }
+
+        $customer_deletes = Sales_invoice::where('customer_id',$id)->get();
+        foreach($customer_deletes as $customer){
+
+            if($customer){
+
+                return redirect('all-customer')->with('message','Already invoice created by this Customer');
+
+            }
+        }
+
+        DB::beginTransaction();
+        try {
+            $delete = Customer::find($id)->delete();
+            DB::commit($delete);
+            return redirect('all-customer')->with('message','Customer Deleted Successfully');
+        } catch (\Exception $e) {
+            DB::rollBack();
+        }
 
 }
 
@@ -116,36 +134,74 @@ public function searchCustomer(Request $request){
     $date_from = $request->input('date_from');
     $date_to = $request->input('date_to');
 
-    $sales_invoices = Sales_invoice::all();
+    // $due_sales_payment = Due_Sales_Payment::all();
+    // $sales_invoices = Sales_invoice::all();
     $query = Sales_Invoice::query();
+    $sales_paid = Due_Sales_Payment::query();
 
-    if ($customer_id =='all') {
+    if ($customer_id && $customer_id=='all') {
         session(['selectedCustomerId' => $customer_id]);
-        $due_sales_payment = Due_Sales_Payment::all();
+
+        if (!empty($date_from)) {
+            $query->whereDate('created_at', '>=', $date_from);
+            $sales_paid->whereDate('created_at', '>=', $date_from);
+        }
+
+        if (!empty($date_to)) {
+            $query->whereDate('created_at', '<=', $date_to);
+            $sales_paid->whereDate('created_at', '<=', $date_to);
+        }
+
+        $sales_invoices = $query->get();
+        $due_sales_payment = $sales_paid->get();
+
         return view('sales.all_sales_invoice',compact('sales_invoices','due_sales_payment'));
     }
 
-    if (!empty($customer_id)) {
+    if ($customer_id && $customer_id !='all') {
         $query->where('customer_id', $customer_id);
+        $sales_paid->where('customer_id', $customer_id);
         session(['selectedCustomerId' => $customer_id]);
     }
 
     if (!empty($date_from)) {
         $query->whereDate('created_at', '>=', $date_from);
+        $sales_paid->whereDate('created_at', '>=', $date_from);
     }
 
     if (!empty($date_to)) {
         $query->whereDate('created_at', '<=', $date_to);
+        $sales_paid->whereDate('created_at', '<=', $date_to);
     }
 
     $sales_invoices = $query->get();
+    $due_sales_payment = $sales_paid->get();
 
-    $due_sales_payment = Due_Sales_Payment::where('customer_id',$customer_id)->get();
 
     return view('sales.all_sales_invoice',compact('sales_invoices','due_sales_payment'));
 
 }
 
+public function searchCustomerInfo(Request $request){
+
+    $search = $request->search;
+    $customers = Customer::where(function($query)use($search){
+        $query->where('name','like',"%$search%")
+        ->orWhere('email','like',"%$search%");
+             })->paginate(9);
+    return view('customer.all_customer', compact('customers'));
+}
+public function searchCustomerInvoice(Request $request){
+
+    if($request->customer_id == 'All'){
+        session(['selectedCustomerId' => 'All']);
+        $sales_invoices = Return_Sales_Invoice::all();
+        return view('sales.all_return_sales_invoice', compact('sales_invoices'));
+    }
+    $sales_invoices = Return_Sales_Invoice::where('customer_id',$request->customer_id)->get();
+    session(['selectedCustomerId' => $request->customer_id]);
+    return view('sales.all_return_sales_invoice', compact('sales_invoices'));
+}
 public function status(Request $request, $id)
 {
     $posts =  Customer::find($id);

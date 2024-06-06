@@ -27,36 +27,6 @@ class SalesProductController extends Controller
     public function SalesInvoice(){
         return view('sales.sales_invoice_create');
     }
-    // public function salesUpdate(Request $request){
-    //     // return view('sales.sales_invoice_create');
-    // }
-    // public function updateQuantity(Request $request) {
-
-    //     $code = $request->code;
-    //     $qty = $request->qty;
-    //     StockProduct::find($code)->update([   // ****Info**** don't update without protected fillable data----
-    //         'reserve_qty' => $qty,
-    //     ]);
-    // }
-
-    // public function updateQuantity(Request $request) {
-    //     $code = $request->code;
-    //     $qtyii = $request->quantity;
-
-    //     // Assuming StockProduct is your model
-    //     $stockProduct = StockProduct::find($code);
-    //     if ($stockProduct) {
-    //         // Update the quantity
-    //         $stockProduct->update([
-    //             'reserve_qty' => $qtyii
-    //         ]);
-
-    //         return response()->json(['success' => true]);
-    //     } else {
-    //         return response()->json(['success' => false, 'error' => 'Product not found'], 404);
-    //     }
-    // }
-
 
     public function slfetchsQty(Request $request) {
         $selectedValue = $request->input('selectedValue');
@@ -140,7 +110,6 @@ class SalesProductController extends Controller
 
     public function salesInvoiceStore(Request $request){
         // $invoiceNumber = IdGenerator::generate(['table' => 'sales_invoices', 'length' => 8, 'prefix' =>'INV-']);
-
         if($request->status == 'paid'){
 
             $invoice = new Sales_invoice;
@@ -192,7 +161,7 @@ class SalesProductController extends Controller
             }
 
             // Redirect back after processing
-            return redirect()->back()->with('message','Purchase Product created successfully..');
+            return redirect('all-sales-invoice')->with('message','Purchase Product created successfully..');
         }
 
         if($request->status == 'Unpaid'){
@@ -296,7 +265,7 @@ class SalesProductController extends Controller
             }
 
             // Redirect back after processing
-            return redirect()->back()->with('message','Sales Product created successfully..');
+            return redirect('all-sales-invoice')->with('message','Sales Product created successfully.');
         }
     }
 }
@@ -309,15 +278,23 @@ class SalesProductController extends Controller
             // dd($sales_invoice_edits,$customer_edits);
             return view('sales.sales_invoice_edit',compact('sales_edits','sales_invoice_edits','customer_edits'));
         }
+        public function salesInvoiceShow($id){
+
+            $sales_edits =Sales_product_invoice::where('invoice_id',$id)->get();
+            $sales_invoice_edits =Sales_invoice::find($id);
+            $customer_edits =Customer::find($sales_invoice_edits->customer_id);
+            // dd($sales_invoice_edits,$customer_edits);
+            return view('sales.sales_invoice_show',compact('sales_edits','sales_invoice_edits','customer_edits'));
+        }
         public function returnSalesInvoiceEdit($id){
             $return_sales_invoice =Return_Sales_invoice::find($id);
             // dd($return_sales_invoice->customer_id);
             $return_sales_edits =Return_Sales_product_invoice::where('invoice_id',$id)->get();
-            $customers =Customer::find($id);
+            $customer_edits =Customer::find($return_sales_invoice->customer_id);
 
             // $return_sales_edits = $return_sales_invoice->merge($return_sales_editss);
             // dd($sales_edits);
-            return view('sales.return_sales_invoice_edit',compact('return_sales_edits','return_sales_invoice','customers'));
+            return view('sales.return_sales_invoice_edit',compact('return_sales_edits','return_sales_invoice','customer_edits'));
         }
 
 
@@ -408,17 +385,48 @@ class SalesProductController extends Controller
             }
 
     public function customerDuePayInvoices(Request $request){
-        if($request->customer_id == 'all'){
 
-            $paid_invoices = Due_Sales_Payment::all();
+
+        $customer_id = $request->input('customer_id');
+        $date_from = $request->input('date_from');
+        $date_to = $request->input('date_to');
+
+        $paid_invoices = Due_Sales_Payment::all();
+        $query = Due_Sales_Payment::query();
+        $due_paid_purchase = Due_Sales_Payment::where('customer_id', $customer_id)->get();
+
+        if ($customer_id =='all') {
+            session(['selectedCustomerId' => $customer_id]);
+
+            if (!empty($date_from)) {
+                $query->whereDate('created_at', '>=', $date_from);
+            }
+
+            if (!empty($date_to)) {
+                $query->whereDate('created_at', '<=', $date_to);
+            }
+
+            $paid_invoices = $query->get();
             return view('sales.due_sales_payment',compact('paid_invoices'));
         }
 
-        $paid_invoices = Due_Sales_Payment::where('customer_id', $request->customer_id)->get();
+        if (!empty($customer_id)) {
+            $query->where('customer_id', $customer_id);
+            session(['selectedCustomerId' => $customer_id]);
+        }
 
-        session(['selectedCustomerId' => $request->customer_id]);
+        if (!empty($date_from)) {
+            $query->whereDate('created_at', '>=', $date_from);
+        }
+
+        if (!empty($date_to)) {
+            $query->whereDate('created_at', '<=', $date_to);
+        }
+
+        $paid_invoices = $query->get();
 
         return view('sales.due_sales_payment',compact('paid_invoices'));
+
     }
 
 }

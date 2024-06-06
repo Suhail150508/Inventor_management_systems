@@ -236,15 +236,16 @@ form .form-row .textarea{
     <div class="box span12">
         <div class="box-header" data-original-title>
             <h2><i class="halflings-icon user"></i><span class="break"></span>Vendors</h2>
-            {{-- <div class="box-icon">
-                <a href="/create-vendor" class="" style="background-color: rgb(31, 73, 124);color:aliceblue;padding:6px;border-radius:10px"><i class="icon-plus"></i> Create Vendor</a>
-            </div> --}}
-
-            <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#exampleModal" style="margin-right:1rem;font-size:1.2rem;float:right;margin-bottom:2rem;padding-bottom:7px">
-                <i class="icon-plus"></i> </span> Create Vendor
-            </button>
-
         </div>
+
+        <div>
+            <form action="/search-vendor-info" class="row pt-5" style="width:50%;height:40%;display:flex;justify-content:center;padding:.2rem;margin:.9rem 5rem">
+                @csrf
+                <input class="col-md-9 form-control" style="font-size:1.2rem;padding:.8rem 2.3rem" type="text" name="search" placeholder="Search Here..." value="{{ isset($search) ? $search :'' }}">
+                <button type="submit" class="col-md-3 btn btn-secondary" style="font-size:1.2rem;width:100px;height:46px">Search </button>
+            </form>
+        </div>
+
 
         <div class="box-content">
             <table class="table table-striped table-bordered bootstrap-datatable datatable">
@@ -272,13 +273,13 @@ form .form-row .textarea{
                         <td class="center">
                             <div class="span2">
 
-                                <a class="btn btn-info" href="{{url('/investor-edit/'.$invest->id)}}" style="margin-left:.1rem;border-radius:25%">
+                                <a class="btn btn-info" href="{{url('/vendor-edit/'.$invest->id)}}" style="margin-left:.1rem;border-radius:25%">
                                     <i class="halflings-icon white edit"></i>
                                 </a>
                             </div>
 
                             <div class="span2">
-                                <form method="post" action="{{ url('/investor-delete/'.$invest->id ) }}" style="margin-left:1rem">
+                                <form method="post" action="{{ url('/vendor-delete/'.$invest->id ) }}" style="margin-left:1rem">
                                     @csrf
                                     @method('DELETE')
                                     <button type="submit" class="btn btn-danger"> <i class="halflings-icon white trash"></i></button>
@@ -297,78 +298,6 @@ form .form-row .textarea{
         </div>
     </div>
 </div>
-
-
-
-    <!-- Modal -->
-    <div class="modal fade" id="exampleModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
-        <div class="modal-dialog" role="document">
-        <div class="modal-content">
-            <div class="modal-header">
-            <h5 class="modal-title" id="exampleModalLabel">
-                <div class="text">
-                    <h3 style="font-size:1.4rem"><i class="icon-plus"></i> Add Vendor</h3>
-                </div>
-            </h5>
-            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                <span aria-hidden="true">&times;</span>
-            </button>
-            </div>
-            <div class="modal-body">
-            {{-- ... --}}
-
-            <div class="container_modal" style="width:100%">
-
-                <form action="/vendor-create" method="POST" style="text-align:center">
-                    @csrf
-                    <div class="form-row">
-                        <div class="input-data" style="margin-bottom: 1rem">
-                            <label for="">Name</label>
-                            <input type="text" name="name" required>
-                            <div class="underline"></div>
-                        </div>
-                    </div>
-                    <div class="form-row">
-                        <div class="input-data">
-                            <label for="">Address</label>
-                            <input type="text" name="address" required>
-                            <div class="underline"></div>
-                        </div>
-                        <div class="data" style="margin-top:1rem">
-                            <label for="">Vendor Origin</label>
-                            <input type="text" name="vendor_origin" >
-
-                            <div class="underline"></div>
-                            {{-- <label for="">Date</label> --}}
-                        </div>
-                    </div>
-                    <div class="form-row">
-                        <label for=""> Email </label>
-                        <input type="email" name="email" class="form control">
-                    </div>
-
-                    <div class="form-row">
-                        <label for=""> Mobile </label>
-                        <input type="text" name="mobile" class="form control">
-                    </div>
-                        <div class="form-row submit-btn">
-                            <div class="input-data">
-                                <div class="inner">
-
-                                </div>
-                                <input class="btn btn-primary" type="submit" value="submit">
-                            </div>
-                        </div>
-                </form>
-
-            </div>
-
-
-            </div>
-        </div>
-        </div>
-    </div>
-    <!-- Modal end -->
 
 
 

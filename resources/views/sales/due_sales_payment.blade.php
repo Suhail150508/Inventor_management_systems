@@ -96,16 +96,55 @@
 
 <div class="row-fluid sortable">
     <div class="box span12">
-        <div class="box-header" data-original-title>
-            <h2><i class="halflings-icon user"></i><span class="break"></span>Invoices</h2>
-            <div class="box-icon">
-                <a href="/due-sales-payment-create" class="" style="background-color: rgb(31, 73, 124);color:aliceblue;padding:6px;border-radius:10px"><i class="icon-plus"></i> Due Payment Create</a>
-            </div>
+        <div class="box-header" style="display: flex;justify-content:space-between">
+            <h2><i class="halflings-icon user"></i><span class="break"></span>Customer Due Payment</h2>
+            <div></div>
+            <div></div>
+            <button type="button" class="action btn btn-secondary" style="height: 30px" onclick="GetPrint()" >Print</button>
+            <div></div>
         </div>
+
+        <script>
+             function GetPrint(){
+                window.print();
+            }
+        </script>
 
 
         <div>
-            <form action="/search-customer-due-payment" method="GET" class="row pt-5" style="width:50%;height:40%;display:flex;justify-content:center;padding:.2rem;margin:.9rem 5rem">
+
+            <form action="{{ url('/search-customer-due-payment') }}" method="GET" style="display: flex;justify-content:center; flex-wrap:wrap;margin-top:5rem">
+                @csrf
+                <div class=" col-md-1" style="margin: 0px 10px">
+                    <h4>Customers</h4>
+                    @php
+                        $customers = App\Models\Customer::all();
+                    @endphp
+                    <label for="">  </label>
+                    <select type="text" name="customer_id" id="vendor_id">
+                        <option style="font-size:1.1rem" value="all">All Customers</option>
+                        @foreach ($customers as $customer)
+                            <option style="font-size:1.1rem" value="{{ $customer->id }}" {{ session('selectedCustomerId') == $customer->id ? 'selected' : '' }}>{{ $customer->name }}</option>
+                        @endforeach
+                    </select>
+                </div>
+                <div class="col-md-1" style="margin: 0px 10px">
+                    <h4>From</h4>
+                    <div class="">
+                        <input type="date" name="date_from" id="date_from" placeholder="2018-07-03" value="{{ request()->input('date_from') }}">
+                    </div>
+                </div>
+                <div class="col-md-1" style="margin: 0px 10px">
+                    <h4>To</h4>
+                    <div class="">
+                        <input type="date" name="date_to" id="date_to" placeholder="2018-07-03" value="{{ request()->input('date_to') }}">
+                    </div>
+                </div>
+                <button class="col-md-1 btn btn-secondary" type="submit" style="height: 2rem;margin:2rem 1rem">Search</button>
+            </form>
+
+{{--
+            <form action="/search-customer-due-payment" method="GET" class="row" style="width:50%;height:40%;display:flex;justify-content:center;padding:.2rem;margin:.9rem 5rem;margin-top:5rem">
                 @csrf
                 @php
                     $customers = App\Models\Customer::all();
@@ -116,12 +155,11 @@
 
                     <option style="font-size:1.1rem" value="all">All</option>
                     @foreach ($customers as $customer )
-                    {{-- <option style="font-size:1.1rem" value="{{ $customer->id }}">{{ $customer->name  }}</option> --}}
                     <option style="font-size:1.1rem" value="{{ $customer->id }}" {{ session('selectedCustomerId') == $customer->id ? 'selected' : '' }}>{{ $customer->name }}</option>
                     @endforeach
                 </select>
-                <button type="submit" class="col-md-3 btn btn-success" style="font-size:1.2rem;width:100px;height:32px">Search </button>
-            </form>
+                <button type="submit" class="col-md-3 btn btn-secondary" style="font-size:1.2rem;width:100px;height:32px">Search </button>
+            </form> --}}
         </div>
 
         @php
@@ -138,7 +176,8 @@
                       <th>Paid Amount</th>
                       <th>Discount</th>
                       <th>Description</th>
-                      <th>Actions</th>
+                      <th>Date</th>
+                      {{-- <th>Actions</th> --}}
                   </tr>
               </thead>
 
@@ -157,10 +196,8 @@
                         <td class="center">{{ $invoice->paid_amount }}</td>
                         <td class="center">{{ $invoice->discount }}</td>
                         <td class="center">{{ $invoice->description }}</td>
-                        <td class="center">
-
-                        </td>
-                        <td>
+                        <td class="center">{{ $invoice->created_at }}</td>
+                        {{-- <td>
                             <div class="dropdown">
                                 <div class="">
                                 <select name="name" style="width: 50%;border-radius:70px">
@@ -172,7 +209,7 @@
                                 </select>
                                 </div>
                             </div>
-                        </td>
+                        </td> --}}
                     </tr>
 
             @endforeach

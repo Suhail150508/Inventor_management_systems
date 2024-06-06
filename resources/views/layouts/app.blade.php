@@ -27,6 +27,11 @@
 	<link rel="shortcut icon" href="img/favicon.ico">
 	<!-- end: Favicon -->
 
+    {{-- <link href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" rel="stylesheet" id="bootstrap-css"> --}}
+
+
+
+
 
      {{-- toastr --}}
            {{-- <link href="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/4.0.0-alpha/css/bootstrap.css" rel="stylesheet"> --}}
@@ -36,6 +41,8 @@
    <!---New bootstrap cdn---->
     {{-- <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap/5.3.2/css/bootstrap.min.css" integrity="sha512-b2QcS5SsA8tZodcDtGRELiGv5SaKSk1vDHDaQRda0htPYWZ6046lr3kJ5bAAQdpV2mmA/4v0wQF9MyU6/pDIAg==" crossorigin="anonymous" referrerpolicy="no-referrer" /> --}}
     <!-- end:-->
+    {{-- <link href="//netdna.bootstrapcdn.com/bootstrap/3.0.0/css/bootstrap.min.css" rel="stylesheet" id="bootstrap-css"> --}}
+
 </head>
 
 <body>
@@ -88,47 +95,50 @@
             <!-- start: Header -->
 
             <div class="container-fluid-full" style="min-height:100vh">
-                <div class="row-fluid">
-                    <div id="sidebar-left" class="span2">
-                        <div class="nav-collapse sidebar-nav">
-                            <ul class="nav nav-tabs nav-stacked main-menu">
+                <div id="sidebar-left" class="span2">
+                    <div class="nav-collapse sidebar-nav">
+                        <ul class="nav nav-tabs nav-stacked main-menu">
 
-                                <li>
-                                    <a class="dropmenu" href="/dashboard"><i class="icon-bar-chart"></i></i><span class="hidden-tablet">Reports </span><span class="icon-arrow"></span></a>
-                                    <ul>
-                                        <li><a class="submenu" href="/investor"><i class="icon-eye-open"></i><span class="hidden-tablet"> All Investors </span></a></li>
-                                        <li><a class="submenu" href="/investors_statement"><i class="icon-eye-open"></i><span class="hidden-tablet">Investor Statement </span></a></li>
-                                        <li><a class="submenu" href="/all-purchase-invoice"><i class="icon-eye-open"></i><span class="hidden-tablet"> All Purchase Invoice  </span></a></li>
-                                        <li><a class="submenu" href="/all-return-purchase-invoice"><i class="icon-eye-open"></i><span class="hidden-tablet"> Return Purchase Invoice  </span></a></li>
-                                        <li><a class="submenu" href="/all-sales-invoice"><i class="icon-eye-open"></i><span class="hidden-tablet"> All Sales Invoice </span></a></li>
-                                        <li><a class="submenu" href="/all-return-sales-invoice"><i class="icon-eye-open"></i><span class="hidden-tablet"> Return Sales Invoice  </span></a></li>
-                                        <li><a href="/expence-invoice"><i class="icon-eye-open"></i><span class="hidden-tablet"> Expence Invoice </span></a></li>
-                                        <li><a class="submenu" href="/main_account"><i class="icon-eye-open"></i><span class="hidden-tablet"> Main Accounts </span></a></li>
-                                        {{-- <li><a class="submenu" href="/investors_invoice"><i class="icon-minus"></i><span class="hidden-tablet">Investor Invoices </span></a></li> importent --}}
+                            <li>
+                                <a class="dropmenu" href="#"><i class="icon-bar-chart"></i></i><span class="hidden-tablet"> Reports </span><span class="icon-arrow"></span></a>
+                                <ul>
+                                    <li><a class="submenu" href="/investor"><i class="icon-eye-open"></i><span class="hidden-tablet"> All Investors </span></a></li>
+                                    <li><a class="submenu" href="/investors_statement"><i class="icon-eye-open"></i><span class="hidden-tablet">Investor Statement </span></a></li>
+                                    <li><a class="submenu" href="/all-purchase-invoice"><i class="icon-eye-open"></i><span class="hidden-tablet"> All Purchase Invoice  </span></a></li>
+                                    <li><a class="submenu" href="/all-return-purchase-invoice"><i class="icon-eye-open"></i><span class="hidden-tablet"> Return Purchase Invoice  </span></a></li>
+                                    <li><a class="submenu" href="/due-payment-invoice"><i class="icon-eye-open"></i><span class="hidden-tablet"> Due Payment Invoice  </span></a></li>
+                                    <li><a class="submenu" href="/all-sales-invoice"><i class="icon-eye-open"></i><span class="hidden-tablet"> All Sales Invoice </span></a></li>
+                                    <li><a class="submenu" href="/all-return-sales-invoice"><i class="icon-eye-open"></i><span class="hidden-tablet"> Return Sales Invoice  </span></a></li>
+                                    <li><a class="submenu" href="/due-sales-payment"><i class="icon-eye-open"></i><span class="hidden-tablet"> Due Sales Payment  </span></a></li>
+                                    <li><a class="submenu" href="/show-vendor"><i class="icon-eye-open"></i><span class="hidden-tablet">All Vendors </span></a></li>
+                                    <li><a class="submenu" href="/all-customer"><i class="icon-eye-open"></i><span class="hidden-tablet"> All Customer  </span></a></li>
+                                    <li><a href="/expence-invoice"><i class="icon-eye-open"></i><span class="hidden-tablet"> Expence Invoice </span></a></li>
+                                    <li><a class="submenu" href="/main_account"><i class="icon-eye-open"></i><span class="hidden-tablet"> Main Accounts </span></a></li>
+                                    <a href="/company-info"><i class="icon-eye-open"></i><span class="hidden-tablet"> Company Information </span></a>
 
                             </ul>
                         </li>
-						<li>
-                            <a class="dropmenu" href="#"><i class="icon-folder-close-alt"></i><span class="hidden-tablet">Investors </span><span class="icon-arrow"></span></a>
+                        <li>
+                            <a class="dropmenu" href="#"><i class="icon-folder-close-alt"></i><span class="hidden-tablet"> Investors </span><span class="icon-arrow"></span></a>
                             <ul>
-                                <li><a class="submenu" href="/investor"><i class="icon-eye-open"></i><span class="hidden-tablet"> All Investors </span></a></li>
+                                <li><a class="submenu" href="/invest-create"><i class="icon-plus"></i><span class="hidden-tablet"> Investors </span></a></li>
                                 <li><a class="submenu" href="/invest"><i class="icon-plus"></i><span class="hidden-tablet"> Amount-add </span></a></li>
                                 <li><a class="submenu" href="/invest_return"><i class="icon-minus"></i><span class="hidden-tablet"> Amount-return </span></a></li>
-                                <li><a class="submenu" href="/investors_statement"><i class="icon-minus"></i><span class="hidden-tablet">Investor Statement </span></a></li>
+                                {{-- <li><a class="submenu" href="/investors_statement"><i class="icon-minus"></i><span class="hidden-tablet">Investor Statement </span></a></li> --}}
                                 {{-- <li><a class="submenu" href="/investors_invoice"><i class="icon-minus"></i><span class="hidden-tablet">Investor Invoices </span></a></li> importent --}}
 
                             </ul>
                         </li>
 
 						<li>
-                            <a class="dropmenu" href="#"><i class="icon-folder-close-alt"></i><span class="hidden-tablet"> Sales & Payment </span><span class="icon-arrow"></span></a>
+                            <a class="dropmenu" href="#"><i class="icon-folder-close-alt"></i><span class="hidden-tablet"> Sales </span><span class="icon-arrow"></span></a>
                             <ul>
                                 {{-- <li><a class="submenu" href="/customer_invoice"><i class="icon-plus"></i><span class="hidden-tablet"> Invoice </span></a></li> --}}
                                 {{-- <li><a class="submenu" href="#"><i class="icon-plus"></i><span class="hidden-tablet"> Invoice Return </span></a></li> --}}
-                                <li><a class="submenu" href="/all-sales-invoice"><i class="icon-plus"></i><span class="hidden-tablet"> All Sales Invoice </span></a></li>
-                                <li><a class="submenu" href="/all-customer"><i class="icon-eye-open"></i><span class="hidden-tablet"> Customer </span></a></li>
-                                <li><a class="submenu" href="/all-return-sales-invoice"><i class="icon-eye-open"></i><span class="hidden-tablet"> Return Sales Invoice  </span></a></li>
-                                <li><a class="submenu" href="/due-sales-payment"><i class="icon-eye-open"></i><span class="hidden-tablet"> Due Sales Payment  </span></a></li>
+                                <li><a class="submenu" href="/sales_invoice"><i class="icon-plus"></i><span class="hidden-tablet">Sales Invoice </span></a></li>
+                                <li><a class="submenu" href="/return-sales-invoice"><i class="icon-plus"></i><span class="hidden-tablet"> Return Sales Invoice  </span></a></li>
+                                <li><a class="submenu" href="/due-sales-payment-create"><i class="icon-plus"></i><span class="hidden-tablet"> Due Sales Payment  </span></a></li>
+                                <li><a class="submenu" href="/customer-create"><i class="icon-plus"></i><span class="hidden-tablet"> Customer </span></a></li>
 
 
                             </ul>
@@ -136,29 +146,30 @@
 						<li>
                             <a class="dropmenu" href="#"><i class="icon-barcode"></i><span class="hidden-tablet"> Purchase </span><span class="icon-arrow"></span></a>
                             <ul>
-                                <li><a class="submenu" href="/show-vendor"><i class="icon-plus"></i><span class="hidden-tablet"> Vendors </span></a></li>
                                 <li><a class="submenu" href="/all-products"><i class="icon-plus"></i><span class="hidden-tablet"> Stock Products </span></a></li>
                                 <li><a class="submenu" href="/purchase_invoice"><i class="icon-plus"></i><span class="hidden-tablet"> Purchase Invoice </span></a></li>
+                                <li><a class="submenu" href="/return-purchase-invoice"><i class="icon-plus"></i><span class="hidden-tablet"> Return Purchase Invoice  </span></a></li>
+                                <li><a class="submenu" href="/due-payment-invoice-create"><i class="icon-plus"></i><span class="hidden-tablet"> Due Payment Invoice  </span></a></li>
                                 <li><a class="submenu" href="/all-purchase-invoice"><i class="icon-eye-open"></i><span class="hidden-tablet"> All Purchase Invoice  </span></a></li>
-                                <li><a class="submenu" href="/all-return-purchase-invoice"><i class="icon-eye-open"></i><span class="hidden-tablet"> Return Purchase Invoice  </span></a></li>
-                                <li><a class="submenu" href="/due-payment-invoice"><i class="icon-eye-open"></i><span class="hidden-tablet"> Due Payment Invoice  </span></a></li>
+                                <li><a class="submenu" href="/create-vendor"><i class="icon-plus"></i><span class="hidden-tablet"> Vendors create </span></a></li>
                             </ul>
                         </li>
-						<li>
+						{{-- <li>
                             <a class="dropmenu" href="#"><i class="icon-barcode"></i><span class="hidden-tablet"> Account </span><span class="icon-arrow"></span></a>
                             <ul>
                                 <li><a class="submenu" href="/main_account"><i class="icon-plus"></i><span class="hidden-tablet"> Main Accounts </span></a></li>
                             </ul>
-                        </li>
+                        </li> --}}
 
 						<li>
-                            <a href="/company-info"><i class="icon-eye-open"></i><span class="hidden-tablet"> Company Information </span></a>
+                            <a href="/expence-create"><i class="icon-plus"></i><span class="hidden-tablet"> Expence Invoice </span></a>
+                        </li>
+                        <li>
+                            <a href="/company-create"><i class="icon-plus"></i><span class="hidden-tablet"> Company Create </span></a>
                         </li>
 						<li>
-                            <a href="/expence-invoice"><i class="icon-eye-open"></i><span class="hidden-tablet"> Expence Invoice </span></a>
-                        </li>
-						<li>
-                            <a href="/home"><i class="icon-eye-open"></i><span class="hidden-tablet"> All Posts</span></a>
+                            {{-- <a href="/test"><i class="icon-eye-open"></i><span class="hidden-tablet"> Test</span></a> --}}
+                            {{-- <a href="/home"><i class="icon-eye-open"></i><span class="hidden-tablet"> All Posts</span></a> --}}
                         </li>
 					</ul>
 				</div>

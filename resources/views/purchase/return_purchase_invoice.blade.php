@@ -2,7 +2,7 @@
 
 @section('content')
 
-     <link href="//netdna.bootstrapcdn.com/bootstrap/3.0.0/css/bootstrap.min.css" rel="stylesheet" id="bootstrap-css">
+     {{-- <link href="//netdna.bootstrapcdn.com/bootstrap/3.0.0/css/bootstrap.min.css" rel="stylesheet" id="bootstrap-css"> --}}
 <style>
 
         body {
@@ -344,60 +344,78 @@
 
 </head>
 <body style="height: 100%">
-    <div class="container">
         <div class="card-body">
-                <div class="header" style="display: flex;margin-bottom:7rem">
-                    <strong style="font-size: 2rem">Purchase Invoice</strong>
-
-                    <div style="margin-right:2rem;background-color:#aaa;min-width:10%">
-
-                        @php
-                            $companies = App\Models\Company::all();
-                        @endphp
-
-
-                        <div style="text-align: left">
-                            @foreach ($companies as $company )
-                                <div style="text-align: center">
-                                    <img width="80" style="border-radius:25%" src="{{ URL::asset('/teacher/'.$company->logo) }}" alt="{{ $company->logo }}">
-                                </div>
-                                <h3 style="text-align: center;padding:.2rem">{{ $company->name }}</h3>
-                                <h4 style="text-align: center;padding:.2rem">{{ $company->email }}</h4>
-                                <p style="text-align: center;padding:.2rem">{{ $company->address }}</p>
-
-                            @endforeach
-                        </div>
-
-                    </div>
-
-                </div>
 
             <form action="/return-purchase-invoice-store" method="POST">
                 @csrf
 
+                <div style="width:95%;text-align:center">
+                    @php
+                        $company = App\Models\Company::latest()->first();
+                    @endphp
+                      <div style="">
+                            <img width="80" style="border-radius:25%" src="{{ URL::asset('/teacher/'.$company->logo) }}" alt="{{ $company->logo }}">
+
+                    </div>
+
+                </div>
+                <div class="header" style="display: flex;margin-top:3rem;margin-bottom:5rem;width:95%">
+
+                    <div style="width:30%">
+                        @php
+                            $vendors = App\Models\Vendor::all();
+                        @endphp
+
+                            <strong style="font-size:1.6rem" for=""> Vendors: </strong>
+                            <div style="width:60%">
+                                <select class="form-control"  name="vendor_id"  id="selectField" required style="width:60%">
+
+                                    <option style="" value=""></option>
+                                    @foreach ($vendors as $vendor )
+                                    <option class="vendor_name" value="{{ $vendor->id }}">{{ $vendor->name  }}</option>
+                                    @endforeach
+                                </select>
+                            </div>
+
+                            <div id="dataContainer" style="background-color: #aaa;color:#000;width:60%">
+                                <p style="margin:1px;padding: 0px 5px" id="name"></p>
+                                <p style="margin:1px;padding: 0px 5px" id="email"></p>
+                                <p style="margin:1px;padding: 0px 5px" id="mobile"></p>
+                                <p style="margin:1px;padding: 0px 5px" id="address"></p>
+                            </div>
+                            {{-- <div>
+                                <strong>Shipinng Information:</strong>
+                                <div>
+                                    <small style="color:black;font-size:1.3rem">Dinajpur</small>
+                                </div>
+                                <div>
+                                    <small style="color:black;font-size:1.3rem">Chirirbander</small>
+                                </div>
+                                <div>
+                                    <small style="color:black;font-size:1.3rem">Parbotipur</small>
+                                </div>
+                            </div> --}}
+                    </div>
+
+                    <div style="margin-top:-8rem;text-align:center">
+                        <strong style="font-size: 1.5rem;">Purchase Return Invoice</strong>
+                    </div>
+                    <div style="background-color:#aaa;padding:7px:margin-left:-5rem">
+
+                        @php
+                            $company = App\Models\Company::latest()->first();
+                        @endphp
 
 
-                <div class="shift" style="margin-top:-8rem;margin-bottom:10rem;width:20%">
+                        <div style="">
 
-                        <h3 for=""> Vendors </h3>
+                                <h4 style="text-align: center;padding:0 .2rem">{{ $company->name }}</h4>
+                                <p style="text-align: center;padding:0 .2rem">{{ $company->email }}</p>
+                                <p style="text-align: center;padding:0 .2rem">{{ $company->address }}</p>
 
-                        <select class="form-control" id="selectField" name="vendor_id"  style="width: 20rem" required>
-                            <option value="">select</option>
-
-                            @php
-                                $vendors = App\Models\Vendor::all();
-                            @endphp
-
-                            @foreach ($vendors as $vendor )
-                            <option value="{{ $vendor->id }}">{{ $vendor->name }}</option>
-                            @endforeach
-                        </select>
-
-                        <div id="dataContainer" style="background-color: #aaa;color:#000;width:100%;">
-                            <p style="margin: .8rem " id="name"></p>
-                            <p style="margin: .8rem " id="email"></p>
-                            <p style="margin: .8rem " id="mobile"></p>
                         </div>
+
+                    </div>
 
                 </div>
 
@@ -415,7 +433,7 @@
                     <tbody>
                     <tr>
 
-                        <td>
+                        {{-- <td>
                                 <select class="form-control" id="selectProduct" name="product_id[]"  style="width: 10rem" required>
                                     <option value="">select</option>
 
@@ -428,36 +446,86 @@
                                     @endforeach
                                 </select>
 
+                        </td> --}}
+
+                        <td style="display: flex">
+
+                            <select class="form-control" id="selectProduct" name="product_id[]"  style="width: 10rem" required>
+                                <option value="">select</option>
+
+                                @php
+                                    // $products = App\Models\StockProduct::all();
+                                    $products = App\Models\Product::all();
+                                @endphp
+
+                                @foreach ($products as $product )
+                                {{-- <option value="{{ $product->id }}">{{ $product->name }}</option> --}}
+                                <option value="{{ $product->id }}" data-image="{{ URL::asset('/teacher/'.$product->image) }}">{{ $product->name }}</option>
+                                @endforeach
+                            </select>
+                            <div id="productImageContainer" style="display: none;margin-left:.3rem">
+                                <img id="productImage" width="35" style="border-radius: 50%" src="" alt="Product Image">
+                            </div>
+
+
                         </td>
                         <td><input class="form-control "  style="width:130px" type="textarea" id="productCode" name="code[]"></td>
                         <td><input class="form-control " style="width:130px" type="textarea" id="qty" name="qty[]"></td>
                         <td><input class="form-control " style="width:130px" type="textarea" id="unit_price" name="unit_price[]"></td>
                         <td><input class="form-control " style="width:130px" type="textarea" id="total_price" name="total_price[]"></td>
+                        <td><a href="javascript:void(0)" class="btn btn-danger font-18 remove" title="Remove"><i class="icon-minus"></i></a></td>
+
                     </tr>
                     </tbody>
                 </table>
 
-
                 <div  style="margin:3rem .1rem;">
 
-                    <a href="javascript:void(0)" class="btn btn-success font-18" title="Add" id="addBtn" style="font-size:1.7rem"><i class="icon-plus"></i> Add Item</a>
+                    <a href="javascript:void(0)" class="btn btn-success font-18" title="Add" id="addBtn" style="font-size:1.2rem"><i class="icon-plus"></i> Add Item</a>
                 </div>
 
+                <div style="display: flex;justify-content:space-around">
+                    <div></div>
+                    <div style="display:flex;">
+                        {{-- <strong style="margin-top:5px;font-size:1.2rem">Select Status</strong>
+                        <select class="form-control" name="status" id="status" required style="width:8rem;">
+                            <option value="Unpaid">Pending</option>
+                            <option value="Paid">Recieve</option>
+                        </select> --}}
+                    </div>
 
-                <div style="float: right;margin:4rem 2rem;background-color:#d9d9ebc6;padding:8px;width:21%;">
+                    <div style="background-color:#d9d9ebc6;padding:8px;">
+                        <p style="display:none">Sub Total1: <input type="text" id="subtotal1" style="width: 60px;height:20px"></p>
+                        <p style="display:none">Sub Total2: <input type="text" id="subtotal2" style="width: 60px;height:20px"></p>
+                        <div>
 
-                    <p style="display:none">Sub Total1: <input type="text" id="subtotal1" style="width: 60px;height:20px"></p>
-                    <p style="display:none">Sub Total2: <input type="text" id="subtotal2" style="width: 60px;height:20px"></p>
-                    <p style="font-weight:bold;font-size:1.7rem">Sub Total: <input type="text" class="form-control" id="subtotal" name="sub_total" style="width: 60px;height:16px"></p>
-                    <p style="font-weight:bold;font-size:1.7rem">Discount: <input type="text" class="form-control" id="discount" name="discount" style="width: 60px;height:16px"></p>
-                    <p style="font-weight:bold;font-size:1.7rem">Total: <input type="text" class="form-control" id="total" name="total" style="width: 60px;height:16px"></p>
-                    <p style="font-weight:bold;font-size:1.7rem">Paid: <input type="text" class="form-control" id="paid" name="paid" style="width: 60px;height:16px"></p>
-                    <p style="font-weight:bold;font-size:1.7rem">Due: <input type="text" class="form-control" id="due" name="due" style="width: 60px;height:16px"></p>
+                        </div>
+                        <div>
+                            <small style="font-weight:bold;color:#000;font-size:1rem;">Sub Total: <input type="text" class="form-control" id="subtotal" name="sub_total" style="width: 60px;height:9px;margin-left:2rem"></small>
+
+                        </div>
+                        <div>
+                            <small style="font-weight:bold;color:#000;font-size:1rem;padding-top:-1rem">Discount: <input type="text" class="form-control" id="discount" name="discount" style="width: 60px;height:9px;margin-left:2rem"></small>
+
+                        </div>
+                        <div>
+                            <small style="font-weight:bold;color:#000;font-size:1rem;padding-top:-1rem">Total: <input type="text" class="form-control" id="total" name="total" style="width: 60px;height:9px;margin-left:4rem"></small>
+
+                        </div>
+                        <div>
+                            <small style="font-weight:bold;color:#000;font-size:1rem;padding-top:-1rem">Paid: <input type="text" class="form-control" id="paid" name="paid" style="width: 60px;height:9px;margin-left:4.3rem"></small>
+
+                        </div>
+                        <div>
+                            <small style="font-weight:bold;color:#000;font-size:1rem;padding-top:-1rem">Due: <input type="text" class="form-control" id="due" name="due" style="width: 60px;height:9px;margin-left:4.5rem"></small>
+
+                        </div>
+                    </div>
                 </div>
 
                 <div style="text-align: center;margin-top:27rem">
-                    <button type="submit" style=" padding:6px 25px;font-size:2.2rem"  class="btn btn-primary ">submit</button>
-                    <button type="button" class="btn" style=" padding:6px 25px;font-size:2.2rem;margin-left:5rem" onclick="GetPrint()" class="btn btn-primary ">Print</button>
+                    <button type="submit" style=" padding:6px 25px;font-size:1.3rem"  class="btn btn-primary ">Submit</button>
+                    <button type="button" class="btn" style=" padding:6px 25px;font-size:1.3rem;margin-left:5rem" onclick="GetPrint()" class="btn btn-primary ">Print</button>
                 </div>
 
 
@@ -466,10 +534,31 @@
             <hr>
           </div>
         </div>
-      </div>
 
-      </div>
+</div>
 
+
+
+    <script>
+
+        document.addEventListener("DOMContentLoaded", function () {
+        var selectProduct = document.getElementById('selectProduct');
+        var productImage = document.getElementById('productImage');
+
+        selectProduct.addEventListener('click', function () {
+            var selectedOption = selectProduct.options[selectProduct.selectedIndex];
+            var imageSrc = selectedOption.getAttribute('data-image');
+
+            if (imageSrc) {
+                productImage.src = imageSrc;
+                document.getElementById('productImageContainer').style.display = 'block';
+            } else {
+                productImage.src = '';
+                document.getElementById('productImageContainer').style.display = 'none';
+            }
+        });
+    });
+    </script>
 
       {{-- <script src="//netdna.bootstrapcdn.com/bootstrap/3.0.0/js/bootstrap.min.js"></script> --}}
       <script src="//code.jquery.com/jquery-1.11.1.min.js"></script>
@@ -499,17 +588,23 @@
                         type: "GET",
                         data: { selectedValue: selectedValue },
                         success: function(response) {
+                            // Get the elements correctly
                             var name = document.getElementById('name');
                             var email = document.getElementById('email');
                             var mobile = document.getElementById('mobile');
+                            var address = document.getElementById('address');
 
-                            name.append(response.name);
-                            email.append(response.email);
-                            mobile.append(response.mobile);
+                            // Clear previous data
+                            name.innerHTML = '';
+                            email.innerHTML = '';
+                            mobile.innerHTML = '';
+                            address.innerHTML = '';
 
-                            response.forEach(function(item) {
-
-                            });
+                            // Append new data
+                            if (response.name) name.append(response.name);
+                            if (response.email) email.append(response.email);
+                            if (response.mobile) mobile.append(response.mobile);
+                            if (response.address) address.append(response.address);
                         },
                         error: function(xhr) {
                             console.log(xhr.responseText);
@@ -587,13 +682,20 @@
         $("#addBtn").on("click", function () {
             $("#tableEstimate tbody").append(`
             <tr id="R${rowIdx}">
-                    <td>
+                <td style="display:flex">
                         <select class="selectProduct form-control" name="product_id[]" style="width: 10rem" required>
                             <option value="">select</option>
+                            @php
+
+                                $products = App\Models\Product::all();
+                            @endphp
                             @foreach ($products as $product )
-                            <option value="{{ $product->id }}">{{ $product->name }}</option>
+                            <option value="{{ $product->id }}" data-image="{{ URL::asset('/teacher/'.$product->image) }}">{{ $product->name }}</option>
                             @endforeach
                         </select>
+                        <div class="productImageContainer" style="display: none;margin-left:.3rem">
+                            <img class="productImage" width="35" style="border-radius: 15%" src="" alt="Product Image">
+                        </div>
                     </td>
                     <td><input class="form-control code" type="textarea" style="width:130px" name="code[]"></td>
                     <td><input class="form-control qty" style="width:130px" type="textarea" name="qty[]"></td>
@@ -605,6 +707,20 @@
             rowIdx++;
         });
 
+        $(document).on('click', '.selectProduct', function () {
+            var selectedOption = $(this).find('option:selected');
+            var imageSrc = selectedOption.attr('data-image');
+            var productImageContainer = $(this).closest('tr').find('.productImageContainer');
+            var productImage = productImageContainer.find('.productImage');
+
+            if (imageSrc) {
+                productImage.attr('src', imageSrc);
+                productImageContainer.css('display', 'block');
+            } else {
+                productImage.attr('src', '');
+                productImageContainer.css('display', 'none');
+            }
+        });
 
         $("#tableEstimate").on("change", ".selectProduct", function () {
             var rowIndex = $(this).closest('tr').index();

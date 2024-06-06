@@ -1,6 +1,5 @@
 @extends('layouts.app')
 
-{{-- <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap/5.3.2/css/bootstrap.min.css" integrity="sha512-b2QcS5SsA8tZodcDtGRELiGv5SaKSk1vDHDaQRda0htPYWZ6046lr3kJ5bAAQdpV2mmA/4v0wQF9MyU6/pDIAg==" crossorigin="anonymous" referrerpolicy="no-referrer" /> --}}
 @section('content')
 
 {{-- <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap/5.3.2/css/bootstrap.min.css" integrity="sha512-b2QcS5SsA8tZodcDtGRELiGv5SaKSk1vDHDaQRda0htPYWZ6046lr3kJ5bAAQdpV2mmA/4v0wQF9MyU6/pDIAg==" crossorigin="anonymous" referrerpolicy="no-referrer" /> --}}
@@ -15,8 +14,9 @@ body {
 
 .card {
   width: 100%;
+  margin-right: 6rem;
   margin: 50px auto;
-  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+  /* box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1); */
   border-radius: 10px;
 }
 
@@ -532,23 +532,24 @@ form .form-row .textarea{
     width: 40%!important;
   }
 }
+@media print{
+    .btn{
+        display: none;
+    }
+}
 
 </style>
 
 </head>
 <body>
-    <div class="container card" style="height:100%">
+    <div class="container card" style="height:100%;width:90%">
         <div class="card-body">
             <div class="">
-                <div class="header" style="margin-bottom:7rem">
+                <div class="header" style="margin-bottom:4rem">
                     <strong style="font-size: 1.6rem">Investor Statement</strong>
                 </div>
 
                 <div>
-
-                    {{-- <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#exampleModal" style="margin-right:1rem;font-size:1.2rem;float: right;">
-                        <i class="icon-eye-open"></i> Total information
-                    </button> --}}
 
                 </div>
 
@@ -559,16 +560,6 @@ form .form-row .textarea{
                     <div class=" col-md-3">
                         <h4>Investor</h4>
                         <div class="">
-                            {{-- <select type="text" name="id" id="date" placeholder="Name" class="form-control" style="border:2px solid rgb(0, 204, 255)" >
-                                <option  value="">select</option>
-                                @php
-                                    $investors =App\Models\Investor::all();
-                                @endphp
-
-                                @foreach ($investors as $investor)
-                                <option  value="{{ $investor->id }}">{{ $investor->name }}</option>
-                                @endforeach
-                            </select> --}}
 
                             <select type="text" name="id" id="date" placeholder="Name" class="form-control" style="border:2px solid rgb(0, 204, 255)">
                                 <option value="">Search</option>
@@ -596,7 +587,7 @@ form .form-row .textarea{
                     </div>
 
                     <div class=" col-md-3 " style="margin-top: 2rem">
-                        <button type="submit" class="col-md-3 btn btn-success" style="font-size:1.2rem;width:100px;height:35px;border-radius:5px">Search </button>
+                        <button type="submit" class="col-md-3 btn btn-secondary" style="font-size:1.2rem;width:100px;height:35px;border-radius:5px">Search </button>
 
                     </div>
 
@@ -605,18 +596,6 @@ form .form-row .textarea{
             </div>
 
             <div class="table-container" style="padding-bottom: 2rem">
-
-                {{-- @php
-                    $totalAmount = 0;
-                    $totalReturnAmount = 0;
-                    $investor_invest_amounts = isset($investor_invest_amounts) ? $investor_invest_amounts : [];
-                    $investor_return_amounts = isset($investor_return_amounts) ? $investor_return_amounts : [];
-                    $joined_records = isset($joined_records) ? $joined_records : [];
-                    dd($joined_records['investor_all_record_invests']);
-                    $investor_all_amounts = isset($investor_all_amounts) ? $investor_all_amounts : [];
-                @endphp --}}
-
-
                  @php
                     $totalAmount = 0;
                     $totalReturnAmount = 0;
@@ -660,18 +639,10 @@ form .form-row .textarea{
                                 <td>{{ $investor ? $investor->name : 'Unknown Investor' }}</td>
                                 <td>{{ $investor_invest->amount }}</td>
                                 <td>{{ $investor_invest->category }}</td>
-                                <td>{{ $investor_invest->date }}</td>
+                                <td>{{ $investor_invest->created_at }}</td>
                                 <td>{{ $investor_invest->amount - $investor_invest->return_amount }}</td>
                                 <td>
-                                    {{-- <div class="dropdown">
-                                        <div class="">
-                                            <select name="name" style="width: 50%;border-radius:70px">
-                                                <option  value=""></option>
-                                                <option  value="index"><a href="{{ url('#') }}"> Invoice </a> </option>
-                                                <option  value="index"><a href="{{ url('#') }}"> Delete </a> </option>
-                                            </select>
-                                        </div>
-                                    </div> --}}
+
                                 </td>
                             </tr>
                         @endforeach
@@ -681,7 +652,7 @@ form .form-row .textarea{
                 </div>
 
 
-                <div style="float: right;text-align:center">
+                <div style="text-align:right;width:100%">
 
                     <div class="additional-info">
                         <p>Total Calculation </p>
@@ -691,7 +662,7 @@ form .form-row .textarea{
                         <li><span style="font-size:1.2rem;font-weight:normal">Total Invest Amount: {{$totalAmount}}</span></li>
                         <li><span style="font-size:1.2rem;font-weight:normal">Total Return Amount: {{ $totalReturnAmount }}</span></li>
                         </ul>
-                        <p style="font-size:1.4rem;font-weight:bold">Total Present Amount:{{$totalAmount -  $totalReturnAmount}}</p>
+                        <p style="font-size:1.4rem;font-weight:bold">Total Amount:{{$totalAmount -  $totalReturnAmount}}</p>
                     </div>
                     <hr>
 
@@ -730,18 +701,9 @@ form .form-row .textarea{
                                 {{-- <td>{{ $investor_return->amount }}</td> --}}
                                 <td>{{ $investor_return->return_amount }}</td>
                                 <td>{{ $investor_return->category }}</td>
-                                <td>{{ $investor_return->date }}</td>
+                                <td>{{ $investor_return->created_at }}</td>
                                 <td>{{ $investor_return->amount - $investor_return->return_amount }}</td>
                                 <td>
-                                    {{-- <div class="dropdown">
-                                        <div class="">
-                                            <select name="name" style="width: 50%;border-radius:70px">
-                                                <option  value=""></option>
-                                                <option  value="index"><a href="{{ url('#') }}"> Invoice </a> </option>
-                                                <option  value="index"><a href="{{ url('#') }}"> Delete </a> </option>
-                                            </select>
-                                        </div>
-                                    </div> --}}
                                 </td>
                             </tr>
                         @endforeach
@@ -761,7 +723,7 @@ form .form-row .textarea{
                         <li><span style="font-size:1.2rem;font-weight:normal">Total Invest Amount: {{$totalAmount}}</span></li>
                         <li><span style="font-size:1.2rem;font-weight:normal">Total Return Amount: {{ $totalReturnAmount }}</span></li>
                         </ul>
-                        <p style="font-size:1.4rem;font-weight:bold">Total Present Amount:{{$totalAmount -  $totalReturnAmount}}</p>
+                        <p style="font-size:1.4rem;font-weight:bold">Total Amount:{{$totalAmount -  $totalReturnAmount}}</p>
                     </div>
                     <hr>
 
@@ -770,46 +732,6 @@ form .form-row .textarea{
             @endif
 
             @if ($investor_all_amounts)
-
-                {{-- <table>
-                    <thead>
-                    <tr>
-                        <th>Invoice No</th>
-                        <th>Investor Name</th>
-                        <th>Invest Amount</th>
-                        <th>Return Amount</th>
-                        <th>Description</th>
-                        <th>Date</th>
-                        <th>Present Amount</th>
-                    </tr>
-                    </thead>
-                    <tbody>
-
-
-
-                        @foreach ($investor_all_amounts as $investor_all_amount)
-                            <tr>
-                                <td>{{ $investor_all_amount->id }}</td>
-                                @php
-                                    $investor = App\Models\Investor::find($investor_all_amount->investor_id);
-
-                                    $totalAmount += $investor_all_amount->amount;
-                                    $totalReturnAmount += $investor_all_amount->return_amount;
-                                @endphp
-                                <td>{{ $investor ? $investor->name : 'Unknown Investor' }}</td>
-                                <td>{{ $investor_all_amount->amount }}</td>
-                                <td>{{ $investor_all_amount->amount }}</td>
-                                <td>{{ $investor_all_amount->category }}</td>
-                                <td>{{ $investor_all_amount->date }}</td>
-                                <td>{{ $investor_all_amount->amount - $investor_all_amount->return_amount }}</td>
-                                <td>
-                                </td>
-                            </tr>
-                        @endforeach
-                    </tbody>
-
-                </table> --}}
-
                 <table>
                     <thead>
                     <tr>
@@ -869,7 +791,7 @@ form .form-row .textarea{
                         <li><span style="font-size:1.2rem;font-weight:normal">Total Invest Amount: {{$totalAmount}}</span></li>
                         <li><span style="font-size:1.2rem;font-weight:normal">Total Return Amount: {{ $totalReturnAmount }}</span></li>
                         </ul>
-                        <p style="font-size:1.4rem;font-weight:bold">Total Present Amount:{{$totalAmount -  $totalReturnAmount}}</p>
+                        <p style="font-size:1.4rem;font-weight:bold">Total Amount:{{$totalAmount -  $totalReturnAmount}}</p>
                     </div>
                     <hr>
 
@@ -917,78 +839,7 @@ form .form-row .textarea{
                 </tbody>
             </table>
 
-
-
-             {{-- @foreach($joined_records as $groupKey => $group)
-                        <tr>
-                            <td colspan="4"><h2>Records for {{ $groupKey }}</h2></td>
-                        </tr>
-                        @foreach($group as $record)
-                            <tr>
-                                <td>{{ $record->investor_id }}</td>
-                                <td>{{ $record->amount }}</td>
-                                <td>{{ $record->category }}</td>
-                                <td>{{ $record->created_at }}</td>
-                            </tr>
-                        @endforeach
-                    @endforeach --}}
-
-
-
-
-
-                {{-- <table>
-                    <thead>
-                    <tr>
-                        <th>Invoice No</th>
-                        <th>Investor Name</th>
-                        <th>Invest Amount</th>
-                        <th>Return Amount</th>
-                        <th>Description</th>
-                        <th> Date</th>
-                        <th>Present Amount</th>
-                        <th>Actions</th>
-                    </tr>
-                    </thead>
-                    <tbody>
-                        @foreach ($joined_records as $investor_all_amount)
-                        @dd($investor_all_amount);
-                            <tr>
-                                <td>{{ $investor_all_amount->id }}</td>
-                                @php
-                                    $investor = App\Models\Investor::find($investor_all_amount->investor_id);
-
-                                    $totalAmount += $investor_all_amount->amount;
-                                    $totalReturnAmount += $investor_all_amount->return_amount;
-                                @endphp
-                                <td>{{ $investor ? $investor->name : 'Unknown Investor' }}</td>
-                                <td>{{ $investor_all_amount->amount? $investor_all_amount->amount :'0' }}</td>
-                                <td>{{ $investor_all_amount->return_amount? $investor_all_amount->return_amount :'0' }}</td>
-                                <td>{{ $investor_all_amount->category }}</td>
-                                <td>{{ $investor_all_amount->created_at }}</td>
-                                <td>{{ $investor_all_amount->amount - $investor_all_amount->return_amount }}</td>
-                                <td>
-                                    <div class="dropdown">
-                                        <div class="">
-                                            <select name="name" style="width: 50%;border-radius:70px">
-                                                <option  value=""></option>
-                                                <option  value="index"><a href="{{ url('#') }}"> Invoice </a> </option>
-                                                <option  value="index"><a href="{{ url('#') }}"> Delete </a> </option>
-                                            </select>
-                                        </div>
-                                    </div>
-                                </td>
-                            </tr>
-                        @endforeach
-                    </tbody>
-
-                </table> --}}
-
-
-
                 </div>
-
-
                 <div style="float: right;text-align:center">
 
                     <div class="additional-info">
@@ -999,71 +850,20 @@ form .form-row .textarea{
                         <li><span style="font-size:1.2rem;font-weight:normal">Total Invest Amount: {{$totalAmount}}</span></li>
                         <li><span style="font-size:1.2rem;font-weight:normal">Total Return Amount: {{ $totalReturnAmount }}</span></li>
                         </ul>
-                        <p style="font-size:1.4rem;font-weight:bold">Total Present Amount:{{$totalAmount -  $totalReturnAmount}}</p>
+                        <p style="font-size:1.4rem;font-weight:bold">Total Amount:{{$totalAmount -  $totalReturnAmount}}</p>
                     </div>
                     <hr>
 
                 </div>
 
             @endif
-
-
-        <!-- Modal -->
-        {{-- <div class="modal fade" id="exampleModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
-            <div class="modal-dialog" role="document">
-            <div class="modal-content">
-                <div class="modal-header">
-                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                        <span aria-hidden="true">&times;</span>
-                    </button>
-                </div>
-                <div class="modal-body">
-
-
-                <div class="container_modal" style="width:90%">
-
-                    <form action="/total_information" method="POST">
-                        @csrf
-                        <div class="form-row">
-                            <div class="input-data">
-                                    @php
-                                        $investors = App\Models\Investor::all();
-                                    @endphp
-                                    <label for=""> Investors </label>
-                                    <select type="text" name="investor_id" id="date">
-
-                                        <option style="font-size:1.1rem" value=""></option>
-                                        @foreach ($investors as $investor)
-                                        <option style="font-size:1.1rem" value="{{ $investor->id }}">{{ $investor->name  }}</option>
-                                        @endforeach
-                                    </select>
-
-                            </div>
-                        </div>
-                            <div class="form-row submit-btn">
-                                <div class="input-data">
-                                    <div class="inner">
-
-                                    </div>
-                                    <input type="submit" value="Show">
-                                </div>
-                            </div>
-                    </form>
-
-                </div>
-
-
-                </div>
-            </div>
-            </div>
-        </div> --}}
-        <!-- Modal end -->
-
-      {{-- <script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap/5.3.3/js/bootstrap.min.js" integrity="sha512-ykZ1QQr0Jy/4ZkvKuqWn4iF3lqPZyij9iRv6sGqLRdTPkY69YX6+7wvVGmsdBbiIfN/8OdsI7HABjvEok6ZopQ==" crossorigin="anonymous" referrerpolicy="no-referrer"></script> --}}
-
+        </div>
+    </div>
+    <div style="text-align:center">
+        {{-- <button type="button" class="btn btn-secondary" onclick="GetPrint()" style="width:10%">print</button> --}}
+        <button type="button" style=" padding:6px 25px;font-size:2.2rem;margin-left:5rem" onclick="GetPrint()" class="btn btn-primary ">Print</button>
 
     </div>
-</div>
 </body>
 {{-- </html> --}}
 
