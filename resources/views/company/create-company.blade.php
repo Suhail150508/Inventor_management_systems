@@ -270,13 +270,13 @@ form .form-row .textarea{
                         <td class="center">
                             <div class="span2">
 
-                                <a class="btn btn-info" href="{{url('/company-edit/'.$company->id)}}" style="margin-left:.1rem;border-radius:25%">
+                                <a class="btn btn-info" href="{{url('/company-edit/'.$company->id)}}" style="margin-left:.1rem;">
                                     <i class="halflings-icon white edit"></i>
                                 </a>
                             </div>
 
                             <div class="span2">
-                                <form method="post" action="{{ url('/company-delete/'.$company->id ) }}" style="margin-left:1rem">
+                                <form method="post" action="{{ url('/company-delete/'.$company->id ) }}" style="margin-left:.18rem">
                                     @csrf
                                     @method('DELETE')
                                     <button type="submit" class="btn btn-danger"> <i class="halflings-icon white trash"></i></button>

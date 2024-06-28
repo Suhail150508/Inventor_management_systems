@@ -84,6 +84,74 @@
     }
     }
 
+    @media (min-width: 700px) {
+
+
+.form_section{
+    display: flex;
+    justify-content:center;
+     flex-wrap:wrap;
+     margin-top:3rem;
+}
+
+.discount{
+    float: right;
+    margin:4rem 2rem;
+    background-color:#d9d9ebc6;
+    padding:8px;
+    font-size: 1rem;
+}
+.d_para{
+    font-weight:bold;
+    font-size:1rem;
+}
+.form_inner{
+    margin: 0px 10px;
+}
+
+.print{
+    /* margin-top:-3rem; */
+    padding:3px 20px;
+    font-size:1.3rem;
+}
+
+}
+@media (max-width: 700px) {
+
+.form_section{
+    display: flex;
+    justify-content:column;
+     flex-wrap:wrap;
+     margin-top:3rem;
+     text-align: center;
+     margin-left: 5rem;
+}
+.form_inner{
+    margin-top: -10px;
+}
+
+.discount{
+    float: right;
+    margin:4rem 2rem;
+    background-color:#d9d9ebc6;
+    padding:8px;
+    width:35%;
+    font-size: 1rem;
+}
+.d_para{
+    font-weight:bold;
+    font-size:.9rem;
+}
+.print{
+    font-size:1rem;
+
+}
+.box-header h2{
+    font-size:1rem;
+}
+
+}
+
     @media print{
         .btn{
             display: none;
@@ -106,9 +174,9 @@
             padding:4px; */
             /* margin-top: -3rem; */
             }
-            .form-controll2{
+            /* .form-controll2{
                 display: block;
-            }
+            } */
             .origin{
                 font-size: 2rem;
                 /* background-color: #aaa !important; */
@@ -154,218 +222,215 @@
     }
 </style>
 
-<ul class="breadcrumb">
-    <li>
-        <i class="icon-home"></i>
-        <a href="/">Home</a>
-        <i class="icon-angle-right"></i>
-    </li>
-    <li><a href="#">Sales & Payment</a></li>
-</ul>
+<body style="height: 100%">
 
-<div class="row-fluid sortable">
-    <div class="box span12">
-        <div class="box-header" data-original-title>
-            <h2><i class="halflings-icon user"></i><span class="break"></span>Sales Invoices</h2>
-            {{-- <div class="box-icon">
-                <a href="/sales_invoice" class="" style="background-color: rgb(31, 73, 124);color:aliceblue;padding:6px;border-radius:10px"><i class="icon-plus"></i> Create Sales</a>
-            </div> --}}
-        </div>
+    <div class="row-fluid sortable">
+        <div class="box span12">
+            <div class="box-header" data-original-title>
+                <h2><i class="halflings-icon user"></i><span class="break"></span>Sales Invoices</h2>
+                {{-- <div class="box-icon">
+                    <a href="/sales_invoice" class="" style="background-color: rgb(31, 73, 124);color:aliceblue;padding:6px;border-radius:10px"><i class="icon-plus"></i> Create Sales</a>
+                </div> --}}
 
-
-        <div class="action">
-            <form action="{{ url('/search-sales-invoice') }}" method="GET" style="display: flex;justify-content:center; flex-wrap:wrap;margin-top:3rem">
-                @csrf
-                <div class=" col-md-1" style="margin: 0px 10px">
-                    <h4>Customers</h4>
-                    @php
-                        $customers = App\Models\Customer::all();
-                    @endphp
-                    <label for="">  </label>
-                    <select class="form-control" type="textarea" name="customer_id" id="customer_id">
-                        <option style="font-size:1.1rem" value="all">All Customers</option>
-                        @foreach ($customers as $customer)
-                            <option style="font-size:1.1rem" value="{{ $customer->id }}" {{ session('selectedCustomerId') == $customer->id ? 'selected' : '' }}>{{ $customer->name }}</option>
-                        @endforeach
-                    </select>
+                <div style="float: right;margin-right:2rem;">
+                    <button type="button" class="btn print"  onclick="GetPrint()">Print</button>
                 </div>
-                <div class="col-md-1" style="margin: 0px 10px">
-                    <h4>From</h4>
-                    <div class="">
-                        <input class="form-control" type="date" name="date_from" id="date_from" placeholder="2018-07-03" value="{{ request()->input('date_from') }}">
-                    </div>
-                </div>
-                <div class="col-md-1" style="margin: 0px 10px">
-                    <h4>To</h4>
-                    <div class="">
-                        <input class="form-control" type="date" name="date_to" id="date_to" placeholder="2018-07-03" value="{{ request()->input('date_to') }}">
-                    </div>
-                </div>
-                <div class="col-md-1" style="margin: 0px 10px">
-                    {{-- <h4>To</h4>
-                    <div class="">
-                        <input class="form-control" type="date" name="date_to" id="date_to" placeholder="2018-07-03" value="{{ request()->input('date_to') }}">
-                    </div> --}}
-                    <button class="col-md-1 btn btn-secondary" type="submit" style="height: 2.3rem;margin:2rem 1rem">Search</button>
-                </div>
-            </form>
+
+            </div>
 
 
-
-        </div>
-
-        @php
-            $total = 0;
-            $invoice_discount = 0;
-            $paid = 0;
-            $due = 0;
-        @endphp
-        <div class="box-content">
-            <table class="table table-striped table-bordered bootstrap-datatable datatable">
-                <h3 style="text-align: center;margin-bottom:2rem">Paid & Unpaid Invoices</h3>
-                <thead>
-                    <tr>
-                        <th>Invoice Id</th>
-                        <th>Customer Id</th>
-                        <th>Sub Total</th>
-                        <th>Discount</th>
-                        <th>Total</th>
-                        <th>Paid</th>
-                        <th>Due</th>
-                        <th>Status</th>
-                        <th>Date</th>
-                        <th class="action">Actions</th>
-                    </tr>
-                </thead>
-
-                <tbody>
-                    @foreach ($sales_invoices as $key => $invoice )
-
+            <div class="action">
+                <form class="form_section" action="{{ url('/search-sales-invoice') }}" method="GET" >
+                    @csrf
+                    <div class=" form_inner col-md-1">
+                        <h4>Customers</h4>
                         @php
-                            $total += $invoice->total;
-                            $invoice_discount += $invoice->discount;
-                            $paid += $invoice->paid;
-                            $due += $invoice->due;
-                            $customer_id = $invoice->customer_id;
-
+                            $customers = App\Models\Customer::all();
                         @endphp
+                        <label for="">  </label>
+                        <select class="form-control" type="textarea" name="customer_id" id="customer_id">
+                            <option style="font-size:1.1rem" value="all">All Customers</option>
+                            @foreach ($customers as $customer)
+                                <option style="font-size:1.1rem" value="{{ $customer->id }}" {{ session('selectedCustomerId') == $customer->id ? 'selected' : '' }}>{{ $customer->name }}</option>
+                            @endforeach
+                        </select>
+                    </div>
+                    <div class= "form_inner col-md-1">
+                        <h4>From</h4>
+                        <div class="">
+                            <input class="form-control" type="date" name="date_from" id="date_from" placeholder="2018-07-03" value="{{ request()->input('date_from') }}">
+                        </div>
+                    </div>
+                    <div class= "form_inner col-md-1">
+                        <h4>To</h4>
+                        <div class="">
+                            <input class="form-control" type="date" name="date_to" id="date_to" placeholder="2018-07-03" value="{{ request()->input('date_to') }}">
+                        </div>
+                    </div>
+                    <div class="col-md-1" style="margin: 0px 10px">
+                        {{-- <h4>To</h4>
+                        <div class="">
+                            <input class="form-control" type="date" name="date_to" id="date_to" placeholder="2018-07-03" value="{{ request()->input('date_to') }}">
+                        </div> --}}
+                        <button class="col-md-1 btn btn-secondary" type="submit" style="height: 2.3rem;margin:2rem 1rem">Search</button>
+                    </div>
+                </form>
 
 
+
+            </div>
+
+            @php
+                $total = 0;
+                $invoice_discount = 0;
+                $paid = 0;
+                $due = 0;
+            @endphp
+            <div class="box-content">
+                <table class="table table-striped table-bordered bootstrap-datatable datatable">
+                    <h3 style="text-align: center;margin-bottom:2rem">Paid & Unpaid Invoices</h3>
+                    <thead>
                         <tr>
-                            {{-- <td class="center">#INV-000{{ $key+1 }}</td> --}}
-                            <td class="center">#INV-000{{ $invoice->id }}</td>
-                            <td class="center">{{ $invoice->customer_id }}</td>
-                            <td class="center">{{ $invoice->sub_total }}</td>
-                            <td class="center">{{ $invoice->discount }}</td>
-                            <td class="center">{{ $invoice->total }}</td>
-                            <td class="center">{{ $invoice->paid }}</td>
-                            <td class="center">{{ $invoice->due }}</td>
-                            <td class="center">{{ $invoice->status }}</td>
-                            <td class="center">{{ $invoice->created_at }}</td>
+                            <th>Invoice Id</th>
+                            <th>Customer Id</th>
+                            <th>Sub Total</th>
+                            <th>Discount</th>
+                            <th>Total</th>
+                            <th>Paid</th>
+                            <th>Due</th>
+                            <th>Status</th>
+                            <th>Date</th>
+                            <th class="action">Actions</th>
+                        </tr>
+                    </thead>
 
-                            <td class="center action">
+                    <tbody>
+                        @foreach ($sales_invoices as $key => $invoice )
 
-                                <div class="span2">
-                                    @if ($invoice->status && $invoice->status == 'Paid')
-                                        <a class="btn btn-info" href="{{ url('/sales-invoice-show/'.$invoice->id) }}" style="margin-left:.1rem; border-radius: 25%;">
-                                            <i class=" white icon-eye-open"></i>
-                                        </a>
-                                    @else
+                            @php
+                                $total += $invoice->total;
+                                $invoice_discount += $invoice->discount;
+                                $paid += $invoice->paid;
+                                $due += $invoice->due;
+                                $customer_id = $invoice->customer_id;
+
+                            @endphp
+
+
+                            <tr>
+                                {{-- <td class="center">#INV-000{{ $key+1 }}</td> --}}
+                                <td class="center">#INV-000{{ $invoice->id }}</td>
+                                <td class="center">{{ $invoice->customer_id }}</td>
+                                <td class="center">{{ $invoice->sub_total }}</td>
+                                <td class="center">{{ $invoice->discount }}</td>
+                                <td class="center">{{ $invoice->total }}</td>
+                                <td class="center">{{ $invoice->paid }}</td>
+                                <td class="center">{{ $invoice->due }}</td>
+                                <td class="center">{{ $invoice->status }}</td>
+                                <td class="center">{{ $invoice->created_at }}</td>
+
+                                <td class="center action">
+
+                                    <div class="span2">
+                                        @if ($invoice->status && $invoice->status == 'Paid')
+                                            <a class="btn btn-info" href="{{ url('/sales-invoice-show/'.$invoice->id) }}" style="margin-left:.1rem; border-radius: 25%;">
+                                                <i class=" white icon-eye-open"></i>
+                                            </a>
+                                        @else
+                                            <a class="btn btn-info" href="{{url('/sales-invoice-edit/'.$invoice->id)}}" style="margin-left:.1rem;border-radius:25%">
+                                                <i class="halflings-icon white edit"></i>
+                                            </a>
+                                        @endif
+                                    </div>
+
+                                </td>
+                            </tr>
+
+                        @endforeach
+                        </tr>
+                    </tbody>
+                </table>
+                <table class="table table-striped table-bordered bootstrap-datatable datatable">
+
+                        <h3 style="text-align: center;margin:2rem 0px"> Due Paid Invoices</h3>
+                    <thead>
+                        <tr>
+                            <th>Invoice Id</th>
+                            <th>Customer Id</th>
+                            <th>Paid Amount</th>
+                            <th>Discount</th>
+                            <th>Discription</th>
+                            <th>Date</th>
+                            <th class="action">Actions</th>
+                        </tr>
+                    </thead>
+                            @php
+                                $paid_amount =0;
+                                $discount = 0;
+                            @endphp
+                    <tbody>
+                        @foreach ($due_sales_payment as $key => $invoice )
+
+                            @php
+                                $paid_amount += $invoice->paid_amount;
+                                $discount += $invoice->discount;
+
+                            @endphp
+
+
+                            <tr>
+                                {{-- <td class="center">#INV-000{{ $key+1 }}</td> --}}
+                                <td class="center">#INV-000{{ $invoice->id }}</td>
+                                <td class="center">{{ $invoice->customer_id }}</td>
+                                <td class="center">{{ $invoice->paid_amount }}</td>
+                                <td class="center">{{ $invoice->discount }}</td>
+                                <td class="center">{{ $invoice->description }}</td>
+                                <td class="center">{{ $invoice->created_at }}</td>
+
+                                {{-- <td class="center">
+
+                                    <div class="span2">
+
                                         <a class="btn btn-info" href="{{url('/sales-invoice-edit/'.$invoice->id)}}" style="margin-left:.1rem;border-radius:25%">
                                             <i class="halflings-icon white edit"></i>
                                         </a>
-                                    @endif
-                                </div>
+                                    </div>
 
-                            </td>
+                                </td> --}}
+                            </tr>
+
+                        @endforeach
                         </tr>
+                    </tbody>
+                </table>
 
-                    @endforeach
-                    </tr>
-                </tbody>
-            </table>
-            <table class="table table-striped table-bordered bootstrap-datatable datatable">
+                    @php
+                    $total_paid = $paid + $paid_amount;
+                    $total_due = $due - ($paid_amount + $discount);
+                    $total_discount = $invoice_discount + $discount;
+                    @endphp
 
-                    <h3 style="text-align: center;margin:2rem 0px"> Due Paid Invoices</h3>
-                <thead>
-                    <tr>
-                        <th>Invoice Id</th>
-                        <th>Customer Id</th>
-                        <th>Paid Amount</th>
-                        <th>Discount</th>
-                        <th>Discription</th>
-                        <th>Date</th>
-                        <th class="action">Actions</th>
-                    </tr>
-                </thead>
-                        @php
-                            $paid_amount =0;
-                            $discount = 0;
-                        @endphp
-                <tbody>
-                    @foreach ($due_sales_payment as $key => $invoice )
-
-                        @php
-                            $paid_amount += $invoice->paid_amount;
-                            $discount += $invoice->discount;
-
-                        @endphp
-
-
-                        <tr>
-                            {{-- <td class="center">#INV-000{{ $key+1 }}</td> --}}
-                            <td class="center">#INV-000{{ $invoice->id }}</td>
-                            <td class="center">{{ $invoice->customer_id }}</td>
-                            <td class="center">{{ $invoice->paid_amount }}</td>
-                            <td class="center">{{ $invoice->discount }}</td>
-                            <td class="center">{{ $invoice->description }}</td>
-                            <td class="center">{{ $invoice->created_at }}</td>
-
-                            {{-- <td class="center">
-
-                                <div class="span2">
-
-                                    <a class="btn btn-info" href="{{url('/sales-invoice-edit/'.$invoice->id)}}" style="margin-left:.1rem;border-radius:25%">
-                                        <i class="halflings-icon white edit"></i>
-                                    </a>
-                                </div>
-
-                            </td> --}}
-                        </tr>
-
-                    @endforeach
-                    </tr>
-                </tbody>
-            </table>
-
-                @php
-                $total_paid = $paid + $paid_amount;
-                $total_due = $due - ($paid_amount + $discount);
-                $total_discount = $invoice_discount + $discount;
-                @endphp
-
-                <div class="sub_total" style="float: right;margin:4rem 2rem;background-color:#d9d9ebc6;padding:8px;width:21%;">
-                    <p style="font-weight:bold;font-size:1rem">Invoice Total: {{ $total }}  </p>
-                    <p style="font-weight:bold;font-size:1rem">Total Discount: {{ $total_discount }} </p>
-                    <p style="font-weight:bold;font-size:1rem">Total Paid: {{ $total_paid }} </p>
-                    <p style="font-weight:bold;font-size:1rem">Total Due: {{ $total_due}} </p>
-                </div>
+                    <div  class="sub_total discount">
+                        <p class="d_para">Invoice Total: {{ $total }}  </p>
+                        <p class="d_para">Total Discount: {{ $total_discount }} </p>
+                        <p class="d_para">Total Paid: {{ $total_paid }} </p>
+                        <p class="d_para">Total Due: {{ $total_due}} </p>
+                    </div>
+            </div>
         </div>
     </div>
-</div>
-
-<div style="text-align: center;">
-    <button type="button" class="btn" style=" padding:6px 25px;font-size:1.3rem;" onclick="GetPrint()" class="btn btn-primary ">Print</button>
-</div>
 
 
-<script>
 
-    function GetPrint(){
-        window.print();
-    }
+    <script>
 
-</script>
+        function GetPrint(){
+            window.print();
+        }
+
+    </script>
+
+</body>
 
 
 @endsection

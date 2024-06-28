@@ -42,43 +42,85 @@
     {{-- <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap/5.3.2/css/bootstrap.min.css" integrity="sha512-b2QcS5SsA8tZodcDtGRELiGv5SaKSk1vDHDaQRda0htPYWZ6046lr3kJ5bAAQdpV2mmA/4v0wQF9MyU6/pDIAg==" crossorigin="anonymous" referrerpolicy="no-referrer" /> --}}
     <!-- end:-->
     {{-- <link href="//netdna.bootstrapcdn.com/bootstrap/3.0.0/css/bootstrap.min.css" rel="stylesheet" id="bootstrap-css"> --}}
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
 
 </head>
 
+<style>
+
+.icon-arrow{
+    margin-left:6.5rem;
+}
+.icon-arrow1{
+    margin-left:5.1rem;
+}
+
+.icon-arrow2{
+    margin-left:6.6rem;
+}
+.icon-arrow3{
+    margin-left:.9rem;
+}
+.icon-arrow4{
+    margin-left:.7rem;
+}
+
+.sub_menu{
+    font-size:.755rem;
+}
+.ul-menu{
+    height:100%;
+}
+
+@media (max-width: 700px) {
+
+    .icon-arrow{
+        margin-left:15rem;
+    }
+    .icon-arrow1{
+        margin-left:13.5rem;
+    }
+    .icon-arrow2{
+        margin-left:15.2rem;
+    }
+    .icon-arrow3{
+        margin-left:8.73rem;
+    }
+    .icon-arrow4{
+        margin-left:8.55rem;
+    }
+    .ul-menu{
+        height:100%;
+    }
+}
+
+</style>
 <body>
 	<!-- start: Header -->
-	<div class="navbar">
-		<div class="navbar-inner">
-			<div class="container-fluid">
-				<a class="btn btn-navbar" data-toggle="collapse" data-target=".top-nav.nav-collapse,.sidebar-nav.nav-collapse">
-					<span class="icon-bar"></span>
-					<span class="icon-bar"></span>
-					<span class="icon-bar"></span>
-				</a>
-				<a class="brand" href="/dashboard"><span><i class="fas fa-tachometer-alt"></i> Dashboard</span></a>
+	        <div class="navbar">
+                <div class="navbar-inner">
+                    <div class="container-fluid">
+                            <a class="btn btn-navbar" data-toggle="collapse" data-target=".top-nav.nav-collapse,.sidebar-nav.nav-collapse">
+                            <span class="icon-bar"></span>
+                            <span class="icon-bar"></span>
+                            <span class="icon-bar"></span>
+                        </a>
+				        <a class="brand" href="/dashboard"><span><i class="fas fa-tachometer-alt"></i> Dashboard</span></a>
 
-				<!-- start: Header Menu -->
-				<div class="nav-no-collapse header-nav">
-					<ul class="nav pull-right">
+                        <!-- start: Header Menu -->
+                        <div class="nav-no-collapse header-nav">
+                            <ul class="nav pull-right">
 
-						<!-- start: User Dropdown -->
-                        {{-- @php
-                            $user_id = Session::get('id');
-                            dd($user_id)
-                            $user = App\Models\User::find($user_id)->first();
-                        @endphp --}}
-                            <li class="dropdown">
-                                <a class="btn dropdown-toggle" data-toggle="dropdown" href="#">
-                                    <i class="halflings-icon white user"></i> User
-                                    <span class="caret"></span>
-                                </a>
-                                <ul class="dropdown-menu">
-                                    <li class="dropdown-menu-title">
-                                        <span>Account Settings</span>
-                                    </li>
-                                    {{-- @php
-                                        $message = Session::get('message');
-                                        @endphp --}}
+                                <li class="dropdown">
+                                    <a class="btn dropdown-toggle" data-toggle="dropdown" href="#">
+                                        <i class="halflings-icon white user"></i> User
+                                        <span class="caret"></span>
+                                    </a>
+                                    <ul class="dropdown-menu">
+                                        <li class="dropdown-menu-title">
+                                            <span>Account Settings</span>
+                                        </li>
+
                                         <li><a href="#"><i class="halflings-icon user"></i> Profile</a></li>
                                         <li><a href="/logout"><i class="halflings-icon off"></i> Logout</a></li>
                                         {{-- <li><a href="/admin-logout"><i class="halflings-icon off"></i> Logout</a></li> --}}
@@ -94,110 +136,136 @@
             </div>
             <!-- start: Header -->
 
-            <div class="container-fluid-full" style="min-height:100vh">
+            <div class="container-fluid-full" style="min-height:120vh">
                 <div id="sidebar-left" class="span2">
                     <div class="nav-collapse sidebar-nav">
                         <ul class="nav nav-tabs nav-stacked main-menu">
 
                             <li>
-                                <a class="dropmenu" href="#"><i class="icon-bar-chart"></i></i><span class="hidden-tablet"> Reports </span><span class="icon-arrow"></span></a>
+                                <a class="dropmenu" href="#"><i class="icon-bar-chart"></i><span class="hidden-tablet"> Reports </span><span class="icon-arrow"><i class="fa-solid fa-chevron-down " style="font-size:.6rem"></i></a>
+                                <ul class="ul-menu">
+                                    <li><a class="submenu" href="/investor-report"><i class="icon-eye-open" style="font-size:13px"></i><span class="hidden-tablet sub_menu"> All Investors </span></a></li>
+                                    <li><a class="submenu" href="/investors_statement"><i class="icon-eye-open" style="font-size:13px"></i><span class="hidden-tablet sub_menu"> Investor Statement </span></a></li>
+                                    <li><a class="submenu" href="/all-purchase-invoice-report"><i class="icon-eye-open" style="font-size:13px"></i><span class="hidden-tablet sub_menu"> All Purchase Invoice  </span></a></li>
+                                    <li><a class="submenu" href="/all-return-purchase-invoice-report"><i class="icon-eye-open" style="font-size:13px"></i><span class="hidden-tablet sub_menu"> Return Purchase Invoice  </span></a></li>
+                                    <li><a class="submenu" href="/due-payment-invoice-report"><i class="icon-eye-open" style="font-size:13px"></i><span class="hidden-tablet sub_menu"> Due Payment Invoice  </span></a></li>
+                                    <li><a class="submenu" href="/all-sales-invoice-report"><i class="icon-eye-open" style="font-size:13px"></i><span class="hidden-tablet" sub_menu> All Sales Invoice </span></a></li>
+                                    <li><a class="submenu" href="/all-return-sales-invoice-report"><i class="icon-eye-open" style="font-size:13px"></i><span class="hidden-tablet sub_menu"> Return Sales Invoice  </span></a></li>
+                                    <li><a class="submenu" href="/due-sales-payment-report"><i class="icon-eye-open" style="font-size:13px"></i><span class="hidden-tablet sub_menu"> Due Sales Payment  </span></a></li>
+                                    <li><a class="submenu" href="/show-vendor-report"><i class="icon-eye-open" style="font-size:13px"></i><span class="hidden-tablet sub_menu">All Vendors </span></a></li>
+                                    <li><a class="submenu" href="/all-customer-report"><i class="icon-eye-open" style="font-size:13px"></i><span class="hidden-tablet sub_menu"> All Customer  </span></a></li>
+                                    <li><a href="/expence-invoice-report"><i class="icon-eye-open" style="font-size:13px"></i><span class="hidden-tablet sub_menu"> Expence Invoice </span></a></li>
+                                    <li><a class="submenu" href="/main_account-report"><i class="icon-eye-open" style="font-size:13px"></i><span class="hidden-tablet sub_menu"> Main Accounts </span></a></li>
+                                    <li> <a href="/company-info-report"><i class="icon-eye-open" style="font-size:13px"></i><span class="hidden-tablet sub_menu"> Company Information </span></a></li>
+                                    <li> <a href="/all-product-info-report"><i class="icon-eye-open" style="font-size:13px"></i><span class="hidden-tablet sub_menu"> All Products </span></a></li>
+
+                                </ul>
+                            </li>
+                            <li>
+                                <a class="dropmenu" href="#"><i class="icon-folder-close-alt"></i><span class="hidden-tablet"> Investors </span><span class="icon-arrow1"></span><i class="fa-solid fa-chevron-down " style="font-size:.6rem"></i></a>
+                                <ul class="ul-menu">
+                                    <li><a class="submenu" href="/invest-create"><i class="icon-plus" style="font-size:13px"></i><span class="hidden-tablet sub_menu"> Investors </span></a></li>
+                                    <li><a class="submenu" href="/invest"><i class="icon-plus" style="font-size:13px"></i><span class="hidden-tablet sub_menu"> Amount-add </span></a></li>
+                                    <li><a class="submenu" href="/invest_return"><i class="icon-minus" style="font-size:13px"></i><span class="hidden-tablet sub_menu"> Amount-return </span></a></li>
+                                    <li><a class="submenu" href="/investor"><i class="icon-eye-open" style="font-size:13px"></i><span class="hidden-tablet sub_menu"> All Investors </span></a></li>
+                                    {{-- <li><a class="submenu" href="/investors_statement"><i class="icon-minus"></i><span class="hidden-tablet">Investor Statement </span></a></li> --}}
+                                    {{-- <li><a class="submenu" href="/investors_invoice"><i class="icon-minus"></i><span class="hidden-tablet">Investor Invoices </span></a></li> importent --}}
+
+                                </ul>
+                            </li>
+
+                            <li>
+                                <a class="dropmenu" href="#"><i class="icon-folder-close-alt"></i><span class="hidden-tablet"> Purchase </span><span class="icon-arrow1" ></span><i class="fa-solid fa-chevron-down " style="font-size:.6rem"></i></a>
+                                {{-- <a class="dropmenu" href="#"><i class="icon-barcode"></i><span class="hidden-tablet"> Purchase </span><span class="icon-arrow" style="margin-left:5rem"></span><i class="fa-solid fa-chevron-down " style="font-size:.8rem"></i></a> --}}
+                                <ul class="ul-menu">
+                                    <li><a class="submenu" href="/all-products"><i class="icon-plus" style="font-size:13px"></i><span class="hidden-tablet sub_menu"> Stock Products </span></a></li>
+                                    <li><a class="submenu" href="/purchase_invoice"><i class="icon-plus" style="font-size:13px"></i><span class="hidden-tablet sub_menu"> Purchase Invoice </span></a></li>
+                                    <li><a class="submenu" href="/return-purchase-invoice"><i class="icon-plus" style="font-size:13px"></i><span class="hidden-tablet sub_menu"> Return Purchase Invoice  </span></a></li>
+                                    <li><a class="submenu" href="/all-purchase-invoice"><i class="icon-eye-open" style="font-size:13px"></i><span class="hidden-tablet sub_menu"> All Purchase Invoice  </span></a></li>
+                                    <li><a class="submenu" href="/due-payment-invoice-create"><i class="icon-plus" style="font-size:13px"></i><span class="hidden-tablet sub_menu"> Due Payment Invoice  </span></a></li>
+                                    <li><a class="submenu" href="/due-payment-invoice"><i class="icon-eye-open" style="font-size:13px"></i><span class="hidden-tablet sub_menu"> Due Payment Invoice  </span></a></li>
+                                    <li><a class="submenu" href="/create-vendor"><i class="icon-plus" style="font-size:13px"></i><span class="hidden-tablet sub_menu"> Vendors create </span></a></li>
+                                </ul>
+                            </li>
+
+                            <li>
+                                <a class="dropmenu" href="#"><i class="icon-folder-close-alt"></i><span class="hidden-tablet"> Sales </span><span class="icon-arrow2"></span><i class="fa-solid fa-chevron-down " style="font-size:.6rem"></i></a>
+                                <ul class="ul-menu">
+                                    {{-- <li><a class="submenu" href="/customer_invoice"><i class="icon-plus"></i><span class="hidden-tablet"> Invoice </span></a></li> --}}
+                                    {{-- <li><a class="submenu" href="#"><i class="icon-plus"></i><span class="hidden-tablet"> Invoice Return </span></a></li> --}}
+                                    <li><a class="submenu" href="/sales_invoice"><i class="icon-plus" style="font-size:13px"></i><span class="hidden-tablet sub_menu">Sales Invoice </span></a></li>
+                                    <li><a class="submenu" href="/return-sales-invoice"><i class="icon-plus" style="font-size:13px"></i><span class="hidden-tablet sub_menu"> Return Sales Invoice  </span></a></li>
+                                    <li><a class="submenu" href="/all-sales-invoice"><i class="icon-eye-open" style="font-size:13px"></i><span class="hidden-tablet" sub_menu> All Sales Invoice </span></a></li>
+                                    <li><a class="submenu" href="/all-return-sales-invoice"><i class="icon-eye-open" style="font-size:13px"></i><span class="hidden-tablet sub_menu"> Return Sales Invoice  </span></a></li>
+                                    <li><a class="submenu" href="/due-sales-payment-create"><i class="icon-plus" style="font-size:13px"></i><span class="hidden-tablet sub_menu"> Due Sales Payment  </span></a></li>
+                                    <li><a class="submenu" href="/due-sales-payment"><i class="icon-eye-open" style="font-size:13px"></i><span class="hidden-tablet sub_menu"> Due Sales Payment  </span></a></li>
+                                    <li><a class="submenu" href="/customer-create"><i class="icon-plus" style="font-size:13px"></i><span class="hidden-tablet sub_menu"> Customer </span></a></li>
+
+                                </ul>
+                            </li>
+                            {{-- <li>
+                                <a class="dropmenu" href="#"><i class="icon-barcode"></i><span class="hidden-tablet"> Account </span><span class="icon-arrow"></span></a>
                                 <ul>
-                                    <li><a class="submenu" href="/investor"><i class="icon-eye-open"></i><span class="hidden-tablet"> All Investors </span></a></li>
-                                    <li><a class="submenu" href="/investors_statement"><i class="icon-eye-open"></i><span class="hidden-tablet">Investor Statement </span></a></li>
-                                    <li><a class="submenu" href="/all-purchase-invoice"><i class="icon-eye-open"></i><span class="hidden-tablet"> All Purchase Invoice  </span></a></li>
-                                    <li><a class="submenu" href="/all-return-purchase-invoice"><i class="icon-eye-open"></i><span class="hidden-tablet"> Return Purchase Invoice  </span></a></li>
-                                    <li><a class="submenu" href="/due-payment-invoice"><i class="icon-eye-open"></i><span class="hidden-tablet"> Due Payment Invoice  </span></a></li>
-                                    <li><a class="submenu" href="/all-sales-invoice"><i class="icon-eye-open"></i><span class="hidden-tablet"> All Sales Invoice </span></a></li>
-                                    <li><a class="submenu" href="/all-return-sales-invoice"><i class="icon-eye-open"></i><span class="hidden-tablet"> Return Sales Invoice  </span></a></li>
-                                    <li><a class="submenu" href="/due-sales-payment"><i class="icon-eye-open"></i><span class="hidden-tablet"> Due Sales Payment  </span></a></li>
-                                    <li><a class="submenu" href="/show-vendor"><i class="icon-eye-open"></i><span class="hidden-tablet">All Vendors </span></a></li>
-                                    <li><a class="submenu" href="/all-customer"><i class="icon-eye-open"></i><span class="hidden-tablet"> All Customer  </span></a></li>
-                                    <li><a href="/expence-invoice"><i class="icon-eye-open"></i><span class="hidden-tablet"> Expence Invoice </span></a></li>
-                                    <li><a class="submenu" href="/main_account"><i class="icon-eye-open"></i><span class="hidden-tablet"> Main Accounts </span></a></li>
-                                    <a href="/company-info"><i class="icon-eye-open"></i><span class="hidden-tablet"> Company Information </span></a>
-
-                            </ul>
-                        </li>
-                        <li>
-                            <a class="dropmenu" href="#"><i class="icon-folder-close-alt"></i><span class="hidden-tablet"> Investors </span><span class="icon-arrow"></span></a>
-                            <ul>
-                                <li><a class="submenu" href="/invest-create"><i class="icon-plus"></i><span class="hidden-tablet"> Investors </span></a></li>
-                                <li><a class="submenu" href="/invest"><i class="icon-plus"></i><span class="hidden-tablet"> Amount-add </span></a></li>
-                                <li><a class="submenu" href="/invest_return"><i class="icon-minus"></i><span class="hidden-tablet"> Amount-return </span></a></li>
-                                {{-- <li><a class="submenu" href="/investors_statement"><i class="icon-minus"></i><span class="hidden-tablet">Investor Statement </span></a></li> --}}
-                                {{-- <li><a class="submenu" href="/investors_invoice"><i class="icon-minus"></i><span class="hidden-tablet">Investor Invoices </span></a></li> importent --}}
-
-                            </ul>
-                        </li>
-
-						<li>
-                            <a class="dropmenu" href="#"><i class="icon-folder-close-alt"></i><span class="hidden-tablet"> Sales </span><span class="icon-arrow"></span></a>
-                            <ul>
-                                {{-- <li><a class="submenu" href="/customer_invoice"><i class="icon-plus"></i><span class="hidden-tablet"> Invoice </span></a></li> --}}
-                                {{-- <li><a class="submenu" href="#"><i class="icon-plus"></i><span class="hidden-tablet"> Invoice Return </span></a></li> --}}
-                                <li><a class="submenu" href="/sales_invoice"><i class="icon-plus"></i><span class="hidden-tablet">Sales Invoice </span></a></li>
-                                <li><a class="submenu" href="/return-sales-invoice"><i class="icon-plus"></i><span class="hidden-tablet"> Return Sales Invoice  </span></a></li>
-                                <li><a class="submenu" href="/due-sales-payment-create"><i class="icon-plus"></i><span class="hidden-tablet"> Due Sales Payment  </span></a></li>
-                                <li><a class="submenu" href="/customer-create"><i class="icon-plus"></i><span class="hidden-tablet"> Customer </span></a></li>
+                                    <li><a class="submenu" href="/main_account"><i class="icon-plus"></i><span class="hidden-tablet"> Main Accounts </span></a></li>
+                                </ul>
+                            </li> --}}
 
 
-                            </ul>
-                        </li>
-						<li>
-                            <a class="dropmenu" href="#"><i class="icon-barcode"></i><span class="hidden-tablet"> Purchase </span><span class="icon-arrow"></span></a>
-                            <ul>
-                                <li><a class="submenu" href="/all-products"><i class="icon-plus"></i><span class="hidden-tablet"> Stock Products </span></a></li>
-                                <li><a class="submenu" href="/purchase_invoice"><i class="icon-plus"></i><span class="hidden-tablet"> Purchase Invoice </span></a></li>
-                                <li><a class="submenu" href="/return-purchase-invoice"><i class="icon-plus"></i><span class="hidden-tablet"> Return Purchase Invoice  </span></a></li>
-                                <li><a class="submenu" href="/due-payment-invoice-create"><i class="icon-plus"></i><span class="hidden-tablet"> Due Payment Invoice  </span></a></li>
-                                <li><a class="submenu" href="/all-purchase-invoice"><i class="icon-eye-open"></i><span class="hidden-tablet"> All Purchase Invoice  </span></a></li>
-                                <li><a class="submenu" href="/create-vendor"><i class="icon-plus"></i><span class="hidden-tablet"> Vendors create </span></a></li>
-                            </ul>
-                        </li>
-						{{-- <li>
-                            <a class="dropmenu" href="#"><i class="icon-barcode"></i><span class="hidden-tablet"> Account </span><span class="icon-arrow"></span></a>
-                            <ul>
-                                <li><a class="submenu" href="/main_account"><i class="icon-plus"></i><span class="hidden-tablet"> Main Accounts </span></a></li>
-                            </ul>
-                        </li> --}}
+                            <li>
+                                <a class="dropmenu" href="#"><i class="icon-folder-close-alt"></i><span class="hidden-tablet"> Expence Information </span><span class="icon-arrow3"></span><i class="fa-solid fa-chevron-down " style="font-size:.6rem"></i></a>
+                                    <ul class="ul-menu">
+                                        <li><a href="/expence-create"><i class="icon-plus" style="font-size:13px"></i><span class="hidden-tablet sub_menu"> Expence Invoice </span></a> </li>
+                                        <li><a href="/expence-invoice"><i class="icon-eye-open" style="font-size:13px"></i><span class="hidden-tablet sub_menu"> Expence Invoice </span></a></li>
 
-						<li>
-                            <a href="/expence-create"><i class="icon-plus"></i><span class="hidden-tablet"> Expence Invoice </span></a>
-                        </li>
-                        <li>
-                            <a href="/company-create"><i class="icon-plus"></i><span class="hidden-tablet"> Company Create </span></a>
-                        </li>
-						<li>
-                            {{-- <a href="/test"><i class="icon-eye-open"></i><span class="hidden-tablet"> Test</span></a> --}}
-                            {{-- <a href="/home"><i class="icon-eye-open"></i><span class="hidden-tablet"> All Posts</span></a> --}}
-                        </li>
-					</ul>
-				</div>
-			</div>
+                                    </ul>
+                            </li>
+                            <li>
+                                <a class="dropmenu" href="#"><i class="icon-folder-close-alt"></i><span class="hidden-tablet"> Products Information </span><span class="icon-arrow3"></span><i class="fa-solid fa-chevron-down " style="font-size:.6rem"></i></a>
+                                    <ul class="ul-menu">
+                                        <li><a href="/purchase-product"><i class="icon-plus" style="font-size:13px"></i><span class="hidden-tablet sub_menu"> Create New Product </span></a> </li>
+                                        <li> <a href="/all-product-info"><i class="icon-eye-open" style="font-size:13px"></i><span class="hidden-tablet sub_menu"> All Products </span></a></li>
 
-			<noscript>
-				<div class="alert alert-block span10">
-					<h4 class="alert-heading">Warning!</h4>
-					<p>You need to have <a href="http://en.wikipedia.org/wiki/JavaScript" target="_blank">JavaScript</a> enabled to use this site.</p>
-				</div>
-			</noscript>
+                                    </ul>
+                            </li>
+                            <li>
+                                <a class="dropmenu" href="#"><i class="icon-folder-close-alt"></i><span class="hidden-tablet"> Company Information </span><span class="icon-arrow4"></span><i class="fa-solid fa-chevron-down " style="font-size:.6rem"></i></a>
+                                    <ul class="ul-menu">
+                                        <li><a href="/company-create"><i class="icon-plus" style="font-size:13px"></i><span class="hidden-tablet sub_menu"> Company Create </span></a></li>
+                                        <li> <a href="/company-info"><i class="icon-eye-open" style="font-size:13px"></i><span class="hidden-tablet sub_menu"> All Company </span></a></li>
 
-			<div id="content" class="span10">
-                <main class="py-4" style="height:100%;width:100%">
-                    @yield('content')
-                </main>
-	        </div>
-		</div>
-	</div>
+                                    </ul>
+                            </li>
+                            {{-- <li>
+                                <a href="/all-posts"><i class="icon-plus"></i><span class="hidden-tablet"> Products</span></a>
+                                <a href="/home"><i class="icon-eye-open"></i><span class="hidden-tablet"> All Posts</span></a>
+                            </li> --}}
+					    </ul>
+				    </div>
+			    </div>
 
-	<div class="clearfix"></div>
+                <noscript>
+                    <div class="alert alert-block span10">
+                        <h4 class="alert-heading">Warning!</h4>
+                        <p>You need to have <a href="http://en.wikipedia.org/wiki/JavaScript" target="_blank">JavaScript</a> enabled to use this site.</p>
+                    </div>
+                </noscript>
 
-	<footer>
-		<p>
-			<span style="text-align:left;float:left">&copy; 2013 <a href="http://jiji262.github.io/Bootstrap_Metro_Dashboard/" alt="Bootstrap_Metro_Dashboard">Bootstrap Metro Dashboard</a></span>
+                <div id="content" >
+                    <main class="py-4" >
+                        @yield('content')
+                    </main>
+                </div>
+		    </div>
+	{{-- </div> --}}
 
-		</p>
-	</footer>
+        {{-- <div class="clearfix"></div> --}}
+
+        {{-- <footer class="footer">
+            <p>
+                <span style="text-align:left;float:left">&copy; 2024 <a  alt="Bootstrap_Metro_Dashboard">Inventor Management System</a></span>
+
+            </p>
+        </footer> --}}
 
 	<!-- start: JavaScript-->
     <script src="{{ asset('admin/js/jquery-1.9.1.min.js') }}"></script>

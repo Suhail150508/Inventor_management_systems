@@ -419,9 +419,10 @@ body {
         font-size:1.3rem;
     }
     .print{
+        position: absolute;
         padding:6px 25px;
         font-size:1.3rem;
-        margin-left:5rem;
+        margin-left:25rem;
         width:100px;
         height: 30px;
 
@@ -442,11 +443,15 @@ body {
         padding:7px;
         margin-left:-5rem;
     }
+    .company_image{
+        margin-bottom:2rem;
+    }
+
     .dataContainer{
         color:#000;
         width:60%;
     }
-    @media (max-width: 775px) {
+    @media (max-width: 700px) {
         .vendor_name{
             font-size:1rem;
         }
@@ -475,55 +480,55 @@ body {
             width:50%;
         }
         .table_input0{
-            width: 5.9rem;
-            }
-            .table_input1{
-                width:40px;
-            }
-            .table_input2{
-                width:45px;
-            }
-            .table_input3{
-                width:50px;
-            }
-            .table_input4{
-                width:50px;
-            }
-            .remove{
-                width:10px !important;
-                height:13px !important;
-                font-size:.8rem;
-            }
+            width:80.4px;
+        }
+        .table_input1{
+            width:32px;
+        }
+        .table_input2{
+            width:37px;
+        }
+        .table_input3{
+            width:42px;
+        }
+        .table_input4{
+            width:42px;
+        }
+        .remove{
+            width:5px !important;
+            height:14px !important;
+            font-size:.8rem;
+        }
 
         .small .form-control0{
-            width: 45px;
+            width: 30px;
             height:6px;
             font-size: .7rem;
-            margin-left: 1.46rem;
+            margin-left: 0.46rem;
             }
         .small .form-control1{
-            width: 45px;
+            width: 30px;
             height:6px;
             font-size: .7rem;
-            margin-left: 1.56rem;
+            margin-left: 0.56rem;
         }
         .small .form-control2{
-            width: 45px;
+            width: 30px;
             height:6px;
             font-size: .7rem;
-            margin-left: 3.2rem;
+            margin-left: 2.2rem;
         }
         .small .form-control3{
-            width: 45px;
+            width: 30px;
             height:6px;
             font-size: .7rem;
-            margin-left: 3.37rem;
+            margin-left: 2.37rem;
         }
         .small .form-control4{
-            width: 45px;
+            width: 30px;
             height:6px;
             font-size: .7rem;
-            margin-left: 3.55rem;
+            margin-left: 2.55rem;
         }
         .small{
             font-size: .8rem;
@@ -539,12 +544,14 @@ body {
         }
         .discount{
             padding: 4px;
-            width:35%;
+            width:40%;
+            text-align: center;
         }
         .print{
+            position: absolute;
             padding:3px 10px;
             font-size:.9rem;
-            margin-left:3rem;
+            margin-left:5rem;
             height: 30px;
             width: 60px;
 
@@ -573,6 +580,9 @@ body {
         }
         .submit-btn .input-data{
             width: 60%!important;
+        }
+        .company_image{
+
         }
     }
 
@@ -603,26 +613,27 @@ body {
 </style>
 
 </head>
-<body style="height: 100%">
+<body style="height: 100%;">
     {{-- <div class="container card"> --}}
     <div class="">
         <div class="card-body" style="">
 
-            <form action="/purchase-invoice-update" method="POST" >
+            <form action="/purchase-invoice-update" method="POST">
                 @csrf
                 <div style="width:95%;text-align:center">
                     @php
-                        $company = App\Models\Company::latest()->first();
+                        @$company = App\Models\Company::latest()->first();
                     @endphp
-                      <div style="">
-                            <img width="80" style="border-radius:25%" src="{{ URL::asset('/teacher/'.$company->logo) }}" alt="{{ $company->logo }}">
+                      <div class="company_image" style="">
+                            <img width="80" style="border-radius:25%" src="{{ URL::asset('/teacher/'.@$company->logo) }}" alt="{{ @$company->logo }}">
+                        <button type="button" class="btn print"  onclick="GetPrint()">Print</button>
 
                     </div>
-                    <strong class="invoicet_name">Purchase Edit</strong>
+                    <strong class="invoice_name">Purchase Edit</strong>
 
                 </div>
                 <div class="header" style="display: flex;margin-top:3rem;margin-bottom:5rem;width:95%">
-
+                    <div></div>
                     <div  class="vendor_part" >
                         @php
                             $vendors = App\Models\Vendor::all();
@@ -637,7 +648,7 @@ body {
                                 </select>
                             </div>
 
-                            <div id="dataContainer" style="background-color: #aaa;color:#000">
+                            <div id="dataContainer">
                                 <p style="margin:1px;padding: 0px 5px" id="name"></p>
                                 <p style="margin:1px;padding: 0px 5px" id="email"></p>
                                 <p style="margin:1px;padding: 0px 5px" id="mobile"></p>
@@ -646,7 +657,7 @@ body {
 
                             @if ($vendorr)
 
-                                <div id="dataContainer" style="margin: 2rem;color:#000;">
+                                <div id="dataContainer">
                                     <strong>Vendors Information</strong>
                                     <p style="margin: 1px" id="name">{{ $vendorr->name ?? '' }}</p>
                                     <p style="margin: 1px" id="email">{{ $vendorr->email ?? '' }}</p>
@@ -666,22 +677,22 @@ body {
                                 </div>
                             </div> --}}
                     </div>
-
+                    <div></div>
                     <div class="invoice_part" >
-                        <strong class="invoicet_name"></strong>
+                        <strong class="invoice_name"></strong>
                     </div>
-                    <div class="company_part" style="background-color:#aaa;padding:7px;">
+                    <div class="company_part">
 
                         @php
-                            $company = App\Models\Company::latest()->first();
+                            @$company = App\Models\Company::latest()->first();
                         @endphp
 
 
                         <div style="">
 
-                                <h4 style="text-align: center;padding:0 .2rem">{{ $company->name }}</h4>
-                                <p style="text-align: center;padding:0 .2rem">{{ $company->email }}</p>
-                                <p style="text-align: center;padding:0 .2rem">{{ $company->address }}</p>
+                                <h4 style="text-align: center;padding:0 .2rem">{{ @$company->name }}</h4>
+                                <p style="text-align: center;padding:0 .2rem">{{ @$company->email }}</p>
+                                <p style="text-align: center;padding:0 .2rem">{{ @$company->address }}</p>
 
                         </div>
 
@@ -689,19 +700,19 @@ body {
 
                 </div>
 
-                <table class="table table-hover table-white tableEstimate1" id="tableEstimate" style="width:95%">
+                <table class="table table-hover table-white tableEstimate1" id="tableEstimate" style="width:100%; ">
                     <thead>
                         <tr>
-                            <th class="col-sm-3">product</th>
-                            <th class="col-sm-3">code</th>
-                            <th class="col-sm-3">Qty</th>
-                            <th class="col-sm-3">unit_price</th>
-                            <th class="col-sm-3">total_price</th>
-                            <th class="col-sm-3">Actions</th>
-                            <th> </th>
+                            <th class="col-sm-2">product</th>
+                            <th class="col-sm-2">code</th>
+                            <th class="col-sm-2">Qty</th>
+                            <th class="col-sm-2">unit_price</th>
+                            <th class="col-sm-2">total_price</th>
+                            <th class="col-sm-2">Actions</th>
+                            {{-- <th> </th> --}}
                         </tr>
                     </thead>
-                    <tbody>
+                    <tbody style="width:100%">
                     @foreach ($purchase_edits as $key=>$edit )
                         <tr>
                                 @php
@@ -710,7 +721,7 @@ body {
                                 @endphp
                             <td style="display: flex">
 
-                                <select class="form-control table_input0" id="selectProduct" name="product_id[]"">
+                                <select class="form-control table_input0" id="selectProduct" name="product_id[]">
                                     @foreach ($items as $item)
                                     <option value="{{ $item->id }}">{{ $item->name }}</option>
 
@@ -740,10 +751,12 @@ body {
                             </td>
                             <td><input class="form-control unit_price table_input3" type="text"  name="unit_price[]" value="{{ $edit->unit_price }}"></td>
                             <td><input class="form-control total_price table_input4" type="text"  name="total_price[]" value="{{ $edit->total_price }}"></td>
-                        <td><a href="javascript:void(0)" class="btn btn-danger" title="Add" id="remove"><i class="icon-minus"></i></a>
-                        </td>
+                        <td><a href="javascript:void(0)" class="btn btn-danger remove" title="Add" id="remove"><i class="icon-minus"></i></a></td>
+                        <td></td>
+                        <td></td>
+                        <td></td>
                         </tr>
-                        <input class="form-control code table_input "  type="text"  name="invoice_id" value="{{ $edit->invoice_id }}">
+                        {{-- <input class="form-control code table_input "  type="text"  name="invoice_id" value="{{ $edit->invoice_id }}"> --}}
                     @endforeach
                     </tbody>
                 </table>
@@ -767,7 +780,7 @@ body {
 
                         </div>
                         <div>
-                            <small class="small" style="font-weight:bold;color:#000;">Sub Total: <input type="text" class="form-control" id="subtotal0" name="sub_total"  value="{{ $purchase_return->sub_total }}"></small>
+                            <small class="small" style="font-weight:bold;color:#000;">Sub Total: <input type="text" class="form-control0" id="subtotal" name="sub_total"  value="{{ $purchase_return->sub_total }}"></small>
 
                         </div>
                         <div>
@@ -790,7 +803,6 @@ body {
                 </div>
 
                 <div style="text-align: center;">
-                    <button type="button" class="btn print"  onclick="GetPrint()" class="btn btn-primary ">Print</button>
                 </div>
 
 
@@ -1049,7 +1061,18 @@ body {
         });
             });
 
+            document.querySelectorAll('#paid').forEach(function(element) {
+                    element.addEventListener('change', function() {
+                        var selectedValue = parseFloat(this.value);
 
+                        var qty = $('#total').val();
+
+                        var totall_pricess = qty - selectedValue;
+                        var total_priceess = $('#due');
+                        total_priceess.val(totall_pricess);
+
+                    });
+                });
 
             document.getElementById('discount').addEventListener('change', function() {
                 var selectedValue = this.value;
@@ -1129,18 +1152,18 @@ body {
             $("#tableEstimate tbody").append(`
             <tr id="R${rowIdx}">
                     <td>
-                        <select class="selectProduct form-control" name="product_id[]" style="width: 10rem" required>
+                        <select class="selectProduct form-control table_input0" name="product_id[]" required>
                             <option value="">select</option>
                             @foreach ($products as $product )
                             <option value="{{ $product->id }}">{{ $product->name }}</option>
                             @endforeach
                         </select>
                     </td>
-                    <td><input class="form-control code" type="textarea" style="width:130px" name="code[]"></td>
-                    <td><input class="form-control " style="width:130px" type="textarea" id="qty" name="qty[]"></td>
-                    <td><input class="form-control " style="width:130px" type="textarea" id="unit_price" name="unit_price[]"></td>
-                    <td><input class="form-control " style="width:130px" type="textarea" id="total_price" name="total_price[]"></td>
-                    <td><a href="javascript:void(0)" class="btn btn-danger font-18 remove" title="Remove"><i class="icon-minus"></i></a></td>
+                    <td><input class="form-control table_input1 code" type="textarea" name="code[]"></td>
+                    <td><input class="form-control table_input2" type="textarea" id="qty" name="qty[]"></td>
+                    <td><input class="form-control table_input3" type="textarea" id="unit_price" name="unit_price[]"></td>
+                    <td><input class="form-control table_input4" type="textarea" id="total_price" name="total_price[]"></td>
+                    <td><a href="javascript:void(0)" class="btn btn-danger remove" title="Remove"><i class="icon-minus"></i></a></td>
                 </tr>
             `);
             rowIdx++;

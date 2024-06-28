@@ -11,6 +11,8 @@ class Main_account extends Model
     protected $fillable = [
         'id',
         'total_amount',
+        'customer_due',
+        'supliyer_due',
         'amount_invest_id',
         'amount_withdraw_id',
         'purchase_id',

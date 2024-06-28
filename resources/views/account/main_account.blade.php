@@ -405,26 +405,7 @@ body {
 
 
 /* HTML: <div class="loader"></div> */
-.loader {
-  width: 50px;
-  aspect-ratio: 1;
-  background:
-    linear-gradient(45deg,#60B99A 30%,#0000 0),
-    linear-gradient(45deg,#0000 30%,#60B99A 0),
-    linear-gradient(-45deg,#f77825 30%,#0000 0),
-    linear-gradient(-45deg,#0000 30%,#f77825 0),
-    linear-gradient(#554236 0 0);
-  background-size: 30% 30%;
-  background-repeat: no-repeat;
-  animation: l18 1.5s infinite;
-}
-@keyframes l18{
-  0%   {background-position:50% 50%,50% 50%,50%  50% ,50% 50%,50% 50%}
-  25%  {background-position:0  100%,100%  0,50%  50% ,50% 50%,50% 50%}
-  50%  {background-position:0  100%,100%  0,100% 100%,0   0  ,50% 50%}
-  75%  {background-position:50% 50%,50% 50%,100% 100%,0   0  ,50% 50%}
-  100% {background-position:50% 50%,50% 50%,50%  50% ,50% 50%,50% 50%}
-}
+
 
 </style>
 
@@ -432,11 +413,11 @@ body {
 <body class="">
     <div  style="">
 
-        <div class="">
-            <a href="/total_information" class="btn btn-primary" style="float:right;margin-right:1rem">Export Pdf</a>
-        </div>
+        {{-- <div class="">
+            <a href="/total_information" class="btn btn-secondary" style="float:right;margin-right:2rem" onclick="GetPrint()">Export Pdf</a>
+        </div> --}}
 
-        <div class="loader" style="margin-bottom:7rem">
+        <div class="" style="margin-bottom:7rem">
             <strong style="font-size: 1.6rem">Main Accounts</strong>
         </div>
 
@@ -451,9 +432,9 @@ body {
             </thead>
             <tbody>
                 <tr>
-                    <td>&#2547:{{ $total_account}}</td>
-                    <td>&#2547:{{ $customer_due_account}}</td>
-                    <td>&#2547:{{ $vendor_due_account}}</td>
+                    <td>{{number_format( $total_account,2)}}</td>
+                    <td>{{number_format( $customer_due_account,2)}}</td>
+                    <td>{{number_format( $vendor_due_account,2)}}</td>
                 </tr>
             </tbody>
             </table>
@@ -465,4 +446,9 @@ body {
 </body>
 </html>
 
+<script>
+    function GetPrint(){
+       window.print();
+   }
+</script>
 @endsection

@@ -84,6 +84,55 @@
     }
     }
 
+    .print{
+        /* margin-top:-3rem; */
+        padding:3px 20px;
+        font-size:1.3rem;
+    }
+        @media (min-width: 700px) {
+
+        .discount{
+            float: right;
+            margin:4rem 2rem;
+            background-color:#d9d9ebc6;
+            padding:8px;
+            width:21%;
+            font-size: 1rem;
+        }
+        .d_para{
+            font-weight:bold;
+            font-size:1rem;
+        }
+        .form_inner{
+            margin: 0px 10px;
+        }
+
+        }
+        @media (max-width: 700px) {
+
+        .form_inner{
+            margin-top: -10px;
+        }
+
+        .discount{
+            float: right;
+            margin:4rem 1rem;
+            background-color:#d9d9ebc6;
+            padding:8px;
+            width:35%;
+            font-size: 1rem;
+        }
+        .d_para{
+            font-weight:bold;
+            font-size:.9rem;
+        }
+        .box-header h2{
+            font-size:.6rem;
+        }
+
+
+        }
+
     @media print{
         .btn{
             display: none;
@@ -152,14 +201,14 @@
 
 </style>
 
-<ul class="breadcrumb">
+{{-- <ul class="breadcrumb">
     <li>
         <i class="icon-home"></i>
         <a href="/">Home</a>
         <i class="icon-angle-right"></i>
     </li>
     <li><a href="#">Invoices</a></li>
-</ul>
+</ul> --}}
 
 <div class="row-fluid sortable">
     <div class="box span12">
@@ -168,6 +217,10 @@
             {{-- <div class="box-icon">
                 <a href="/return-purchase-invoice" class="" style="background-color: rgb(31, 73, 124);color:aliceblue;padding:6px;border-radius:10px"><i class="icon-plus"></i> Create Return Purchase</a>
             </div> --}}
+
+            <div style="float: right;margin-right:2rem;">
+                <button type="button" class="btn print"  onclick="GetPrint()">Print</button>
+            </div>
         </div>
 
 
@@ -238,7 +291,7 @@
                             <div class="span2">
 
                                 <a class="btn btn-info" href="{{url('/return-purchase-invoice-edit/'.$invoice->id)}}" style="margin-left:.1rem;border-radius:25%">
-                                    <i class="halflings-icon white edit"></i>
+                                    <i class="white icon-eye-open"></i>
                                 </a>
                             </div>
 
@@ -250,20 +303,14 @@
               </tbody>
           </table>
 
-                <div style="float: right;margin:4rem 2rem;background-color:#d9d9ebc6;padding:8px;width:21%;">
-                    <p style="font-weight:bold;font-size:1rem">Total: {{ $total }}  </p>
-                    <p style="font-weight:bold;font-size:1rem">Total Paid: {{ $paid }} </p>
-                    <p style="font-weight:bold;font-size:1rem">Total Due: {{ $due }} </p>
+                <div class="discount">
+                    <p class="d_inner">Total: {{ $total }}  </p>
+                    <p class="d_inner">Total Paid: {{ $paid }} </p>
+                    <p class="d_inner">Total Due: {{ $due }} </p>
                 </div>
         </div>
     </div>
 </div>
-
-
-<div style="text-align: center;">
-    <button type="button" class="btn" style=" padding:6px 25px;font-size:1.3rem;" onclick="GetPrint()" class="btn btn-primary ">Print</button>
-</div>
-
 
 <script>
      function GetPrint(){

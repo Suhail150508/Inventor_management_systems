@@ -141,7 +141,7 @@ form .form-row .textarea{
   width: 300%;
   position: absolute;
   left: -100%;
-  background: -webkit-linear-gradient(right, #56d8e4, #9f01ea, #56d8e4, #9f01ea);
+  background: -webkit-linear-gradient(right, #2f3434, #474548, #484d4d, #dad5dc);
   transition: all 0.4s;
 }
 .submit-btn .input-data:hover .inner{
@@ -204,7 +204,7 @@ form .form-row .textarea{
                <div class="form-row">
                   <div class="input-data">
                      <input type="text" required name="category">
-                     <div class="underline"></div>
+                     {{-- <div class="underline"></div> --}}
                      <label for="">Add Category</label>
                   </div>
                </div>

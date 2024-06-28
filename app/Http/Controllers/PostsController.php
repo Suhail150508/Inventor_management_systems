@@ -57,7 +57,8 @@ class PostsController extends Controller
 
         $user->save();
 
-        return back();
+        return redirect('investor')->with('message','Investor updated successfully..');
+
     }
 
     public function status(Request $request, $id)
@@ -71,7 +72,7 @@ class PostsController extends Controller
         else{
             $posts->update(['status'=>'Active']);
         }
-        return redirect()->back()->with('message','changed subCategory');
+        return redirect('investor')->with('message','changed subCategory');
      }
 
     public function investorDelete($id){
@@ -79,7 +80,8 @@ class PostsController extends Controller
         try {
             $delete = Investor::find($id)->delete();
             DB::commit($delete);
-            return back();
+            return redirect('investor')->with('message','Investor deleted successfully..');
+
         } catch (\Exception $e) {
             DB::rollBack();
             dd($e);

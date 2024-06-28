@@ -83,24 +83,109 @@
         }
     }
     }
-</style>
 
-<ul class="breadcrumb">
-    <li>
-        <i class="icon-home"></i>
-        <a href="/">Home</a>
-        <i class="icon-angle-right"></i>
-    </li>
-    <li><a href="#">Invoices</a></li>
-</ul>
+    @media (min-width: 700px) {
+
+
+.form_section{
+    display: flex;
+    justify-content:center;
+     flex-wrap:wrap;
+     margin-top:3rem;
+}
+
+.discount{
+    float: right;
+    margin:4rem 2rem;
+    background-color:#d9d9ebc6;
+    padding:8px;
+    font-size: 1rem;
+}
+.d_para{
+    font-weight:bold;
+    font-size:1rem;
+}
+.form_inner{
+    margin: 0px 10px;
+}
+
+}
+@media (max-width: 700px) {
+
+.form_section{
+    display: flex;
+    justify-content:column;
+     flex-wrap:wrap;
+     margin-top:3rem;
+     text-align: center;
+     margin-left: 5rem;
+}
+.form_inner{
+    margin-top: -10px;
+}
+
+.discount{
+    float: right;
+    margin:4rem 2rem;
+    background-color:#d9d9ebc6;
+    padding:8px;
+    width:35%;
+    font-size: 1rem;
+}
+.d_para{
+    font-weight:bold;
+    font-size:.9rem;
+}
+
+
+}
+
+    @media all and (max-width: 767px) {
+        .table-header {
+        display: none;
+        }
+        .table-row{
+
+        }
+        li {
+        display: block;
+        }
+        .col {
+
+        flex-basis: 100%;
+
+        }
+        .col {
+        display: flex;
+        padding: 10px 0;
+        &:before {
+            color: #6C7A89;
+            padding-right: 10px;
+            content: attr(data-label);
+            flex-basis: 50%;
+            text-align: right;
+        }
+        }
+    }
+
+    @media print{
+        .print{
+            display: none;
+        }
+        .box-header strong{
+            text-align: center;
+        }
+    }
+
+</style>
 
 <div class="row-fluid sortable">
     <div class="box span12">
         <div class="box-header" style="display: flex;justify-content:space-between">
-            <h2><i class="halflings-icon user"></i><span class="break"></span>Customer Due Payment</h2>
+            <strong><i class="halflings-icon user"></i><span class="break"></span>Customer Due Payment</strong>
             <div></div>
             <div></div>
-            <button type="button" class="action btn btn-secondary" style="height: 30px" onclick="GetPrint()" >Print</button>
+            <button type="button" class="action btn btn-secondary print" style="height: 30px" onclick="GetPrint()" >Print</button>
             <div></div>
         </div>
 
@@ -113,9 +198,9 @@
 
         <div>
 
-            <form action="{{ url('/search-customer-due-payment') }}" method="GET" style="display: flex;justify-content:center; flex-wrap:wrap;margin-top:5rem">
+            <form class="form_section" action="{{ url('/search-customer-due-payment') }}" method="GET">
                 @csrf
-                <div class=" col-md-1" style="margin: 0px 10px">
+                <div class=" form_inner col-md-1">
                     <h4>Customers</h4>
                     @php
                         $customers = App\Models\Customer::all();
@@ -128,13 +213,13 @@
                         @endforeach
                     </select>
                 </div>
-                <div class="col-md-1" style="margin: 0px 10px">
+                <div class= "form_inner col-md-1">
                     <h4>From</h4>
                     <div class="">
                         <input type="date" name="date_from" id="date_from" placeholder="2018-07-03" value="{{ request()->input('date_from') }}">
                     </div>
                 </div>
-                <div class="col-md-1" style="margin: 0px 10px">
+                <div class="form_inner col-md-1">
                     <h4>To</h4>
                     <div class="">
                         <input type="date" name="date_to" id="date_to" placeholder="2018-07-03" value="{{ request()->input('date_to') }}">

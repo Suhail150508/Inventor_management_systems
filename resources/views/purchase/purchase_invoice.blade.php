@@ -418,9 +418,10 @@
         font-size:1.3rem;
     }
     .print{
+        position: absolute;
         padding:6px 25px;
         font-size:1.3rem;
-        margin-left:5rem;
+        margin-left:25rem;
         width:100px;
         height: 30px;
 
@@ -441,11 +442,14 @@
         padding:7px;
         margin-left:-5rem;
     }
+    .company_image{
+        margin-bottom:2rem;
+    }
     .dataContainer{
         color:#000;
         width:60%;
     }
-    @media (max-width: 775px) {
+    @media (max-width: 700px) {
         .vendor_name{
             font-size:1rem;
         }
@@ -474,55 +478,55 @@
             width:50%;
         }
         .table_input0{
-            width: 5.9rem;
-            }
-            .table_input1{
-                width:40px;
-            }
-            .table_input2{
-                width:45px;
-            }
-            .table_input3{
-                width:50px;
-            }
-            .table_input4{
-                width:50px;
-            }
-            .remove{
-                width:10px !important;
-                height:13px !important;
-                font-size:.8rem;
-            }
+            width:85.4px;
+        }
+        .table_input1{
+            width:32px;
+        }
+        .table_input2{
+            width:37px;
+        }
+        .table_input3{
+            width:42px;
+        }
+        .table_input4{
+            width:42px;
+        }
+        .remove{
+            width:5px !important;
+            height:14px !important;
+            font-size:.8rem;
+        }
 
         .small .form-control0{
-            width: 45px;
+            width: 30px;
             height:6px;
             font-size: .7rem;
-            margin-left: 1.46rem;
+            margin-left: 0.46rem;
             }
         .small .form-control1{
-            width: 45px;
+            width: 30px;
             height:6px;
             font-size: .7rem;
-            margin-left: 1.56rem;
+            margin-left: 0.56rem;
         }
         .small .form-control2{
-            width: 45px;
+            width: 30px;
             height:6px;
             font-size: .7rem;
-            margin-left: 3.2rem;
+            margin-left: 2.2rem;
         }
         .small .form-control3{
-            width: 45px;
+            width: 30px;
             height:6px;
             font-size: .7rem;
-            margin-left: 3.37rem;
+            margin-left: 2.37rem;
         }
         .small .form-control4{
-            width: 45px;
+            width: 30px;
             height:6px;
             font-size: .7rem;
-            margin-left: 3.55rem;
+            margin-left: 2.55rem;
         }
         .small{
             font-size: .8rem;
@@ -538,12 +542,14 @@
         }
         .discount{
             padding: 4px;
-            width:35%;
+            width:40%;
+            text-align: center;
         }
         .print{
+            position: absolute;
             padding:3px 10px;
             font-size:.9rem;
-            margin-left:3rem;
+            margin-left:5rem;
             height: 30px;
             width: 60px;
 
@@ -611,12 +617,14 @@
 
                 <div style="width:95%;text-align:center">
                     @php
-                        $company = App\Models\Company::latest()->first();
+                        @$company = App\Models\Company::latest()->first();
                     @endphp
-                      <div class="company_image" style="margin-bottom:1.4rem">
-                         <img width="80" style="border-radius:25%" src="{{ URL::asset('/teacher/'.$company->logo) }}" alt="{{ $company->logo }}">
+                    <div class="company_image" style="margin-bottom:1.4rem;">
+                         <img width="80" style="border-radius:25%" src="{{ URL::asset('/teacher/'.@$company->logo) }}" alt="{{ @$company->logo }}">
+                         <button type="button" class="btn print"  onclick="GetPrint()" >Print</button>
+                        </div>
+                        <strong class="invoice_name text-center">Purchase Invoice</strong>
                     </div>
-                    <strong class="invoice_name">Purchase Invoice</strong>
 
                 </div>
                 <div class="header" style="display: flex;margin-top:3rem;margin-bottom:5rem;width:95%">
@@ -666,15 +674,15 @@
                     <div class="company_part">
 
                         @php
-                            $company = App\Models\Company::latest()->first();
+                            @$company = App\Models\Company::latest()->first();
                         @endphp
 
 
                         <div style="">
 
-                                <h4 style="text-align: center;padding:0 .2rem">{{ $company->name }}</h4>
-                                <p style="text-align: center;padding:0 .2rem">{{ $company->email }}</p>
-                                <p style="text-align: center;padding:0 .2rem">{{ $company->address }}</p>
+                                <h4 style="text-align: center;padding:0 .2rem">{{ @$company->name }}</h4>
+                                <p style="text-align: center;padding:0 .2rem">{{ @$company->email }}</p>
+                                <p style="text-align: center;padding:0 .2rem">{{ @$company->address }}</p>
 
                         </div>
 
@@ -776,8 +784,7 @@
 
                 <div style="text-align: center;margin-top:5rem">
                     <button type="submit"   class="btn btn-primary submit"> Submit</button>
-                    <button type="button" class="btn print"  onclick="GetPrint()" class="btn btn-primary ">Print</button>
-                </div>
+
 
 
             </form>
@@ -910,7 +917,19 @@
                         // var total_pricee = $('.total_price').val();
                         // total_price.val(price);
 
-                        console.log(selectedValue);
+                        calculateSubtotal()
+                    });
+                });
+                document.querySelectorAll('#paid').forEach(function(element) {
+                    element.addEventListener('change', function() {
+                        var selectedValue = parseFloat(this.value);
+
+                        var qty = $('#total').val();
+
+                        var totall_pricess = qty - selectedValue;
+                        var total_priceess = $('#due');
+                        total_priceess.val(totall_pricess);
+
                     });
                 });
 
@@ -922,7 +941,6 @@
                 var sub = $('#subtotal').val();
 
                 var total_amount = sub - selectedValue;
-                alert(total_amount)
                 var total = $('#total');
                 total.val(total_amount);
                 console.log(selectedValue);
@@ -1051,8 +1069,6 @@
                 success: function(response) {
                     // Find the product code input field in the same row
                     var productCodeInputs = $this.closest('tr').find('.code');
-                    // console.log(productCodeInputs, 'bbbbbbo');
-                    // Clear previous data (if needed)
                     productCodeInputs.val('');
 
                     if (response) {

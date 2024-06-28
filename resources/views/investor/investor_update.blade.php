@@ -334,7 +334,7 @@ form .form-row .textarea{
         {{-- <form action="{{ route('customer.update', $editinvestor->id) }}" method="post" enctype="multipart/form-data" style="text-align: center">
             @csrf
             @method('PUT') --}}
-        <div class="container">
+        <div class="container" style="margin-top:2rem">
             <form action="{{ route('investor.update', $editinvestor->id) }}" method="post" enctype="multipart/form-data">
                 @csrf
                 @method('PUT')
@@ -363,7 +363,14 @@ form .form-row .textarea{
                     </div>
                 </div>
 
-                <button type="submit" class="button mb-3" style="margin-top: 2rem;width:75%">Update</button>
+                <div class="form-row submit-btn mb-3">
+                    <div class="input-data">
+                       <div class="inner"></div>
+                       <input type="submit" value="Update">
+                    </div>
+                 </div>
+
+                {{-- <button type="submit" class="btn btn-secondary" style="margin: 3rem;">Update</button> --}}
             </form>
         </div>
 

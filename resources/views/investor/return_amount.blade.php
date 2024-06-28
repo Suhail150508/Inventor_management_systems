@@ -399,7 +399,7 @@ form .form-row .textarea{
                <div class="form-row">
                   <div class="input-data">
                       <label for="">Name</label>
-                    <select type="text" name="investor_id" >
+                    <select type="text" name="investor_id" required>
                         <option style="font-size:1.1rem" value="">Investor</option>
                         @foreach ($invests as $invest )
                             <option style="font-size:1.1rem" value="{{ $invest->id }}">{{ $invest->name  }}</option>

@@ -46,7 +46,7 @@ Route::get('/posts{id}',[PostsController::class,'status']);
 
 Auth::routes();
 
-Route::get('/home', [App\Http\Controllers\HomeController::class, 'index'])->name('home');
+Route::get('/home', [App\Http\Controllers\HomeController::class, 'dashboard'])->name('home');
 
 
 Route::get('/investor',[InvestorController::class, 'investor']);
@@ -131,6 +131,13 @@ Route::get('/product-fetch', [VendorController::class,'fetchCode'])->name('produ
 
 
 Route::get('/all-products',[VendorController::class,'showProduct']);
+Route::get('/all-product-info',[VendorController::class,'allProductInfo']);
+Route::get('/purchase-product',[VendorController::class,'PurchaseProduct']);
+Route::post('/purchase-product-store',[VendorController::class,'PurchaseProductStore']);
+Route::get('/product-edit/{id}',[VendorController::class,'PurchaseProductEdit']);
+Route::post('/purchase-product-update/{id}',[VendorController::class,'PurchaseProductUpdate']);
+Route::delete('/product-delete/{id}',[VendorController::class,'PurchaseProductDelete']);
+
 
 Route::post('/product-create',[VendorController::class,'storeProduct']);
 
@@ -173,6 +180,7 @@ Route::get('/company-create',[VendorController::class,'companyCreate']);
 Route::get('/company-edit/{id}',[VendorController::class,'companyEdit']);
 Route::put('/company-info-update/{id}',[VendorController::class,'companyUpdate']);
 Route::post('/company-info-create',[VendorController::class,'comInfoStore']);
+Route::delete('/company-delete/{id}',[VendorController::class,'comInfoDelete']);
 
 Route::get('/search-purchase-invoice',[VendorController::class,'searchVendor']);
 
@@ -188,4 +196,21 @@ Route::get('/logout',[InvestorController::class,'logout']);
 
 
 Route::get('/test',[InvestorController::class,'test']);
+
+
+//---Report---
+Route::get('/investor-report',[InvestorController::class, 'investorReport']);
+Route::get('/all-purchase-invoice-report',[VendorController::class,'allPInvoiceReport']);
+Route::get('/all-return-purchase-invoice-report',[VendorController::class,'allReturnPurchaseInvoiceReport']);
+Route::get('/due-payment-invoice-report',[VendorController::class,'duePayInvoiceReport']);
+Route::get('/show-vendor-report',[VendorController::class,'showVendorReport']);
+Route::get('/all-sales-invoice-report',[SalesProductController::class,'allSalesInvReport']);
+Route::get('/all-return-sales-invoice-report',[SalesProductController::class,'allReturnSalesInvoiceStoreReport']);
+Route::get('/due-sales-payment-report',[SalesProductController::class,'duePaySalesReport']);
+Route::get('/all-customer-report',[CustomerController::class,'customersReport']);
+Route::get('/expence-invoice-report',[VendorController::class,'expenceInvoiceReport']);
+Route::get('/main_account-report',[MainAccountController::class,'mainAccountReport']);
+Route::get('/company-info-report',[VendorController::class,'companyInfoReport']);
+Route::get('/all-product-info-report',[VendorController::class,'allProductInfoReport']);
+
 

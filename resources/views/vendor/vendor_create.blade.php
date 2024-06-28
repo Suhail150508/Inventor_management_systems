@@ -273,13 +273,13 @@ form .form-row .textarea{
                         <td class="center">
                             <div class="span2">
 
-                                <a class="btn btn-info" href="{{url('/vendor-edit/'.$invest->id)}}" style="margin-left:.1rem;border-radius:25%">
+                                <a class="btn btn-info" href="{{url('/vendor-edit/'.$invest->id)}}" style="margin-left:.1rem;">
                                     <i class="halflings-icon white edit"></i>
                                 </a>
                             </div>
 
                             <div class="span2">
-                                <form method="post" action="{{ url('/vendor-delete/'.$invest->id ) }}" style="margin-left:1rem">
+                                <form method="post" action="{{ url('/vendor-delete/'.$invest->id ) }}" style="margin-left:.3rem;">
                                     @csrf
                                     @method('DELETE')
                                     <button type="submit" class="btn btn-danger"> <i class="halflings-icon white trash"></i></button>

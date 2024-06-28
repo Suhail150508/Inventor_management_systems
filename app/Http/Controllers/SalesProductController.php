@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Models\Customer;
 use App\Models\Due_Sales_Payment;
 use App\Models\Expence_Invoice;
+use App\Models\Main_account;
 use App\Models\Return_Sales_Invoice;
 use App\Models\Return_Sales_Product_Invoice;
 use App\Models\StockProduct;
@@ -17,6 +18,14 @@ use Haruncpi\LaravelIdGenerator\IdGenerator;
 class SalesProductController extends Controller
 {
     public function allSalesInv(){
+        $sales_invoices = Sales_invoice::orderByRaw("CASE WHEN status = 'Unpaid' THEN 0 ELSE 1 END") // Order unpaid first
+        ->orderBy('created_at', 'desc')
+        ->paginate(6); // Retrieve the records
+
+        $due_sales_payment = Due_Sales_Payment::paginate(5);
+        return view('sales.all_sales_invoice',compact('sales_invoices','due_sales_payment'));
+    }
+    public function allSalesInvReport(){
         $sales_invoices = Sales_invoice::orderByRaw("CASE WHEN status = 'Unpaid' THEN 0 ELSE 1 END") // Order unpaid first
         ->orderBy('created_at', 'desc')
         ->paginate(6); // Retrieve the records
@@ -143,7 +152,8 @@ class SalesProductController extends Controller
                     'total_price' => $total_price
                 ]);
 
-                $old = StockProduct::find($product_id);
+                // $old = StockProduct::find($product_id);
+                 $old = StockProduct::where('code',$code)->first();
                 $old_qty = $old->total_sold_qty;
                 $old_price = $old->product_unit_price;
                 $old_available_qty = $old->available_qty;
@@ -153,12 +163,33 @@ class SalesProductController extends Controller
                 $main_qty = $old_qty + $new_qty;
                 $average_price = ($old_price + $new_price) / 2;
                 $new_available =  $old_available_qty - $new_qty;
-                StockProduct::find($product_id)->update([   // ****Info**** don't update without protected fillable data----
+                // StockProduct::find($product_id)->update([   // ****Info**** don't update without protected fillable data----
+                StockProduct::where('code',$code)->first()->update([
                     'total_sold_qty' => $main_qty,
                     'available_qty' => $new_available
                 ]);
 
             }
+
+
+            @$main_account_update = Main_account::find(1);
+            $update = @$main_account_update->total_amount + $request->paid;
+            $due = @$main_account_update->supliyer_due + $request->due;
+            // dd(@$main_account_update->supliyer_due,$due,'okkk' );
+            // dd(@$main_account_update->total_amount,$update);
+            if(@$main_account_update){
+
+                $main_account_update->update([
+                    'total_amount' => $update,
+                    'customer_due' => $due
+                ]);
+            }else{
+                $insert = new Main_account();
+                $insert->total_amount = $request->paid;
+                $insert->customer_due = $request->due;
+                $insert->save();
+            }
+
 
             // Redirect back after processing
             return redirect('all-sales-invoice')->with('message','Purchase Product created successfully..');
@@ -209,14 +240,13 @@ class SalesProductController extends Controller
             }
 
             // // Redirect back after processing
-            return redirect()->back()->with('message','Sales Product reserved successfully..');
+            return redirect('all-sales-invoice')->with('message','Sales Product reserved successfully..');
 
         }
 
     }
     public function salesInvoiceUpdate(Request $request){
 
-        // dd($request->all());
         if($request->status == 'Paid'){
             $invoice = Sales_invoice::find( $request->invoice_id);
             if ($invoice) {
@@ -264,6 +294,26 @@ class SalesProductController extends Controller
 
             }
 
+
+            @$main_account_update = Main_account::find(1);
+            $update = @$main_account_update->total_amount + $request->paid;
+            $due = @$main_account_update->supliyer_due + $request->due;
+            // dd(@$main_account_update->supliyer_due,$due,'okkk' );
+            // dd(@$main_account_update->total_amount,$update);
+            if(@$main_account_update){
+
+                $main_account_update->update([
+                    'total_amount' => $update,
+                    'customer_due' => $due
+                ]);
+            }else{
+                $insert = new Main_account();
+                $insert->total_amount = $request->paid;
+                $insert->customer_due = $request->due;
+                $insert->save();
+            }
+
+
             // Redirect back after processing
             return redirect('all-sales-invoice')->with('message','Sales Product created successfully.');
         }
@@ -307,6 +357,11 @@ class SalesProductController extends Controller
 
             return view('sales.all_return_sales_invoice',compact('sales_invoices'));
         }
+        public function allReturnSalesInvoiceStoreReport(){
+            $sales_invoices = Return_Sales_Invoice::all();
+
+            return view('sales.all_return_sales_invoice',compact('sales_invoices'));
+        }
         public function returnSalesInvoiceStore(Request $request){
             // dd($request->all());
                 $invoice = new Return_Sales_Invoice;
@@ -337,8 +392,8 @@ class SalesProductController extends Controller
                         'qty' => $qty,
                         'total_price' => $total_price
                     ]);
-
-                    $old = StockProduct::find($product_id);
+                    // $old = StockProduct::find($product_id);
+                    $old = StockProduct::where('code',$code)->first();
                     $old_qty = $old->total_sold_qty;
                     $old_price = $old->product_unit_price;
                     $old_available_qty = $old->available_qty;
@@ -354,11 +409,33 @@ class SalesProductController extends Controller
                     ]);
 
                 }
-                     return redirect()->back()->with('message','Purchase Product created successfully..');
+
+                @$main_account_update = Main_account::find(1);
+                $update = @$main_account_update->total_amount - $request->paid;
+                // dd(@$main_account_update->supliyer_due,$due,'okkk' );
+                // dd(@$main_account_update->total_amount,$update);
+                if(@$main_account_update){
+
+                    $main_account_update->update([
+                        'total_amount' => $update,
+                    ]);
+                }else{
+                    $insert = new Main_account();
+                    $insert->total_amount = $request->paid;
+                    $insert->save();
+                }
+
+
+                return redirect('all-return-sales-invoice')->with('message','Purchase Product created successfully..');
 
         }
 
         public function duePaySales(){
+
+            $paid_invoices = Due_Sales_Payment::all();
+            return view('sales.due_sales_payment',compact('paid_invoices'));
+        }
+        public function duePaySalesReport(){
 
             $paid_invoices = Due_Sales_Payment::all();
             return view('sales.due_sales_payment',compact('paid_invoices'));
@@ -381,7 +458,24 @@ class SalesProductController extends Controller
                 $invoice->description = $request->description;
                 $invoice->save();
 
-                return back()->with('message','Due Amount Paided Successfully');
+                @$main_account_update = Main_account::find(1);
+                $update = @$main_account_update->total_amount + $request->paid_amount;
+                $due = @$main_account_update->customer_due - $request->paid_amount;
+                // dd(@$main_account_update->total_amount,$update);
+                if(@$main_account_update){
+
+                    $main_account_update->update([
+                        'total_amount' => $update,
+                        'customer_due' => $due,
+                    ]);
+                }else{
+                    $insert = new Main_account();
+                    $insert->total_amount = $request->paid;
+                    $insert->save();
+                }
+
+
+                return redirect('due-sales-payment')->with('message','Due Amount Paided Successfully');
             }
 
     public function customerDuePayInvoices(Request $request){

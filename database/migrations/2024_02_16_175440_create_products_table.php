@@ -28,7 +28,7 @@ return new class extends Migration
             $table->float('unit_amount')->unsigned()->nullable();
             $table->float('sales_amount')->unsigned()->nullable();
             $table->integer('quantity')->unsigned()->nullable();
-            $table->enum('status', ['Active', 'Inactive'])->default('Active');
+            $table->enum('status', ['Active', 'Inactive'])->default('Active')->nullable();
             $table->timestamp('expire_date')->nullable();
 			$table->integer('created_by')->nullable();
 			$table->integer('updated_by')->nullable();

@@ -27,6 +27,11 @@ class VendorController extends Controller
         $vendors = Vendor::all();
         return view('vendor.vendor_create',compact('vendors'));
     }
+    public function showVendorReport(){
+
+        $vendors = Vendor::all();
+        return view('vendor.vendor_create',compact('vendors'));
+    }
     public function CreateVendor(){
 
         return view('purchase.vendor_create');
@@ -83,6 +88,99 @@ class VendorController extends Controller
 
         return view('vendor.all_product',compact('products'));
     }
+    public function allProductInfo(){
+
+        $products = Product::all();
+
+        return view('vendor.purchase_product',compact('products'));
+    }
+    public function allProductInfoReport(){
+
+        $products = Product::all();
+
+        return view('vendor.purchase_product',compact('products'));
+    }
+
+    public function PurchaseProduct(){
+
+        return view('vendor.create_purchase_product');
+    }
+
+    public function PurchaseProductStore(Request $request){
+        $product = new Product();
+        $product->name = $request->name;
+        $product->code = $request->code;
+        $product->origin = $request->origin;
+        $product->year = $request->year;
+        $product->unit_amount = $request->unit_amount;
+        $product->sales_amount = $request->sales_amount;
+        $product->quantity = $request->quantity;
+        $product->status = $request->status;
+        $product->expire_date = $request->expire_date;
+
+        if ($request->hasFile('image')) {
+            $file = $request->image;
+            $extension = $file->getClientOriginalExtension();
+            $fileName = time() . '.' . $extension;
+            $file->move('teacher', $fileName);
+            $product->image = $fileName;
+        }
+
+        $product->save();
+
+        $stock = new StockProduct();
+        $stock->name = $request->name;
+        $stock->code = $request->code;
+        // $stock->total_purchase_qty = $request->code;
+        $stock->save();
+
+        return redirect('all-product-info')->with('message','Product created successfully..');
+    }
+
+    public function PurchaseProductEdit($id){
+        $edit_product = Product::findOrFail($id);
+        return view('vendor.product_edit',compact('edit_product'));
+    }
+    public function PurchaseProductUpdate(Request $request, $id){
+        $update_product = Product::findOrFail($id);
+        $update_product->name = $request->name;
+        $update_product->code = $request->code;
+        $update_product->origin = $request->origin;
+        $update_product->year = $request->year;
+        $update_product->unit_amount = $request->unit_amount;
+        $update_product->sales_amount = $request->sales_amount;
+        $update_product->quantity = $request->quantity;
+        $update_product->status = $request->status;
+        $update_product->expire_date = $request->expire_date;
+
+        if ($request->image) {
+            if ($update_product->image) {
+
+                unlink(public_path('teacher/' . $update_product->image));
+            }
+
+            $file = $request->image;
+            $extension = $file->getClientOriginalExtension();
+            $fileName = time() . '.' . $extension;
+            $file->move('teacher', $fileName);
+            $update_product->image = $fileName;
+        }
+
+        $update_product->save();
+
+        return redirect('all-product-info')->with('message','Product Updated successfully.');
+    }
+
+    public function PurchaseProductDelete($id){
+        $delete_product = Product::findOrFail($id)->delete();
+        $delete_stock_product = StockProduct::findOrFail($id)->delete();
+
+        if($delete_product || $delete_stock_product){
+
+            return redirect('all-product-info')->with('message','Product Deleted successfully.');
+        }
+    }
+
     public function storeProduct(Request $request){
 
         $company = new Company();
@@ -141,20 +239,22 @@ class VendorController extends Controller
                     'total_price' => $total_price
                 ]);
 
-                $old = StockProduct::where('id',$product_id)->first();
-                $old_qty = $old->total_purchase_qty;
-                $old_price = $old->product_unit_price;
-                $old_available_qty = $old->available_qty;
+                @$old = StockProduct::where('code',$code)->first();
+                @$old_qty = @$old->total_purchase_qty;
+                @$old_price = @$old->product_unit_price;
+                @$old_available_qty = @$old->available_qty;
 
                 $new_qty = $request->qty[$i];
                 $new_price = $request->unit_price[$i];
 
-                $main_qty = $old_qty + $new_qty;
-                $average_price =  (($old_price * $old_qty) + ($new_price * $new_qty)) / ($old_available_qty + $new_qty);
-                // dd($old_price ,$old_qty , $new_price, $new_qty ,$old_available_qty,$new_qty,$average_price,'ok');
-                // dd($main_available );
-                $new_available =  $old_available_qty + $new_qty;
-                StockProduct::find($product_id)->update([   // ****Info**** don't update without protected fillable data----
+                $main_qty = @$old_qty + $new_qty;
+                $average_price =  ((@$old_price * @$old_qty) + ($new_price * $new_qty)) / (@$old_available_qty + $new_qty);
+                // dd(@$old_price ,@$old_qty , $new_price, $new_qty ,@$old_available_qty,$new_qty,$average_price,'ok');
+                // dd($product_id );
+                $new_available =  @$old_available_qty + $new_qty;
+                StockProduct::where('code',$code)->first()->update([
+                // StockProduct::find($product_id)->update([
+                // StockProduct::find($product_id)  // ****Info**** don't update without protected fillable data----
                     'total_purchase_qty' => $main_qty,
                     'product_unit_price' => $average_price,
                     'available_qty' => $new_available
@@ -162,7 +262,24 @@ class VendorController extends Controller
 
             }
 
-            // Redirect back after processing
+            @$main_account_update = Main_account::find(1);
+            $update = @$main_account_update->total_amount - $request->paid;
+            $due = @$main_account_update->supliyer_due + $request->due;
+            // dd(@$main_account_update->supliyer_due,$due,'okkk' );
+            // dd(@$main_account_update->total_amount,$update);
+            if(@$main_account_update){
+
+                $main_account_update->update([
+                    'total_amount' => $update,
+                    'supliyer_due' => $due
+                ]);
+            }else{
+                $insert = new Main_account();
+                $insert->total_amount = $request->paid;
+                $insert->save();
+            }
+
+
             return redirect('all-purchase-invoice')->with('message','Purchase Product created successfully..');
         }
         if( $request->status == 'Unpaid'){
@@ -245,8 +362,6 @@ class VendorController extends Controller
                     ]);
             }
 
-
-
                 $totalItems = count($request->qty);
             for ($i = 0; $i < $totalItems; $i++) {
                 $product_id = $request->product_id[$i];
@@ -292,6 +407,25 @@ class VendorController extends Controller
 
             }
 
+
+            @$main_account_update = Main_account::find(1);
+            $update = @$main_account_update->total_amount - $request->paid;
+            $due = @$main_account_update->supliyer_due + $request->due;
+            // dd(@$main_account_update->supliyer_due,$due,'okkk' );
+            // dd(@$main_account_update->total_amount,$update);
+            if(@$main_account_update){
+
+                $main_account_update->update([
+                    'total_amount' => $update,
+                    'supliyer_due' => $due
+                ]);
+            }else{
+                $insert = new Main_account();
+                $insert->total_amount = $request->paid;
+                $insert->save();
+            }
+
+
             // Redirect back after processing
             return redirect('all-purchase-invoice')->with('message','Sales Product created successfully.');
         }
@@ -321,6 +455,13 @@ class VendorController extends Controller
     }
 
     public function allPInvoice(){
+        $purchase_invoices = Purchase_invoice::paginate(6);
+
+        $due_paid_purchase = Paid::paginate(5);
+
+        return view('purchase.all_purchase_invoice',compact('purchase_invoices','due_paid_purchase'));
+    }
+    public function allPInvoiceReport(){
         $purchase_invoices = Purchase_invoice::paginate(6);
 
         $due_paid_purchase = Paid::paginate(5);
@@ -382,6 +523,49 @@ class VendorController extends Controller
         return view('purchase.due_payment_invoice',compact('paids'));
 
     }
+    public function duePayInvoiceReport(Request $request)
+    {
+        $vendor_id = $request->input('vendor_id');
+        $date_from = $request->input('date_from');
+        $date_to = $request->input('date_to');
+
+        $paids = Paid::all();
+        $query = Paid::query();
+        $due_paid_purchase = Paid::where('vendor_id', $vendor_id)->get();
+
+        if ($vendor_id =='all') {
+            session(['selectedVendorId' => $vendor_id]);
+
+            if (!empty($date_from)) {
+                $query->whereDate('created_at', '>=', $date_from);
+            }
+
+            if (!empty($date_to)) {
+                $query->whereDate('created_at', '<=', $date_to);
+            }
+
+            $paids = $query->get();
+            return view('purchase.due_payment_invoice',compact('paids'));
+        }
+
+        if (!empty($vendor_id)) {
+            $query->where('vendor_id', $vendor_id);
+            session(['selectedVendorId' => $vendor_id]);
+        }
+
+        if (!empty($date_from)) {
+            $query->whereDate('created_at', '>=', $date_from);
+        }
+
+        if (!empty($date_to)) {
+            $query->whereDate('created_at', '<=', $date_to);
+        }
+
+        $paids = $query->get();
+
+        return view('purchase.due_payment_invoice',compact('paids'));
+
+    }
     public function duePayInvoiceCreate(){
 
         return view('purchase.due_payment_invoice_create');
@@ -395,34 +579,43 @@ class VendorController extends Controller
         $invoice->description = $request->description;
         $invoice->save();
 
-        // $accounts = Main_account::find(1);
-        // $main = $accounts->total_amount;
-        // $new_paid = $request->paid_amount;
-        // $update_amount = $main + $new_paid;
-        // $accounts->update([
-        //     $accounts->total_amount => $update_amount
-        // ]);
+        @$main_account_update = Main_account::find(1);
+        $update = @$main_account_update->total_amount - $request->paid_amount;
+        $due = @$main_account_update->supliyer_due - $request->paid_amount;
+        // dd(@$main_account_update->supliyer_due,$due,'okkk' );
+        // dd(@$main_account_update->total_amount,$update);
+        if(@$main_account_update){
 
-
-        $accounts = Main_account::all();
-        foreach ($accounts as $account) {
-            try {
-                $main = $account->total_amount;
-                $new_paid = $request->paid_amount;
-                $update_amount = $main + $new_paid;
-
-                $account->total_amount = $update_amount;
-                $account->save();
-            } catch (\Exception $e) {
-                // Log the error or handle it appropriately
-                // You can also use dd($e) to see the full error message for debugging
-                dd($e->getMessage());
-            }
+            $main_account_update->update([
+                'total_amount' => $update,
+                'supliyer_due' => $due
+            ]);
+        }else{
+            $insert = new Main_account();
+            $insert->total_amount = $request->paid_amount;
+            $insert->save();
         }
 
 
 
-        return back()->with('message','Due Amount Paided Successfully');
+        // $accounts = Main_account::all();
+        // foreach ($accounts as $account) {
+        //     try {
+        //         $main = $account->total_amount;
+        //         $new_paid = $request->paid_amount;
+        //         $update_amount = $main + $new_paid;
+
+        //         $account->total_amount = $update_amount;
+        //         $account->save();
+        //     } catch (\Exception $e) {
+
+        //         dd($e->getMessage());
+        //     }
+        // }
+
+
+
+        return redirect('due-payment-invoice')->with('message','Due Amount Paided Successfully');
     }
 
     public function companyInfo(){
@@ -430,8 +623,18 @@ class VendorController extends Controller
         $companies = Company::all();
         return view('company.create-company',compact('companies'));
     }
+    public function companyInfoReport(){
+
+        $companies = Company::all();
+        return view('company.create-company',compact('companies'));
+    }
 
     public function expenceInvoice(){
+
+        $expences = Expence_Invoice::all();
+        return view('company.expence_invoice',compact('expences'));
+    }
+    public function expenceInvoiceReport(){
 
         $expences = Expence_Invoice::all();
         return view('company.expence_invoice',compact('expences'));
@@ -494,6 +697,10 @@ class VendorController extends Controller
 
         return redirect('company-info')->with('message','Company Information created successfully..');
     }
+    public function comInfoDelete($id){
+        Company::findOrFail($id)->delete();
+        return redirect('company-info')->with('message','Company Information Deleted successfully..');
+    }
     public function expenceInvoiceStore(Request $request){
         $expence = new Expence_Invoice();
         $expence->category_id = $request->category_id;
@@ -502,7 +709,23 @@ class VendorController extends Controller
 
         $expence->save();
 
-        return redirect()->back()->with('message','New Expence created successfully..');
+
+        @$main_account_update = Main_account::find(1);
+        $update = @$main_account_update->total_amount - $request->amount;
+        // dd(@$main_account_update->total_amount,$update);
+        if(@$main_account_update){
+
+            $main_account_update->update([
+                'total_amount' => $update,
+            ]);
+        }else{
+            $insert = new Main_account();
+            $insert->total_amount = $request->amount;
+            $insert->save();
+        }
+
+
+        return redirect('expence-invoice')->with('message','New Expence created successfully..');
     }
 
     public function expenceInvoiceEdit($id){
@@ -690,7 +913,7 @@ class VendorController extends Controller
 
         $category->save();
 
-        return redirect()->back()->with('message','New Category created successfully..');
+        return redirect('expence-create')->with('message','New Category created successfully..');
     }
 
     public function fetchData(Request $request) {
@@ -704,7 +927,7 @@ class VendorController extends Controller
     public function fetchsCode(Request $request) {
         $selectedValue = $request->input('selectedValue');
         // Fetch data based on $selectedValue
-        $product = StockProduct::find( $selectedValue);
+        $product = Product::find( $selectedValue);
         $data =  $product->code;
         // dd($data);
         return response()->json($data);
@@ -712,7 +935,7 @@ class VendorController extends Controller
     public function fetchCode(Request $request) {
         $selectedValue = $request->input('selectedValue');
         // Fetch data based on $selectedValue
-        $product = StockProduct::find( $selectedValue);
+        $product = Product::find( $selectedValue);
         $data =  $product->code;
         // dd($data);
         return response()->json([
@@ -723,60 +946,81 @@ class VendorController extends Controller
         $purchase_invoices = Return_Invoice::all();
         return view('purchase.all_return_purchase_invoice',compact('purchase_invoices'));
     }
+    public function allReturnPurchaseInvoiceReport() {
+        $purchase_invoices = Return_Invoice::all();
+        return view('purchase.all_return_purchase_invoice',compact('purchase_invoices'));
+    }
     public function returnPurchaseInvoice() {
         return view('purchase.return_purchase_invoice');
     }
 
     public function returnPurchaseInvoiceStore(Request $request) {
 
-            // dd($request->all());
-            $invoice = new Return_Invoice;
-            // $invoice->id = $invoiceNumber;
-            $invoice->vendor_id = $request->vendor_id;
-            $invoice->sub_total = $request->sub_total;
-            $invoice->discount = $request->discount;
-            $invoice->total = $request->total;
-            $invoice->paid = $request->paid;
-            $invoice->due = $request->due;
-            $invoice->save();
+        // dd($request->all());
+        $invoice = new Return_Invoice;
+        // $invoice->id = $invoiceNumber;
+        $invoice->vendor_id = $request->vendor_id;
+        $invoice->sub_total = $request->sub_total;
+        $invoice->discount = $request->discount;
+        $invoice->total = $request->total;
+        $invoice->paid = $request->paid;
+        $invoice->due = $request->due;
+        $invoice->save();
 
-            $totalItems = count($request->qty);
-            for ($i = 0; $i < $totalItems; $i++) {
-                $product_id = $request->product_id[$i];
-                $code = $request->code[$i];
-                $unit_price = $request->unit_price[$i];
-                $qty = $request->qty[$i];
-                $total_price = $request->total_price[$i];
+        $totalItems = count($request->qty);
+        for ($i = 0; $i < $totalItems; $i++) {
+            $product_id = $request->product_id[$i];
+            $code = $request->code[$i];
+            $unit_price = $request->unit_price[$i];
+            $qty = $request->qty[$i];
+            $total_price = $request->total_price[$i];
 
-                Return_Product_Invoice::create([
-                    'vendor_id' => $product_id,
-                    'product_id' => $product_id,
-                    'invoice_id' => $invoice->id,
-                    'code' => $code,
-                    'unit_price' => $unit_price,
-                    'qty' => $qty,
-                    'total_price' => $total_price
-                ]);
+            Return_Product_Invoice::create([
+                'vendor_id' => $product_id,
+                'product_id' => $product_id,
+                'invoice_id' => $invoice->id,
+                'code' => $code,
+                'unit_price' => $unit_price,
+                'qty' => $qty,
+                'total_price' => $total_price
+            ]);
 
-                $old = StockProduct::where('id',$product_id)->first();
-                $old_qty = $old->total_purchase_qty;
-                $old_price = $old->product_unit_price;
-                $old_available_qty = $old->available_qty;
-                $new_qty = $request->qty[$i];
-                $new_price = $request->unit_price[$i];
+            @$old = StockProduct::where('id',$product_id)->first();
+            $old_qty = @$old->total_purchase_qty;
+            $old_price = @$old->product_unit_price;
+            $old_available_qty = @$old->available_qty;
+            $new_qty = $request->qty[$i];
+            $new_price = $request->unit_price[$i];
 
-                $main_qty = $old_qty - $new_qty;
-                // $average_price =  (($old_price * $old_available_qty) + ($new_price * $new_qty) / ($old_available_qty + $new_qty);
-                $new_available =  $old_available_qty - $new_qty;
-                StockProduct::find($product_id)->update([   // **** ******* Info**** don't update without protected fillable data----
-                    // 'total_purchase_qty' => $main_qty,
-                    // 'product_unit_price' => $average_price,
-                    'available_qty' => $new_available
-                ]);
+            $main_qty = $old_qty - $new_qty;
+            // $average_price =  (($old_price * $old_available_qty) + ($new_price * $new_qty) / ($old_available_qty + $new_qty);
+            $new_available =  $old_available_qty - $new_qty;
+            StockProduct::where('code',$code)->first()->update([   // **** ******* Info**** don't update without protected fillable data----
+                // 'total_purchase_qty' => $main_qty,
+                // 'product_unit_price' => $average_price,
+                'available_qty' => $new_available
+            ]);
 
         }
 
-        return redirect()->back()->with('message','Purchase Return invoice created successfully..');
+
+        @$main_account_update = Main_account::find(1);
+        $update = @$main_account_update->total_amount + $request->paid;
+        // dd(@$main_account_update->total_amount,$update);
+        if(@$main_account_update){
+
+            $main_account_update->update([
+                'total_amount' => $update,
+            ]);
+        }else{
+            $insert = new Main_account();
+            $insert->total_amount = $request->paid;
+            $insert->save();
+        }
+
+
+
+        return redirect('all-return-purchase-invoice')->with('message','Purchase Return invoice created successfully..');
     }
 
     public function returnPurchaseInvoiceEdit($id){

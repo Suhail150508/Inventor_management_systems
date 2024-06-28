@@ -83,32 +83,107 @@
         }
     }
     }
-</style>
 
-<ul class="breadcrumb">
-    <li>
-        <i class="icon-home"></i>
-        <a href="/">Home</a>
-        <i class="icon-angle-right"></i>
-    </li>
-    <li><a href="#">Invoices</a></li>
-</ul>
+    @media (min-width: 700px) {
+
+
+.form_section{
+    display: flex;
+    justify-content:center;
+     flex-wrap:wrap;
+     margin-top:3rem;
+}
+
+.discount{
+    float: right;
+    margin:4rem 2rem;
+    background-color:#d9d9ebc6;
+    padding:8px;
+    font-size: 1rem;
+}
+.d_para{
+    font-weight:bold;
+    font-size:1rem;
+}
+.form_inner{
+    margin: 0px 10px;
+}
+
+}
+
+.print{
+    /* margin-top:-3rem; */
+    padding:3px 20px;
+    font-size:1.3rem;
+}
+@media (max-width: 700px) {
+
+.form_section{
+    display: flex;
+    justify-content:column;
+     flex-wrap:wrap;
+     margin-top:3rem;
+     text-align: center;
+     margin-left: 5rem;
+}
+.form_inner{
+    margin-top: -10px;
+}
+
+.discount{
+    float: right;
+    margin:4rem 2rem;
+    background-color:#d9d9ebc6;
+    padding:8px;
+    width:35%;
+    font-size: 1rem;
+}
+.d_para{
+    font-weight:bold;
+    font-size:.9rem;
+}
+
+
+}
+
+@media print{
+    .print{
+        display: none;
+    }
+}
+</style>
 
 <div class="row-fluid sortable">
     <div class="box span12">
-        <div class="box-header" data-original-title>
+        {{-- <div class="box-header" data-original-title>
             <h2><i class="halflings-icon user"></i><span class="break"></span>Vendor Due Payment</h2>
+        </div> --}}
             {{-- <div class="box-icon">
                 <a href="/due-payment-invoice-create" class="" style="background-color: rgb(31, 73, 124);color:aliceblue;padding:6px;border-radius:10px"><i class="icon-plus"></i> Due Payment Create</a>
             </div> --}}
+
+        <div class="box-header" style="display: flex;justify-content:space-between">
+            <strong><i class="halflings-icon user"></i><span class="break"></span>Vendor Due Payment</strong>
+            <div></div>
+            <div></div>
+            <div></div>
+            <div></div>
+            <button type="button" class="action btn btn-secondary print" style="height: 30px" onclick="GetPrint()" >Print</button>
+            <div></div>
         </div>
 
+        <script>
+             function GetPrint(){
+                window.print();
+            }
+        </script>
 
 
 
-        <form action="{{ url('/due-vendor-payment') }}" method="GET" style="display: flex;justify-content:center; flex-wrap:wrap;margin-top:5rem">
+
+        <form  action="{{ url('/due-vendor-payment') }}" method="GET" style="display: flex;justify-content:center; flex-wrap:wrap;margin-top:5rem">
             @csrf
-            <div class=" col-md-1" style="margin: 0px 10px">
+            <div class=" form_inner col-md-1" >
                 <h4>Vendors</h4>
                 @php
                     $vendors = App\Models\Vendor::all();
@@ -121,13 +196,13 @@
                     @endforeach
                 </select>
             </div>
-            <div class="col-md-1" style="margin: 0px 10px">
+            <div class="form_inner col-md-1" >
                 <h4>From</h4>
                 <div class="">
                     <input type="date" name="date_from" id="date_from" placeholder="2018-07-03" value="{{ request()->input('date_from') }}">
                 </div>
             </div>
-            <div class="col-md-1" style="margin: 0px 10px">
+            <div class="form_inner col-md-1" >
                 <h4>To</h4>
                 <div class="">
                     <input type="date" name="date_to" id="date_to" placeholder="2018-07-03" value="{{ request()->input('date_to') }}">
@@ -229,7 +304,7 @@
                 </tr>
               </tbody>
           </table>
-                <div style="float: right;margin:4rem 2rem;background-color:#d9d9ebc6;padding:8px;width:21%;">
+                <div style="float: right;margin:4rem 2rem;background-color:#d9d9ebc6;padding:8px;width:20%;">
                     {{-- <p style="font-weight:bold;font-size:1rem">Total: {{ $total }}  </p> --}}
                     <p style="font-weight:bold;font-size:1rem">Total Paid: {{ $paid }} </p>
                 </div>

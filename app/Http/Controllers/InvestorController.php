@@ -8,6 +8,7 @@ use App\Models\Amount_invest;
 use App\Models\Amount_withdraw;
 use Barryvdh\DomPDF\Facade\Pdf;
 use App\Models\Investor_invoice;
+use App\Models\Main_account;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Redirect;
 
@@ -15,6 +16,10 @@ class InvestorController extends Controller
 {
 
     public function investor(){
+        $invests = Investor::all();
+        return view('investor.investors',compact('invests'));
+    }
+    public function investorReport(){
         $invests = Investor::all();
         return view('investor.investors',compact('invests'));
     }
@@ -41,7 +46,7 @@ class InvestorController extends Controller
 
         $investor_information->save();
 
-        return redirect()->back()->with('message','Investor created successfully..');
+        return redirect('investor')->with('message','Investor created successfully..');
     }
 
     public function invest(){
@@ -61,6 +66,21 @@ class InvestorController extends Controller
 
         $invest_amount->save();
 
+
+        @$main_account_update = Main_account::find(1);
+        $update = @$main_account_update->total_amount + $request->amount;
+        // dd(@$main_account_update->total_amount,$request->amount,$update);
+        if(@$main_account_update){
+
+            $main_account_update->update([
+                'total_amount' => $update
+            ]);
+        }else{
+            $insert = new Main_account();
+            $insert->total_amount = $request->amount;
+            $insert->save();
+        }
+
         // $invoice = new Investor_invoice();
         // $invoice->name = $request->name;
         // $invoice->amount = $request->amount;
@@ -68,7 +88,7 @@ class InvestorController extends Controller
         // $invoice->date = $request->date;
 
         // $invoice->save();
-        return redirect()->back()->with('message','Amount added successfully ');
+        return redirect('investor')->with('message','Amount added successfully ');
         // return redirect()->back()->with('message','Saved successfully..');
     }
     public function AmountReturn(Request $request)
@@ -82,46 +102,54 @@ class InvestorController extends Controller
 
         $invest_amount->save();
 
-        // $invoice = new Investor_invoice();
-        // $invoice->name = $request->name;
-        // $invoice->amount = $request->amount;
-        // $invoice->description = $request->description;
-        // $invoice->date = $request->date;
+        @$main_account_update = Main_account::find(1);
+        $update = @$main_account_update->total_amount - $request->return_amount;
 
-        // $invoice->save();
+        // dd(@$main_account_update->total_amount,$request->amount,$update);
 
-        return redirect()->back()->with('message','Amount returned successfully..');
+        if(@$main_account_update){
+
+            $main_account_update->update([
+                'total_amount' => $update
+            ]);
+        }else{
+            $insert = new Main_account();
+            $insert->total_amount = -$request->return_amount;
+            $insert->save();
+        }
+
+        return redirect('investor')->with('message','Amount returned successfully..');
     }
     public function investRrturn(){
         return view('investor.return_amount');
     }
-    public function returnAmount(Request $request)
-    {
-        $invest_amount = new Investor();
-        $invest_amount->name = $request->name;
-        $invest_amount->amount = $request->amount;
-        $invest_amount->description = $request->description;
-        $invest_amount->date = $request->date;
+    // public function returnAmount(Request $request)
+    // {
+    //     $invest_amount = new Investor();
+    //     $invest_amount->name = $request->name;
+    //     $invest_amount->amount = $request->return_amount;
+    //     $invest_amount->description = $request->description;
+    //     $invest_amount->date = $request->date;
 
-        $invest_amount->save();
+    //     $invest_amount->save();
 
-        $invoice = new Invoice();
-        $invoice->name = $request->name;
-        $invoice->amount = $request->amount;
-        $invoice->description = $request->description;
-        $invoice->date = $request->date;
+    //     $invoice = new Invoice();
+    //     $invoice->name = $request->name;
+    //     $invoice->amount = $request->amount;
+    //     $invoice->description = $request->description;
+    //     $invoice->date = $request->date;
 
-        $invoice->save();
+    //     $invoice->save();
 
-        return redirect()->back()->with('message','Saved successfully..');
-    }
+    //     return redirect()->back()->with('message','Saved successfully..');
+    // }
 
     public function InvestorStatement(){
 
         $investor_all_record_invests = Amount_invest::all();
         $investor_all_record_withdraws = Amount_withdraw::all();
 
-        $investor_all_amounts = $investor_all_record_invests->merge($investor_all_record_withdraws);
+        $investor_all_amounts = $investor_all_record_invests->concat($investor_all_record_withdraws);
 
         return view('investor.investor_statement', compact('investor_all_amounts'));
 
@@ -147,42 +175,8 @@ class InvestorController extends Controller
 
             return view('investor.investor_statement', compact('investor_return_amounts'));
         }
-        // elseif ($request->id && $request->record && $request->record == 'all_record') {
-        //     $investor_all_record_amounts = Amount_invest::all();
-        //     $investor_all_record_amounts = Amount_withdraw::all();
-
-
-
-
-        //     $selectedInvestorId = $request->input('id');
-        //     $selectedRecord = $request->input('record');
-        //     session(['selectedInvestorId' => $selectedInvestorId, 'selectedRecord' => $selectedRecord]);
-
-        //     return view('investor.investor_statement', compact('investor_all_record_amounts'));
-        // }
 
         elseif ($request->id && $request->record && $request->record == 'all_record') {
-            // Fetch data from both tables
-            // $investor_all_record_invests = Amount_invest::where('investor_id',$request->id)->get();
-            // $investor_all_record_withdraws = Amount_withdraw::where('investor_id',$request->id)->get();
-
-            // $joined_records = $investor_all_record_invests->merge($investor_all_record_withdraws)->sortBy('id');
-
-            // $joined_records = [
-            //     'investor_all_record_invests' => $investor_all_record_invests,
-            //     'investor_all_record_withdraws' => $investor_all_record_withdraws
-            // ];
-
-
-
-            // $investor_all_record_invests = Amount_invest::where('investor_id', $request->id)->get();
-            // $investor_all_record_withdraws = Amount_withdraw::where('investor_id', $request->id)->get();
-
-            // // Merge the collections
-            // $merged_records = $investor_all_record_invests->concat($investor_all_record_withdraws);
-
-            // // Group the merged collection by investor_id
-            // $grouped_records = $merged_records->groupBy('investor_id');
 
 
             $investor_all_record_invests = Amount_invest::where('investor_id', $request->id)->get();
@@ -194,20 +188,6 @@ class InvestorController extends Controller
             $joined_records = $merged_records->groupBy(function ($record) {
                 return $record->created_at->format('Y-m-d');
             });
-
-
-
-
-            // dd($grouped_records);
-
-            // // Merge the collections into a single collection
-            // $joined_records = $investor_all_record_amounts->join($investor_all_record_withdraws);
-
-
-            // $joined_records = DB::table('amount_invests')
-            // ->join('amount_withdraws', 'amount_invests.investor_id', '=', 'amount_withdraws.investor_id')
-            // ->select('amount_invests.id','amount_invests.amount','amount_invests.investor_id', 'amount_withdraws.return_amount')
-            // ->get();
 
 
 
@@ -228,7 +208,7 @@ class InvestorController extends Controller
             $investor_all_record_invests = Amount_invest::all();
             $investor_all_record_withdraws = Amount_withdraw::all();
 
-            $investor_all_amounts = $investor_all_record_invests->merge($investor_all_record_withdraws);
+            $investor_all_amounts = $investor_all_record_invests->concat($investor_all_record_withdraws);
             // dd($investor_all_amounts,'ddd');
 
             $selectedInvestorId = $request->input('id');

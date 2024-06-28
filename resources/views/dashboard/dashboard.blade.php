@@ -2,7 +2,25 @@
 
 @section('content')
 
+<style>
 
+@media (max-width: 700px) {
+    .row-fluid{
+
+    }
+
+    #content{
+        padding-left: 4rem;
+    }
+    .title_info h1{
+        font-size: 1.4rem;
+        /* width:80%; */
+        margin-right: 2rem;
+
+    }
+}
+
+</style>
 
 <body>
 		<!-- start: Header -->
@@ -22,7 +40,7 @@
 			<!-- start: Content -->
 			<div id="content" class="span10">
 
-				<div style="width:90%">
+				<div class="title_info" style="width:90%">
 					<h1 style="text-align: center">Sales Information</h1>
 				</div>
 
@@ -153,7 +171,7 @@
 
 				</div>
 
-				<div style="width:90%">
+				<div class="title_info" style="width:90%">
 					<h1 style="text-align: center">Purchase Information</h1>
 				</div>
 
@@ -176,7 +194,7 @@
                         @endforeach
 
 						@if ($purchase_total)
-							<div class="">
+							<div class="text-center" >
 								Today Purchase Amount
 							</div>
 							<div class="text-center" style="margin-top:2rem;font-size:1.4rem">{{ $purchase_total }}</div>
@@ -242,9 +260,9 @@
 					</div>
 
 					@php
-					use App\Models\Due_Paid_invoice;
+					use App\Models\Paid;
 
-						$due_purchase_payments = Due_Paid_invoice::whereDate('created_at', Carbon::today())->get();
+						$due_purchase_payments = Paid::whereDate('created_at', Carbon::today())->get();
 					// $return_customer = Return_Sales_Invoice::all();
                     $purchase_paid_amount =0;
 					@endphp
@@ -281,14 +299,14 @@
 
 				</div>
 
-				<div style="width:90%">
+				<div class="title_info" style="width:90%">
 					<h1 style="text-align: center">Main Account & Expence Information</h1>
 				</div>
 
 				<div class="row-fluid" style="margin-left:-3rem">
 					@php
 						use App\Models\Main_account;
-						$main_account = Main_account::find(1);
+						@$main_account = Main_account::find(1);
 						// $main_accounts = Main_account::whereDate('created_at', Carbon::today())->get();
                         // $main_acco =0;
 					@endphp
@@ -298,7 +316,7 @@
                         $main_acco += $main_account->total_amount;
                     @endphp
                     @endforeach --}}
-					@if ( $main_account->total_amount)
+					@if ( $main_account)
 						<a class="quick-button metro red span3">
 							{{-- <i class="icon-group"></i> --}}
 							<div class="">
@@ -312,13 +330,12 @@
 							<div class="">
 								Today Cash
 							</div>
-							<div class="text-center" style="margin:1rem;font-size:1.4rem">{{ 0 }}</div>
+							<div class="text-center" style="margin:1.3rem;font-size:1.4rem">{{ 0 }}</div>
 						</a>
 
 					@endif
-					@if ( $main_account->total_amount)
+					{{-- @if ( $main_account->total_amount)
 						<a class="quick-button metro blue span3">
-							{{-- <i class="icon-group"></i> --}}
 							<div class="">
 								Previous Cash
 							</div>
@@ -326,56 +343,52 @@
 						</a>
 					@else
 						<a class="quick-button metro blue span3">
-							{{-- <i class="icon-group"></i> --}}
 							<div class="">
 								Previous Cash
 							</div>
 							<div class="text-center" style="margin:1rem;font-size:1.4rem">{{ 0 }}</div>
 						</a>
 
-					@endif
+					@endif --}}
 
-						@php
-							use App\Models\Expence_invoice;
-							use App\Models\Expence_Category;
-							$expences = Expence_invoice::whereDate('created_at', Carbon::today())->get();
-							$expence_categories = Expence_Category::whereDate('created_at', Carbon::today())->get();
-							$expence_category =0;
-							$expence_amount =0;
-						@endphp
+                @php
+                    use App\Models\Expence_Invoice;
+                    use App\Models\Expence_Category;
+                    $expences = Expence_Invoice::whereDate('created_at', Carbon::today())->get();
+                    $expence_category = Expence_Category::latest()->first();
+                    $expence_amount =0;
 
-						@foreach ($expences as $expence)
-						@php
-							$expence_amount += $expence->amount;
-						@endphp
-						@endforeach
-						@foreach ($expence_categories as $category)
-						@php
-							$expence_category += $category->category;
-						@endphp
-						@endforeach
-						@if ($expence_amount)
-					<a class="quick-button metro pink  span3">
-						{{-- Today Expence {{ $expence->amount }} --}}
-							{{-- <i class="icon-group"></i> --}}
-							<div class="" >
-								Today Expence  <span style="margin:.01rem .3rem;font-size:1.2rem">{{ $expence_amount}}</span>
-								Expence Category  <span style="margin:.01rem .3rem;font-size:1.2rem">{{ $expence_category }}</span>
-							</div>
-							<div class="" style="margin:2rem;font-size:1.4rem"></div>
-					</a>
+                @endphp
+                  @foreach ($expences as $expence)
+                    @php
+                        $expence_amount += $expence->amount;
+                    @endphp
+                    @endforeach
 
-					@else
-						<a class="quick-button metro pink  span3">
-							{{-- <i class="icon-group"></i> --}}
-							<div class="" >
-								Today Expence  <span style="margin:.01rem .3rem;font-size:1.2rem">{{ 0 }}</span>
-								Expence Category  <span style="margin:.01rem .3rem;font-size:1.2rem">{{ 0 }}</span>
-							</div>
-							<div class="" style="margin:1.8rem;font-size:1.4rem"></div>
-						</a>
 
-					@endif
+
+                @if ($expence_amount)
+                <a class="quick-button metro pink  span3">
+                    {{-- Today Expence {{ $expence->amount }} --}}
+                        {{-- <i class="icon-group"></i> --}}
+                        <div class="" >
+                            Today Expence  <span style="margin:.01rem .3rem;font-size:1.2rem">{{ $expence_amount}}</span>
+                            Expence Category  <span style="margin:.01rem .3rem;font-size:1.2rem">{{ $expence_category->category }}</span>
+                        </div>
+                        <div class="" style="margin:1rem;font-size:1.4rem"></div>
+                </a>
+
+                @else
+                    <a class="quick-button metro pink  span3">
+                        {{-- <i class="icon-group"></i> --}}
+                        <div class="" >
+                        <div>	Today Expence  <span style="margin:.01rem .3rem;font-size:1.2rem">{{ 0 }}</span></div><br>
+                        <div>	Expence Category  <span style="margin:.01rem .3rem;font-size:1.2rem">{{ 0 }}</span> </div>
+                        </div>
+                        <div class="" style="margin:1rem;font-size:1.4rem"></div>
+                    </a>
+
+                @endif
 
 
 					{{-- @endif --}}

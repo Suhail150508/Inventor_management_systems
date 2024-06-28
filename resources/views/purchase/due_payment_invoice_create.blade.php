@@ -152,7 +152,7 @@ form .form-row .textarea{
 <div class="">
     <div class="box ">
         <div class="box-header">
-            <h2 style="font-weight: bold;font-size:1.2rem"><i class="halflings-icon user"></i><span class="break"></span>Purchase Paid Amount</h2>
+            <h2 style="font-weight: bold;font-size:1.2rem"><i class="halflings-icon user"></i><span class="break"></span>Due Payment Invoice</h2>
         </div>
 
         <div class="container">

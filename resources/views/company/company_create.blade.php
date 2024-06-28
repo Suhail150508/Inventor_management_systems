@@ -177,7 +177,7 @@ form .form-row .textarea{
                     </div>
                     <div class="input-data">
                         <label for=""> Contact </label>
-                        <input type="text" name="contact" class="form control">
+                        <input type="number" name="contact" class="form control">
                     </div>
                 </div>
 

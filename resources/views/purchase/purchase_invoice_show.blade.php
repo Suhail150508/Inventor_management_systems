@@ -5,400 +5,273 @@
     {{-- <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap/5.3.2/css/bootstrap.min.css" integrity="sha512-b2QcS5SsA8tZodcDtGRELiGv5SaKSk1vDHDaQRda0htPYWZ6046lr3kJ5bAAQdpV2mmA/4v0wQF9MyU6/pDIAg==" crossorigin="anonymous" referrerpolicy="no-referrer" /> --}}
     {{-- <link href="//netdna.bootstrapcdn.com/bootstrap/3.0.0/css/bootstrap.min.css" rel="stylesheet" id="bootstrap-css"> --}}
 <style>
-
-    body {
-    /* margin: 0;
-    padding: 0; */
-    font-family: Arial, sans-serif;
-    }
-
-    .card {
-    width: 100%;
-    margin: 50px auto;
-    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
-    border-radius: 10px;
-    }
-
-    .container {
-    padding: 20px;
-    }
-
-    .header {
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    }
-
-    .actions .btn {
-    padding: 10px 15px;
-    border: none;
-    border-radius: 5px;
-    cursor: pointer;
-    transition: background-color 0.3s ease;
-    }
-
-    .actions .btn:hover {
-    background-color: #66e4b4;
-    }
-
-    .logo {
-    text-align: center;
-    margin-bottom: 20px;
-    }
-
-    .address-details {
-    display: flex;
-    /* justify-content: space-between; */
-    }
-
-    .address,
-    .invoice-details {
-    flex: 1;
-    /* margin-left: 6% */
-    }
-
-    .address ul,
-    .invoice-details ul {
-    list-style: none;
-    padding: 0;
-    }
-
-    .invoice-details .badge {
-    background-color: #ffc107;
-    color: #000;
-    }
-
-    .table-container {
-    overflow-x: auto;
-    margin-bottom: 20px;
-    }
-
-    table {
-    width: 100%;
-    border-collapse: collapse;
-    }
-
-    thead {
+      thead {
     background-color: #84b0ca;
     color: #fff;
     }
-
-    thead th,
-    tbody td {
-    padding: 10px;
-    text-align: left;
+    .vendor_name{
+        font-size:1.6rem;
     }
-
-    .additional-info p {
-    margin-top: 80px;
+    .invoice_name{
+        font-size: 1.5rem;
     }
-
-    .total ul {
-    list-style: none;
-    padding: 0;
+    .form-control{
+        width:30%;
     }
-
-    .total span {
-    font-size: 25px;
-    font-weight: bold;
+    .small .form-control0{
+        width: 60px;
+        height:9px;
+        font-size: .6rem;
+        margin-left: 2rem;
     }
-
-    .purchase-info {
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
+    .small .form-control1{
+        width: 60px;
+        height:9px;
+        font-size: .6rem;
+        margin-left: 2.2rem;
     }
-
-    #pay-now-btn {
-    padding: 10px 20px;
-    background-color: #60bdf3;
-    color: #fff;
-    border: none;
-    border-radius: 5px;
-    cursor: pointer;
-    transition: background-color 0.3s ease;
+    .small .form-control2{
+        width: 60px;
+        height:9px;
+        font-size: .6rem;
+        margin-left: 4.2rem;
     }
-
-    #pay-now-btn:hover {
-    background-color: #3c8dbc;
+    .small .form-control3{
+        width: 60px;
+        height:9px;
+        font-size: .6rem;
+        margin-left: 4.4rem;
     }
-
-
-
-
-
-
-    /* body {
-    font-family: 'Roboto', sans-serif;
-    padding: 0;
-    margin: 0;
-    } */
-
-    small {
-    font-size: 12px;
-    color: rgba(0, 0, 0, 0.4);
+    .small .form-control4{
+        width: 60px;
+        height:9px;
+        font-size: .6rem;
+        margin-left: 4.6rem;
     }
+    .discount{
+        padding: 8px;
+    }
+    .small{
+        font-size: 1rem;
+    }
+    .status{
+        margin-top:5px;
+        font-size:1.2rem;
+    }
+    .btn{
+        font-size:1.2rem;
+    }
+    .table_input0{
+        width: 10rem;
+    }
+    .table_input1{
+        width:90px;
+    }
+    .table_input2{
+        width:110px;
+    }
+    .table_input3{
+        width:110px;
+    }
+    .table_input4{
+        width:110px;
+    }
+    .submit{
+        height: 30px;
+        width: 110px;
+        padding:6px 25px;
+        font-size:1.3rem;
+    }
+    .print{
+        position: absolute;
+        padding:6px 25px;
+        font-size:1.3rem;
+        margin-left:25rem;
+        width:100px;
+        height: 30px;
 
-    h1 {
-    text-align: center;
-    padding: 50px 0;
-    font-weight: 800;
-    margin: 0;
-    letter-spacing: -1px;
-    color: inherit;
-    font-size: 40px;
     }
-
-    h2 {
-    text-align: center;
-    font-size: 30px;
-    margin: 0;
-    font-weight: 300;
-    color: inherit;
-    padding: 50px;
+    .vendor_body{
+        width:60%;
     }
-
-    .center {
-    text-align: center;
-    }
-
-    /* NAVIGATION */
-    nav {
-    width: 80%;
-    margin: 0 auto;
-    background: #fff;
-    padding: 50px 0;
-    box-shadow: 0px 5px 0px #dedede;
-    }
-    nav ul {
-    list-style: none;
-    text-align: center;
-    }
-    nav ul li {
-    display: inline-block;
-    }
-    nav ul li a {
-    display: block;
-    padding: 15px;
-    text-decoration: none;
-    color: #aaa;
-    font-weight: 800;
-    text-transform: uppercase;
-    margin: 0 10px;
-    }
-    nav ul li a,
-    nav ul li a:after,
-    nav ul li a:before {
-    transition: all .5s;
-    }
-    nav ul li a:hover {
-    color: #555;
+    .vendor_part{
+        width:30%;
     }
 
-
-    /* stroke */
-    nav.stroke ul li a,
-    nav.fill ul li a {
-    position: relative;
-    }
-    nav.stroke ul li a:after,
-    nav.fill ul li a:after {
-    position: absolute;
-    bottom: 0;
-    left: 0;
-    right: 0;
-    margin: auto;
-    width: 0%;
-    content: '.';
-    color: transparent;
-    background: #aaa;
-    height: 1px;
-    }
-    nav.stroke ul li a:hover:after {
-    width: 100%;
-    }
-
-    nav.fill ul li a {
-    transition: all 2s;
-    }
-
-    nav.fill ul li a:after {
-    text-align: left;
-    content: '.';
-    margin: 0;
-    opacity: 0;
-    }
-    nav.fill ul li a:hover {
-    color: #fff;
-    z-index: 1;
-    }
-    nav.fill ul li a:hover:after {
-    z-index: -10;
-    animation: fill 1s forwards;
-    -webkit-animation: fill 1s forwards;
-    -moz-animation: fill 1s forwards;
-    opacity: 1;
-    }
-
-    /* Circle */
-    nav.circle ul li a {
-    position: relative;
-    overflow: hidden;
-    z-index: 1;
-    }
-    nav.circle ul li a:after {
-    display: block;
-    position: absolute;
-    margin: 0;
-    top: 0;
-    bottom: 0;
-    left: 0;
-    right: 0;
-    content: '.';
-    color: transparent;
-    width: 1px;
-    height: 1px;
-    border-radius: 50%;
-    background: transparent;
-    }
-    nav.circle ul li a:hover:after {
-    -webkit-animation: circle 1.5s ease-in forwards;
-    }
-
-    /* SHIFT */
-    nav.shift ul li a {
-    position:relative;
-    z-index: 1;
-    }
-    nav.shift ul li a:hover {
-    color: #91640F;
-    }
-    nav.shift ul li a:after {
-    display: block;
-    position: absolute;
-    top: 0;
-    left: 0;
-    bottom: 0;
-    right: 0;
-    margin: auto;
-    width: 100%;
-    height: 1px;
-    content: '.';
-    color: transparent;
-    background: #F1C40F;
-    border-radius: 3px;
-    visibility: none;
-    opacity: 0;
-    z-index: -1;
-    }
-    nav.shift ul li a:hover:after {
-    opacity: 1;
-    visibility: visible;
-    height: 100%;
-    }
-
-    .customer{
-            border:0px  white;
+    .invoice_part{
+            width:30%;
+            margin-top:-7rem;
         }
 
-    /* Keyframes */
-    @-webkit-keyframes fill {
-    0% {
-        width: 0%;
-        height: 1px;
+    .company_part{
+        padding:7px;
+        margin-left:-5rem;
     }
-    50% {
-        width: 100%;
-        height: 1px;
-    }
-    100% {
-        width: 100%;
-        height: 100%;
-        background: #333;
-    }
+    .company_image{
+        margin-bottom:2rem;
     }
 
-    /* Keyframes */
-    @-webkit-keyframes circle {
-    0% {
-        width: 1px;
-        top: 0;
-        left: 0;
-        bottom: 0;
-        right: 0;
-        margin: auto;
-        height: 1px;
-        z-index: -1;
-        background: #eee;
-        border-radius: 100%;
+    .dataContainer{
+        color:#000;
+        width:60%;
     }
-    100% {
-        background: #aaa;
-        height: 5000%;
-        width: 5000%;
-        z-index: -1;
-        top: 0;
-        bottom: 0;
-        left: 0;
-        right: 0;
-        margin: auto;
-        border-radius: 0;
+    @media (max-width: 700px) {
+        .vendor_name{
+            font-size:1rem;
+        }
+        .vendor_body{
+            width:100% !important;
+        }
+        .vendor_select{
+            width:70% !important;
+        }
+        .invoice_name{
+            font-size: .9rem;
+        }
+        .vendor_part{
+            width:30%;
+        }
+        .invoice_part{
+            width:30%;
+            margin-top:-7rem;
+        }
+        .company_part{
+            padding:3px;
+            margin-right:-1.5rem;
+        }
+        .dataContainer{
+            color:#000;
+            width:50%;
+        }
+        .table_input0{
+            width:85.4px;
+        }
+        .table_input1{
+            width:32px;
+        }
+        .table_input2{
+            width:37px;
+        }
+        .table_input3{
+            width:42px;
+        }
+        .table_input4{
+            width:42px;
+        }
+        .remove{
+            width:5px !important;
+            height:14px !important;
+            font-size:.8rem;
+        }
+
+        .small .form-control0{
+            width: 30px;
+            height:6px;
+            font-size: .7rem;
+            margin-left: 0.46rem;
+            }
+        .small .form-control1{
+            width: 30px;
+            height:6px;
+            font-size: .7rem;
+            margin-left: 0.56rem;
+        }
+        .small .form-control2{
+            width: 30px;
+            height:6px;
+            font-size: .7rem;
+            margin-left: 2.2rem;
+        }
+        .small .form-control3{
+            width: 30px;
+            height:6px;
+            font-size: .7rem;
+            margin-left: 2.37rem;
+        }
+        .small .form-control4{
+            width: 30px;
+            height:6px;
+            font-size: .7rem;
+            margin-left: 2.55rem;
+        }
+        .small{
+            font-size: .8rem;
+        }
+        .item{
+            font-size:.9rem;
+            border-radius:3px;
+        }
+        .status{
+            margin-top:5px;
+            font-size:.8rem;
+            width:60% ;
+        }
+        .discount{
+            padding: 4px;
+            width:40%;
+            text-align: center;
+        }
+        .print{
+            position: absolute;
+            padding:3px 10px;
+            font-size:.9rem;
+            margin-left:5rem;
+            height: 30px;
+            width: 60px;
+
+        }
+        .submit{
+            height: 30px;
+            width: 80px;
+            padding:3px 10px;
+            font-size:.8rem;
+        }
+
+
+
+        .container .text{
+            font-size: 30px;
+        }
+        .container form{
+            padding: 20px 0 0 30;
+        }
+        .container form .form-row{
+            display: block;
+        }
+        form .form-row .input-data{
+            margin-top: 50px !important;
+            width: 40%!important;
+        }
+        .submit-btn .input-data{
+            width: 60%!important;
+        }
+        .company_image{
+
+        }
     }
-    }
+
+
+
 
     @media print{
         .btn{
             display: none;
         }
-        /* .form-control{
-            border: 0px;
-        } */
-        input .form-control{
+        .form-control{
             border: 0px;
         }
-        .customer .form-controll{
+        .vendor_name{
+            display:none;
+        }
+        .float{
+            display: flex;
+        }
+        .header{
+            margin-top:-3rem;
+        }
+        #name{
             display: none;
         }
-        .customer{
-            border:2px solid #000;
-        }
-        .customer-heading {
-            /* display: block !important;
-            background-color:#aaa !important;
-            padding:4px; */
-            /* margin-top: -3rem; */
-            }
-            .form-controll2{
-                display: block;
-            }
-            .origin{
-                font-size: 2rem;
-                /* background-color: #aaa !important; */
-            }
-            .origin1{
-                background-color: #aaa !important;
-                height: 200px;
-                padding-top: 10px;
-            }
-            .first{
-                margin-right: -6rem;
-                width:300px;
-            }
-            h2{
-                margin-top:-15rem;
-                text-align: center;
-                /* font-size: 30px; */
-                /* margin: 35px; */
-                font-weight: 300;
-                color: tomato;
-                /* padding: 50px; */
-                /* width: 50px;
-                border-bottom:2px solid black; */
-            }
-            #dataContainer{
-                width:100px;
-            }
-
     }
 
 </style>
@@ -413,22 +286,25 @@
                 @csrf
                 <div style="width:95%;text-align:center">
                     @php
-                        $company = App\Models\Company::latest()->first();
+                        @$company = App\Models\Company::latest()->first();
                     @endphp
-                      <div style="">
-                            <img width="80" style="border-radius:25%" src="{{ URL::asset('/teacher/'.$company->logo) }}" alt="{{ $company->logo }}">
-
+                      <div class="company_image">
+                            <img width="80" style="border-radius:25%" src="{{ URL::asset('/teacher/'.@$company->logo) }}" alt="{{ @$company->logo }}">
+                            <button type="button" class="btn print" onclick="GetPrint()" >Print</button>
                     </div>
+                    <strong class="invoice_name">Purchase Invoice</strong>
+
 
                 </div>
-                <div class="header" style="display: flex;margin-top:3rem;margin-bottom:5rem;width:95%">
+                <div class="header" style="display: flex;justify-content:space-between;margin:3rem 1rem;width:92%">
 
-                    <div style="width:20%">
+                    <div class="vendor_part">
                         @php
                             $vendors = App\Models\Vendor::all();
                         @endphp
-                            <div style="width:60%">
-                                <select class="form-control"  name="vendor_id"  id="selectField" style="display:none">
+
+                            <div class="vendor_body">
+                                <select class="form-control vendor_select"  name="vendor_id"  id="selectField" style="display:none">
 
                                     <option style="" value=""></option>
                                     @foreach ($vendors as $vendor )
@@ -437,16 +313,16 @@
                                 </select>
                             </div>
 
-                            <div id="dataContainer" style="background-color: #aaa;color:#000">
+                            {{-- <div id="dataContainer">
                                 <p style="margin:1px;padding: 0px 5px" id="name"></p>
                                 <p style="margin:1px;padding: 0px 5px" id="email"></p>
                                 <p style="margin:1px;padding: 0px 5px" id="mobile"></p>
                                 <p style="margin:1px;padding: 0px 5px" id="address"></p>
-                            </div>
+                            </div> --}}
 
                             @if ($vendorss)
 
-                                <div id="dataContainer" style="margin: 2rem;color:#000;">
+                                <div id="dataContainer" >
                                     <strong>Vendors Information</strong>
                                     <p style="margin: 1px" id="name">{{ $vendorss->name ?? '' }}</p>
                                     <p style="margin: 1px" id="email">{{ $vendorss->email ?? '' }}</p>
@@ -466,22 +342,26 @@
                                 </div>
                             </div> --}}
                     </div>
-
-                    <div style="margin-top:-8rem;text-align:center">
-                        <strong style="font-size: 1.5rem;">Purchase Edit</strong>
+{{--
+                    <div class="invoice_part">
+                        <strong class="invoice_name"></strong>
                     </div>
-                    <div style="background-color:#aaa;padding:7px;">
+                    <div></div>
+                    <div></div>
+                    <div></div>
+                    <div></div> --}}
+                    <div class="company_part">
 
                         @php
-                            $company = App\Models\Company::latest()->first();
+                            @$company = App\Models\Company::latest()->first();
                         @endphp
 
 
                         <div style="">
 
-                                <h4 style="text-align: center;padding:0 .2rem">{{ $company->name }}</h4>
-                                <p style="text-align: center;padding:0 .2rem">{{ $company->email }}</p>
-                                <p style="text-align: center;padding:0 .2rem">{{ $company->address }}</p>
+                                <h4 style="text-align: center;padding:0 .2rem">{{ @$company->name }}</h4>
+                                <p style="text-align: center;padding:0 .2rem">{{ @$company->email }}</p>
+                                <p style="text-align: center;padding:0 .2rem">{{ @$company->address }}</p>
 
                         </div>
 
@@ -489,7 +369,7 @@
 
                 </div>
 
-                <table class="table table-hover table-white tableEstimate1" id="tableEstimate" style="width:95%">
+                <table class="table table-hover table-white tableEstimate1" id="tableEstimate" style="width:95%;">
                     <thead>
                         <tr>
                             <th class="col-sm-3">product</th>
@@ -510,7 +390,7 @@
                                 @endphp
                             <td style="display: flex">
 
-                                <select class="form-control" id="selectProduct" name="product_id[]"  style="width: 10rem">
+                                <select class="form-control table_input0" id="selectProduct" name="product_id[]">
                                     @foreach ($items as $item)
                                     <option value="{{ $item->id }}">{{ $item->name }}</option>
 
@@ -532,15 +412,15 @@
 
 
                             </td>
-                            <td><input class="form-control code"  style="width:130px" type="text"  name="code[]" value="{{ $edit->code }}"></td>
+                            <td><input class="form-control code table_input1"  type="text"  name="code[]" value="{{ $edit->code }}"></td>
 
                             <td>
-                                    <input class="form-control qty" style="width:130px" type="text"  name="qty[]" value="{{ $edit->qty }}">
+                                    <input class="form-control qty table_input2" type="text"  name="qty[]" value="{{ $edit->qty }}">
 
                             </td>
-                            <td><input class="form-control unit_price" style="width:130px" type="text"  name="unit_price[]" value="{{ $edit->unit_price }}"></td>
-                            <td><input class="form-control total_price" style="width:130px" type="text"  name="total_price[]" value="{{ $edit->total_price }}"></td>
-                        <td><a href="javascript:void(0)" class="btn btn-danger" title="Add" id="remove"><i class="icon-minus"></i></a>
+                            <td><input class="form-control unit_price table_input3" type="text"  name="unit_price[]" value="{{ $edit->unit_price }}"></td>
+                            <td><input class="form-control total_price table_input4" type="text"  name="total_price[]" value="{{ $edit->total_price }}"></td>
+                        <td><a href="javascript:void(0)" class="btn btn-danger remove" title="Add" id="remove" ><i class="icon-minus"></i></a>
                         </td>
                         </tr>
                         <input class="form-control code "  style="width:130px;display:none" type="text"  name="invoice_id" value="{{ $edit->invoice_id }}">
@@ -551,49 +431,49 @@
 
                 <div  style="margin:3rem .1rem;">
 
-                    <a href="javascript:void(0)" class="btn btn-success font-18" title="Add" id="addBtn" style="font-size:1.1rem"><i class="icon-plus"></i> Add Item</a>
+                    <a href="javascript:void(0)" class="btn btn-success item" title="Add" id="addBtn" style="font-size:1.1rem"><i class="icon-plus"></i> Add Item</a>
                 </div>
 
                 <div style="display: flex;justify-content:space-around">
                     <div></div>
-                    <div style="display:flex;">
-                        <strong style="margin-top:5px;font-size:1.2rem">Select Status</strong>
+                    <div class="status">
+                        <strong class="status_name">Select Status</strong>
                         <select class="form-control" name="status" id="status" required style="width:8rem;">
                             <option value="Paid" >Paid</option>
                         </select>
                     </div>
 
-                    <div style="background-color:#d9d9ebc6;padding:8px;">
-                        <p style="display:none">Sub Total1: <input type="text" id="subtotal1" style="width: 60px;height:20px"></p>
-                        <p style="display:none">Sub Total2: <input type="text" id="subtotal2" style="width: 60px;height:20px"></p>
+                    <div class="discount" style="background-color:#d9d9ebc6;padding:8px;">
+                        <p style="display:none">Sub Total1: <input type="text" id="subtotal1" ></p>
+                        <p style="display:none">Sub Total2: <input type="text" id="subtotal2" ></p>
                         <div>
 
                         </div>
                         <div>
-                            <small style="font-weight:bold;color:#000;font-size:1rem;">Sub Total: <input type="text" class="form-control" id="subtotal" name="sub_total" style="width: 60px;height:9px;margin-left:2rem" value="{{ $purchase_invoices->sub_total }}"></small>
+                            <small class="small" style="font-weight:bold;color:#000;">Sub Total: <input type="text" class="form-control0" id="subtotal" name="sub_total"  value="{{ $purchase_invoices->sub_total }}"></small>
 
                         </div>
                         <div>
-                            <small style="font-weight:bold;color:#000;font-size:1rem;padding-top:-1rem">Discount: <input type="text" class="form-control" id="discount" name="discount" style="width: 60px;height:9px;margin-left:2rem" value="{{ $purchase_invoices->discount }}"></small>
+                            <small class="small" style="font-weight:bold;color:#000;padding-top:-1rem">Discount: <input type="text" class="form-control1" id="discount" name="discount" value="{{ $purchase_invoices->discount }}"></small>
 
                         </div>
                         <div>
-                            <small style="font-weight:bold;color:#000;font-size:1rem;padding-top:-1rem">Total: <input type="text" class="form-control" id="total" name="total" style="width: 60px;height:9px;margin-left:4rem" value="{{ $purchase_invoices->total}}"></small>
+                            <small class="small" style="font-weight:bold;color:#000;padding-top:-1rem">Total: <input type="text" class="form-control2" id="total" name="total" value="{{ $purchase_invoices->total}}"></small>
 
                         </div>
                         <div>
-                            <small style="font-weight:bold;color:#000;font-size:1rem;padding-top:-1rem">Paid: <input type="text" class="form-control" id="paid" name="paid" style="width: 60px;height:9px;margin-left:4.3rem" value="{{ $purchase_invoices->paid }}"></small>
+                            <small class="small" style="font-weight:bold;color:#000;padding-top:-1rem">Paid: <input type="text" class="form-control3" id="paid" name="paid" value="{{ $purchase_invoices->paid }}"></small>
 
                         </div>
                         <div>
-                            <small style="font-weight:bold;color:#000;font-size:1rem;padding-top:-1rem">Due: <input type="text" class="form-control" id="due" name="due" style="width: 60px;height:9px;margin-left:4.5rem" value="{{ $purchase_invoices->due }}"></small>
+                            <small class="small" style="font-weight:bold;color:#000;padding-top:-1rem">Due: <input type="text" class="form-control4" id="due" name="due" value="{{ $purchase_invoices->due }}"></small>
 
                         </div>
                     </div>
                 </div>
 
-                <div style="text-align: center;">
-                    <button type="button" class="btn" style=" padding:6px 25px;font-size:1.3rem;" onclick="GetPrint()" class="btn btn-primary ">Print</button>
+                <div style="text-align: center;margin-top:3rem">
+                    {{-- <button type="submit"  class="btn btn-primary submit ">Update</button> --}}
                 </div>
 
 
@@ -932,18 +812,18 @@
             $("#tableEstimate tbody").append(`
             <tr id="R${rowIdx}">
                     <td>
-                        <select class="selectProduct form-control" name="product_id[]" style="width: 10rem" required>
+                        <select class="selectProduct form-control table_input0" name="product_id[]"  required>
                             <option value="">select</option>
                             @foreach ($products as $product )
                             <option value="{{ $product->id }}">{{ $product->name }}</option>
                             @endforeach
                         </select>
                     </td>
-                    <td><input class="form-control code" type="textarea" style="width:130px" name="code[]"></td>
-                    <td><input class="form-control " style="width:130px" type="textarea" id="qty" name="qty[]"></td>
-                    <td><input class="form-control " style="width:130px" type="textarea" id="unit_price" name="unit_price[]"></td>
-                    <td><input class="form-control " style="width:130px" type="textarea" id="total_price" name="total_price[]"></td>
-                    <td><a href="javascript:void(0)" class="btn btn-danger font-18 remove" title="Remove"><i class="icon-minus"></i></a></td>
+                    <td><input class="form-control table_input1 code" type="textarea"  name="code[]"></td>
+                    <td><input class="form-control table_input2 "  type="textarea" id="qty" name="qty[]"></td>
+                    <td><input class="form-control table_input3 "  type="textarea" id="unit_price" name="unit_price[]"></td>
+                    <td><input class="form-control table_input4 "  type="textarea" id="total_price" name="total_price[]"></td>
+                    <td><a href="javascript:void(0)" class="btn btn-danger remove" title="Remove"><i class="icon-minus"></i></a></td>
                 </tr>
             `);
             rowIdx++;

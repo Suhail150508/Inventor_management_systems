@@ -155,6 +155,10 @@ form .form-row .textarea{
         </div>
 
         <div class="container">
+            <div style="width:20%;height:30px;background-color:#5d6162;border-radius:30px;">
+
+                <a style="color:white;margin:10px 20px;text-align:center" href="/add-category"> Create Category</a>
+            </div>
             <form action="{{ url('/expence-invoice-store') }}" method="POST">
                 @csrf
                <div class="form-row">

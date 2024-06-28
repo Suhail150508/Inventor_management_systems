@@ -55,7 +55,9 @@
             flex-basis: 25%;
         }
 
-        @media all and (max-width: 767px) {
+
+
+        @media all and (max-width: 700px) {
             .table-header {
             display: none;
             }
@@ -72,10 +74,10 @@
             }
             .col {
             display: flex;
-            padding: 10px 0;
+            padding: 1px 0;
             &:before {
                 color: #6C7A89;
-                padding-right: 10px;
+                padding-right: 1px;
                 content: attr(data-label);
                 flex-basis: 50%;
                 text-align: right;
@@ -83,13 +85,23 @@
             }
 
 
-            .break-word {
+            /* .break-word {
                 word-break: break-word !important;
                 overflow-wrap: anywhere !important;
-                color: red !important;
                 white-space: normal !important;
                 max-width: 100px !important;
                 display: inline-block !important;
+            } */
+            thead{
+                width:20%;
+            }
+            .th1{
+                word-break:break-word;
+                overflow:anywhere;
+
+            }
+            .center{
+                width:20px;
             }
 
             table {
@@ -102,17 +114,84 @@
                 padding: 8px !important;
                 text-align: left !important; /* Ensure text aligns properly within the header */
             }
+
         }
 
     }
+    @media (min-width: 700px) {
 
-    @media print{
+
+        .form_section{
+            display: flex;
+            justify-content:center;
+             flex-wrap:wrap;
+             margin-top:3rem;
+        }
+
+        .discount{
+            float: right;
+            margin:4rem 2rem;
+            background-color:#d9d9ebc6;
+            padding:8px;
+            font-size: 1rem;
+        }
+        .d_para{
+            font-weight:bold;
+            font-size:1rem;
+        }
+        .form_inner{
+            margin: 0px 10px;
+        }
+
+        .print{
+            /* margin-top:-3rem; */
+            padding:3px 20px;
+            font-size:1.3rem;
+        }
+
+    }
+    @media (max-width: 700px) {
+
+        .form_section{
+            display: flex;
+            justify-content:column;
+             flex-wrap:wrap;
+             margin-top:1.2rem;
+             text-align: center;
+             margin-left: 3rem;
+        }
+        .form_inner{
+            margin-top: -10px;
+        }
+
+        .discount{
+            float: right;
+            margin:4rem 2rem;
+            background-color:#d9d9ebc6;
+            padding:8px;
+            width:35%;
+            font-size: 1rem;
+        }
+        .d_para{
+            font-weight:bold;
+            font-size:.9rem;
+        }
+        /* .print{
+            margin-top:-5rem;
+            padding:4px 17px;
+            font-size:1.2rem;
+        } */
+        .box-header h2{
+            font-size:1rem;
+        }
+
+
+    }
+
+    /* @media print{
         .btn{
             display: none;
         }
-        /* .form-control{
-            border: 0px;
-        } */
         input .form-control{
             border: 0px;
         }
@@ -123,17 +202,12 @@
             border:2px solid #000;
         }
         .customer-heading {
-            /* display: block !important;
-            background-color:#aaa !important;
-            padding:4px; */
-            /* margin-top: -3rem; */
             }
             .form-controll2{
                 display: block;
             }
             .origin{
                 font-size: 2rem;
-                /* background-color: #aaa !important; */
             }
             .origin1{
                 background-color: #aaa !important;
@@ -147,13 +221,8 @@
             h2{
                 margin-top:-15rem;
                 text-align: center;
-                /* font-size: 30px; */
-                /* margin: 35px; */
                 font-weight: 300;
                 color: tomato;
-                /* padding: 50px; */
-                /* width: 50px;
-                border-bottom:2px solid black; */
             }
             #dataContainer{
                 width:100px;
@@ -170,7 +239,70 @@
 
             }
 
+    } */
+
+    @media print {
+    .btn {
+        display: none;
     }
+    /* Correct the input field selector */
+    .form-control {
+        border: 0px;
+    }
+    /* Ensure correct class naming */
+    .customer .form-control {
+        display: none;
+    }
+    .customer {
+        border: 2px solid #000;
+    }
+    .customer-heading {
+        /* Uncomment and modify if needed
+        display: block !important;
+        background-color: #aaa !important;
+        padding: 4px;
+        margin-top: -3rem;
+        */
+    }
+    .form-control2 {
+        display: block;
+    }
+    .origin {
+        font-size: 2rem;
+        /* Uncomment and modify if needed
+        background-color: #aaa !important;
+        */
+    }
+    .origin1 {
+        background-color: #aaa !important;
+        height: 200px;
+        padding-top: 10px;
+    }
+    .first {
+        margin-right: -6rem;
+        width: 300px;
+    }
+    h2 {
+        margin-top: -15rem;
+        text-align: center;
+        font-weight: 300;
+        color: tomato;
+    }
+    #dataContainer {
+        width: 100px;
+    }
+    .form_section {
+        display: none;
+    }
+    .breadcrumb {
+        display: none;
+    }
+    .action {
+        display: none;
+    }
+}
+
+
 </style>
 
 <ul class="breadcrumb">
@@ -184,19 +316,22 @@
 
 <div class="row-fluid sortable">
     <div class="box span12">
-        <div class="box-header" data-original-title>
+        <div class="box-header" data-original-title style="display: flex;justify-content:space-between">
             <h2><i class="halflings-icon user"></i><span class="break"></span>Purchase Invoices</h2>
             {{-- <div class="box-icon">
                 <a href="/purchase_invoice" class="" style="background-color: rgb(31, 73, 124);color:aliceblue;padding:6px;border-radius:10px"><i class="icon-plus"></i> Create Purchase</a>
             </div> --}}
+            <div style="float: right;margin-right:2rem;">
+                <button type="button" class="btn print"  onclick="GetPrint()">Print</button>
+            </div>
         </div>
 
 
         <div class="form_section">
 
-            <form action="{{ url('/search-purchase-invoice') }}" method="GET" style="display: flex;justify-content:center; flex-wrap:wrap;margin-top:3rem">
+            <form class="form_section" action="{{ url('/search-purchase-invoice') }}" method="GET">
                 @csrf
-                <div class=" col-md-1" style="margin: 0px 10px">
+                <div class="form_inner col-md-1" >
                     <h4>Vendors</h4>
                     @php
                         $vendors = App\Models\Vendor::all();
@@ -209,13 +344,13 @@
                         @endforeach
                     </select>
                 </div>
-                <div class="col-md-1" style="margin: 0px 10px">
+                <div class="form_inner col-md-1" >
                     <h4>From</h4>
                     <div class="">
                         <input type="date" name="date_from" id="date_from" placeholder="2018-07-03" value="{{ request()->input('date_from') }}">
                     </div>
                 </div>
-                <div class="col-md-1" style="margin: 0px 10px">
+                <div class="form_inner col-md-1" >
                     <h4>To</h4>
                     <div class="">
                         <input type="date" name="date_to" id="date_to" placeholder="2018-07-03" value="{{ request()->input('date_to') }}">
@@ -237,16 +372,16 @@
             <table class="table table-striped table-bordered bootstrap-datatable datatable">
               <thead>
                   <tr>
-                      <th style="word-break:break-word;overflow:anywhere">Invoice Id</th>
-                      <th style="word-break:break-word;overflow:anywhere">Vendor Id</th>
-                      <th style="word-break:break-word;overflow:anywhere">Sub Total</th>
-                      <th style="word-break:break-word;overflow:anywhere">Discount</th>
-                      <th style="word-break:break-word;overflow:anywhere">Total</th>
-                      <th style="word-break:break-word;overflow:anywhere">Paid</th>
-                      <th style="word-break:break-word;overflow:anywhere">Due</th>
-                      <th style="word-break:break-word;overflow:anywhere">Status</th>
-                      <th style="word-break:break-word;overflow:anywhere">Date</th>
-                      <th class="action" style="word-break:break-word;overflow:anywhere">Actions</th>
+                      <th class="th1">Invoice Id</th>
+                      <th class="th1">Vendor Id</th>
+                      <th class="th1">Sub Total</th>
+                      <th class="th1">Discount</th>
+                      <th class="th1">Total</th>
+                      <th class="th1">Paid</th>
+                      <th class="th1">Due</th>
+                      <th class="th1">Status</th>
+                      <th class="th1">Date</th>
+                      <th class="action">Actions</th>
                   </tr>
               </thead>
 
@@ -282,12 +417,12 @@
                         <td class="action">
                             <div class="span2">
                                 @if ($invoice->status && $invoice->status == 'Paid')
-                                    <a class="btn btn-info" href="{{ url('/purchase-invoice-show/'.$invoice->id) }}" style="margin-left:.1rem; border-radius: 25%;">
-                                        <i class=" white icon-eye-open"></i>
+                                    <a class="btn btn-info" href="{{ url('/purchase-invoice-show/'.$invoice->id) }}" style="margin-left:.1rem;">
+                                        <i class=" white icon-eye-open" style="width:15px;height:19px"></i>
                                     </a>
                                 @else
                                     <a class="btn btn-info" href="{{ url('/purchase-invoice-edit/'.$invoice->id) }}" style="margin-left:.1rem; border-radius: 25%;">
-                                        <i class="halflings-icon white edit"></i>
+                                        <i class="halflings-icon white edit" style="width:15px;height:19px"></i>
                                     </a>
                                 @endif
                             </div>
@@ -303,12 +438,12 @@
                 <h3 style="text-align: center; margin:2rem 0px">Due Paid Information</h3>
               <thead>
                   <tr>
-                      <th tstyle="word-break:break-word;overflow:anywhere;max-width:100px">Invoice Id</th>
-                      <th tstyle="word-break:break-word;overflow:anywhere;max-width:100px">Vendor Id</th>
-                      <th tstyle="word-break:break-word;overflow:anywhere;max-width:100px">Paid Amount</th>
-                      <th tstyle="word-break:break-word;overflow:anywhere;max-width:100px">Discount</th>
-                      <th tstyle="word-break:break-word;overflow:anywhere;max-width:100px">Discription</th>
-                      <th tstyle="word-break:break-word;overflow:anywhere;max-width:100px">Date</th>
+                      <th >Invoice Id</th>
+                      <th >Vendor Id</th>
+                      <th >Paid Amount</th>
+                      <th >Discount</th>
+                      <th >Discription</th>
+                      <th >Date</th>
                       {{-- <th tstyle="word-break:break-word;overflow:anywhere;max-width:100px">Actions</th> --}}
                   </tr>
               </thead>
@@ -356,18 +491,14 @@
             $total_discount = $discount_invoice + $discount;
 
           @endphp
-            <div style="float: right;margin:4rem 2rem;background-color:#d9d9ebc6;padding:8px;width:21%;">
-                <p style="font-weight:bold;font-size:1rem">Invoice Total: {{ $total }}  </p>
-                <p style="font-weight:bold;font-size:1rem">Total Discount: {{ $total_discount }}  </p>
-                <p style="font-weight:bold;font-size:1rem">Total Paid: {{ $total_paid }} </p>
-                <p style="font-weight:bold;font-size:1rem">Total Due: {{ $total_due }} </p>
+            <div class="discount">
+                <p class="d_para">Invoice Total: {{ $total }}  </p>
+                <p class="d_para">Total Discount: {{ $total_discount }}  </p>
+                <p class="d_para">Total Paid: {{ $total_paid }} </p>
+                <p class="d_para">Total Due: {{ $total_due }} </p>
             </div>
         </div>
     </div>
-</div>
-
-<div style="text-align: center;">
-    <button type="button" class="btn" style=" padding:6px 25px;font-size:1.3rem;" onclick="GetPrint()" class="btn btn-primary ">Print</button>
 </div>
 
 

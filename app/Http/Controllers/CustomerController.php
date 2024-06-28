@@ -16,18 +16,22 @@ class CustomerController extends Controller
     $customers = Customer::all();
     return view('customer.All_customer',compact('customers'));
    }
+   public function customersReport(){
+    $customers = Customer::all();
+    return view('customer.All_customer',compact('customers'));
+   }
    public function customerCreate(){
     return view('customer.customer_create');
    }
 
    public function customerStore(Request $request)
    {
-        $request->validate([
-            'name' => 'required|string|max:255',
-            'email' => 'required|email|max:255|unique:users,email',
-            'mobile' => 'required|string|min:10|max:15',
-            'image' => 'nullable|image|mimes:jpg,jpeg,png|max:2048',
-        ]);
+        // $request->validate([
+        //     'name' => 'required|string|max:255',
+        //     'email' => 'required|email|max:255|unique:users,email',
+        //     'mobile' => 'required|string|min:10|max:15',
+        //     'image' => 'nullable|image|mimes:jpg,jpeg,png|max:2048',
+        // ]);
 
        $customer_information = new Customer();
        $customer_information->name = $request->name;

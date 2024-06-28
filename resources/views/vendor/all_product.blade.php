@@ -3,8 +3,7 @@
 @section('content')
 
 <style>
-
-    body {
+  body {
     font-family: 'lato', sans-serif;
     }
     .container {
@@ -25,202 +24,277 @@
     }
 
     .responsive-table {
-    li {
-        border-radius: 3px;
-        padding: 25px 30px;
-        display: flex;
-        justify-content: space-between;
-        margin-bottom: 15px;
-    }
-    .table-header {
-        background-color: #95A5A6;
-        font-size: 14px;
-        text-transform: uppercase;
-        letter-spacing: 0.03em;
-    }
-    .table-row {
-        background-color: #ffffff;
-        box-shadow: 0px 0px 9px 0px rgba(0,0,0,0.1);
-    }
-    .col-1 {
-        flex-basis: 10%;
-    }
-    .col-2 {
-        flex-basis: 40%;
-    }
-    .col-3 {
-        flex-basis: 25%;
-    }
-    .col-4 {
-        flex-basis: 25%;
-    }
-
-    @media all and (max-width: 767px) {
-        .table-header {
-        display: none;
-        }
-        .table-row{
-
-        }
         li {
-        display: block;
+            border-radius: 3px;
+            padding: 25px 30px;
+            display: flex;
+            justify-content: space-between;
+            margin-bottom: 15px;
         }
-        .col {
+        .table-header {
+            background-color: #95A5A6;
+            font-size: 14px;
+            text-transform: uppercase;
+            letter-spacing: 0.03em;
+        }
+        .table-row {
+            background-color: #ffffff;
+            box-shadow: 0px 0px 9px 0px rgba(0,0,0,0.1);
+        }
+        .col-1 {
+            flex-basis: 10%;
+        }
+        .col-2 {
+            flex-basis: 40%;
+        }
+        .col-3 {
+            flex-basis: 25%;
+        }
+        .col-4 {
+            flex-basis: 25%;
+        }
 
-        flex-basis: 100%;
 
-        }
-        .col {
-        display: flex;
-        padding: 10px 0;
-        &:before {
-            color: #6C7A89;
-            padding-right: 10px;
-            content: attr(data-label);
-            flex-basis: 50%;
-            text-align: right;
-        }
-        }
+
+        .vendor_name{
+        font-size:1.6rem;
+    }
+    .invoice_name{
+        font-size: 1.5rem;
+    }
+    .form-control{
+        width:30%;
+    }
+    .small .form-control0{
+        width: 60px;
+        height:9px;
+        font-size: .6rem;
+        margin-left: 2rem;
+    }
+    .small .form-control1{
+        width: 60px;
+        height:9px;
+        font-size: .6rem;
+        margin-left: 2.2rem;
+    }
+    .small .form-control2{
+        width: 60px;
+        height:9px;
+        font-size: .6rem;
+        margin-left: 4.2rem;
+    }
+    .small .form-control3{
+        width: 60px;
+        height:9px;
+        font-size: .6rem;
+        margin-left: 4.4rem;
+    }
+    .small .form-control4{
+        width: 60px;
+        height:9px;
+        font-size: .6rem;
+        margin-left: 4.6rem;
+    }
+    .discount{
+        padding: 8px;
+    }
+    .small{
+        font-size: 1rem;
+    }
+    .status{
+        margin-top:5px;
+        font-size:1.2rem;
+    }
+    .btn{
+        font-size:1.2rem;
+    }
+    .table_input0{
+        width: 10rem;
+    }
+    .table_input1{
+        width:90px;
+    }
+    .table_input2{
+        width:110px;
+    }
+    .table_input3{
+        width:110px;
+    }
+    .table_input4{
+        width:110px;
+    }
+    .submit{
+        height: 30px;
+        width: 110px;
+        padding:6px 25px;
+        font-size:1.3rem;
+    }
+    .print{
+        padding:6px 25px;
+        font-size:1.3rem;
+        margin-left:5rem;
+        width:100px;
+        height: 30px;
+
+    }
+    .vendor_body{
+        width:60%;
+    }
+    .vendor_part{
+        width:30%;
     }
 
-    body{
-    align-items: center;
-    /* justify-content: center; */
-    min-height: 100vh;
-    padding: 10px;
-    font-family: 'Poppins', sans-serif;
-    /* background: linear-gradient(115deg, #56d8e4 10%, #9f01ea 90%); */
+    .invoice_part{
+            width:30%;
+            margin-top:-7rem;
+        }
+
+    .company_part{
+        padding:7px;
+        margin-left:-5rem;
     }
-    .container{
-    max-width: 800px;
-    background: #fff;
-    width: 800px;
-    padding: 25px 40px 10px 40px;
-    box-shadow: 0px 0px 10px rgba(0,0,0,0.1);
+    .company_image{
+        margin-bottom:2rem;
     }
-    .container .text{
-    text-align: center;
-    font-size: 41px;
-    font-weight: 600;
-    font-family: 'Poppins', sans-serif;
-    background: -webkit-linear-gradient(right, #56d8e4, #9f01ea, #56d8e4, #9f01ea);
-    -webkit-background-clip: text;
-    -webkit-text-fill-color: transparent;
+    .dataContainer{
+        color:#000;
+        width:60%;
     }
-    .container form{
-    padding: 30px 0 0 0;
-    }
-    .container form .form-row{
-    display: flex;
-    margin: 32px 0;
-    }
-    form .form-row .input-data{
-    width: 100%;
-    height: 40px;
-    margin: 0 20px;
-    position: relative;
-    }
-    form .form-row .textarea{
-    height: 70px;
-    }
-    .input-data input,
-    .textarea textarea{
-    display: block;
-    width: 100%;
-    height: 100%;
-    border: none;
-    font-size: 17px;
-    border-bottom: 2px solid rgba(0,0,0, 0.12);
-    }
-    .input-data input:focus ~ label, .textarea textarea:focus ~ label,
-    .input-data input:valid ~ label, .textarea textarea:valid ~ label{
-    transform: translateY(-20px);
-    font-size: 14px;
-    color: #3498db;
-    }
-    .textarea textarea{
-    resize: none;
-    padding-top: 10px;
-    }
-    .input-data label{
-    position: absolute;
-    pointer-events: none;
-    bottom: 10px;
-    font-size: 16px;
-    transition: all 0.3s ease;
-    }
-    .textarea label{
-    width: 100%;
-    bottom: 40px;
-    background: #fff;
-    }
-    .input-data .underline{
-    position: absolute;
-    bottom: 0;
-    height: 2px;
-    width: 100%;
-    }
-    .input-data .underline:before{
-    position: absolute;
-    content: "";
-    height: 2px;
-    width: 100%;
-    background: #3498db;
-    transform: scaleX(0);
-    transform-origin: center;
-    transition: transform 0.3s ease;
-    }
-    .input-data input:focus ~ .underline:before,
-    .input-data input:valid ~ .underline:before,
-    .textarea textarea:focus ~ .underline:before,
-    .textarea textarea:valid ~ .underline:before{
-    transform: scale(1);
-    }
-    .submit-btn .input-data{
-    overflow: hidden;
-    height: 45px!important;
-    width: 25%!important;
-    }
-    .submit-btn .input-data .inner{
-    height: 100%;
-    width: 300%;
-    position: absolute;
-    left: -100%;
-    background: -webkit-linear-gradient(right, #56d8e4, #9f01ea, #56d8e4, #9f01ea);
-    transition: all 0.4s;
-    }
-    .submit-btn .input-data:hover .inner{
-    left: 0;
-    }
-    .submit-btn .input-data input{
-    background: none;
-    border: none;
-    color: #fff;
-    font-size: 17px;
-    font-weight: 500;
-    text-transform: uppercase;
-    letter-spacing: 1px;
-    cursor: pointer;
-    position: relative;
-    z-index: 2;
     }
     @media (max-width: 700px) {
-    .container .text{
-        font-size: 30px;
+       thead .th_table{
+            font-size: .5rem;
+        }
+        .vendor_name{
+            font-size:1rem;
+        }
+        .vendor_body{
+            width:100% !important;
+        }
+        .vendor_select{
+            width:70% !important;
+        }
+        .invoice_name{
+            font-size: .9rem;
+        }
+        .vendor_part{
+            width:30%;
+        }
+        .invoice_part{
+            width:30%;
+            margin-top:-7rem;
+        }
+        .company_part{
+            padding:3px;
+            margin-right:-1.5rem;
+        }
+        .dataContainer{
+            color:#000;
+            width:50%;
+        }
+        .table_input0{
+            width:85.4px;
+        }
+        .table_input1{
+            width:32px;
+        }
+        .table_input2{
+            width:37px;
+        }
+        .table_input3{
+            width:42px;
+        }
+        .table_input4{
+            width:42px;
+        }
+        .remove{
+            width:5px !important;
+            height:14px !important;
+            font-size:.8rem;
+        }
+
+        .small .form-control0{
+            width: 30px;
+            height:6px;
+            font-size: .7rem;
+            margin-left: 0.46rem;
+            }
+        .small .form-control1{
+            width: 30px;
+            height:6px;
+            font-size: .7rem;
+            margin-left: 0.56rem;
+        }
+        .small .form-control2{
+            width: 30px;
+            height:6px;
+            font-size: .7rem;
+            margin-left: 2.2rem;
+        }
+        .small .form-control3{
+            width: 30px;
+            height:6px;
+            font-size: .7rem;
+            margin-left: 2.37rem;
+        }
+        .small .form-control4{
+            width: 30px;
+            height:6px;
+            font-size: .7rem;
+            margin-left: 2.55rem;
+        }
+        .small{
+            font-size: .8rem;
+        }
+        .item{
+            font-size:.9rem;
+            border-radius:3px;
+        }
+        .status{
+            margin-top:5px;
+            font-size:.8rem;
+            width:60% ;
+        }
+        .discount{
+            padding: 4px;
+            width:40%;
+            text-align: center;
+        }
+        .print{
+            padding:3px 10px;
+            font-size:.9rem;
+            margin-left:3rem;
+            height: 30px;
+            width: 60px;
+
+        }
+        .submit{
+            height: 30px;
+            width: 80px;
+            padding:3px 10px;
+            font-size:.8rem;
+        }
+
+
+
+        .container .text{
+            font-size: 30px;
+        }
+        .container form{
+            padding: 20px 0 0 30;
+        }
+        .container form .form-row{
+            display: block;
+        }
+        form .form-row .input-data{
+            margin-top: 50px !important;
+            width: 40%!important;
+        }
+        .submit-btn .input-data{
+            width: 60%!important;
+        }
     }
-    .container form{
-        padding: 10px 0 0 0;
-    }
-    .container form .form-row{
-        display: block;
-    }
-    form .form-row .input-data{
-        margin: 35px 0!important;
-    }
-    .submit-btn .input-data{
-        width: 40%!important;
-    }
-    }
+
 </style>
 
 <ul class="breadcrumb">
@@ -249,18 +323,18 @@
             <table class="table table-striped table-bordered bootstrap-datatable datatable">
               <thead>
                   <tr>
-                      <th>Id</th>
-                      <th>Name</th>
-                      <th>Code</th>
-                      <th>Total Purchase Qty</th>
-                      <th>Product Unit Price</th>
-                      <th>Total Sold Qty</th>
-                      <th>Available Qty</th>
-                      <th>Reserve Qty</th>
-                      <th>Purchase Upcoming Qty</th>
-                      <th>Saleable Qty</th>
-                      <th>Stock Value</th>
-                      <th>Actions</th>
+                      <th class="th_table" >Id</th>
+                      <th class="th_table" >Name</th>
+                      <th class="th_table" >Code</th>
+                      <th class="th_table" >Total Purchase Qty</th>
+                      <th class="th_table" >Product Unit Price</th>
+                      <th class="th_table" >Total Sold Qty</th>
+                      <th class="th_table" >Available Qty</th>
+                      <th class="th_table" >Reserve Qty</th>
+                      <th class="th_table" >Purchase Upcoming Qty</th>
+                      <th class="th_table" >Saleable Qty</th>
+                      <th class="th_table" >Stock Value</th>
+                      {{-- <th>Actions</th> --}}
                   </tr>
               </thead>
               @php
@@ -275,22 +349,22 @@
 
                 @endphp
                     <tr>
-                        <td class="center">{{ $key+1 }}</td>
-                        <td class="center">{{ $product->name }}</td>
-                        {{-- <td class="center">
+                        <td class="center table_input0">{{ $key+1 }}</td>
+                        <td class="center table_input1">{{ $product->name }}</td>
+                        {{-- <td class="center table_input">
                             <img width="50" style="border-radius:25%" src="{{ URL::asset('/teacher/'.$product->image) }}" alt="{{ $product->image }}">
                         </td> --}}
-                        <td class="center">{{ $product->code }}</td>
-                        <td class="center">{{ $product->total_purchase_qty }}</td>
-                        <td class="center">{{ $product->product_unit_price }}</td>
-                        <td class="center">{{ $product->total_sold_qty }}</td>
-                        <td class="center">{{ $product->available_qty }}</td>
-                        <td class="center">{{ $product->reserve_qty }}</td>
-                        <td class="center">{{ $product->purchase_upcoming_qty }}</td>
-                        <td class="center">{{ $product->saleable_qty }}</td>
-                        <td class="center">{{ $product->product_unit_price * $product->available_qty }}</td>
-                        <td class="center">
-                            <div class="span2">
+                        <td class="center table_input2">{{ $product->code }}</td>
+                        <td class="center table_input3">{{ $product->total_purchase_qty }}</td>
+                        <td class="center table_input4">{{ number_format($product->product_unit_price, 2) }}</td>
+                        <td class="center table_input">{{ $product->total_sold_qty }}</td>
+                        <td class="center table_input">{{ $product->available_qty }}</td>
+                        <td class="center table_input">{{ $product->reserve_qty }}</td>
+                        <td class="center table_input">{{ $product->purchase_upcoming_qty }}</td>
+                        <td class="center table_input">{{ $product->saleable_qty }}</td>
+                        <td class="center table_input">{{number_format($product->product_unit_price * $product->available_qty, 2) }}</td>
+                        <td class="center table_input">
+                            {{-- <div class="span2">
 
                                 <a class="btn btn-info" href="{{url('/product-edit/'.$product->id)}}" style="margin-left:.1rem;border-radius:25%">
                                     <i class="halflings-icon white edit"></i>
@@ -304,7 +378,7 @@
                                     <button type="submit" class="btn btn-danger"> <i class="halflings-icon white trash"></i></button>
 
                                 </form>
-                            </div>
+                            </div> --}}
 
                         </td>
                     </tr>
@@ -320,8 +394,8 @@
               $total_stock_value = $available_qties * $total_unit_price;
 
             @endphp
-              <div style="float: right;margin:4rem 2rem;background-color:#d9d9ebc6;padding:8px;width:25%;">
-                  <p style="font-weight:bold;font-size:1rem">Total Stock Value: {{ $total_stock_value  }}  </p>
+              <div class="discount" style="float: right;margin:4rem 2rem;background-color:#d9d9ebc6;padding:8px;width:30%;">
+                  <p style="font-weight:bold;font-size:1rem">Total Stock Value: {{number_format($total_stock_value, 2) }}  </p>
               </div>
           </div>
 

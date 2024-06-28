@@ -540,7 +540,6 @@ form .form-row .textarea{
 
 </style>
 
-</head>
 <body>
     <div class="container card" style="height:100%;width:90%">
         <div class="card-body">
@@ -748,6 +747,8 @@ form .form-row .textarea{
                     <tbody>
                         @foreach ($investor_all_amounts as $investor_all_amount)
                         {{-- @dd($investor_all_amount->id); --}}
+
+
                             <tr>
                                 <td>{{ $investor_all_amount->id }}</td>
                                 @php
@@ -781,7 +782,7 @@ form .form-row .textarea{
                 </div>
 
 
-                <div style="float: right;text-align:center">
+                <div  style="float: right;text-align:center">
 
                     <div class="additional-info">
                         <p>Total Calculation </p>
@@ -861,10 +862,14 @@ form .form-row .textarea{
     </div>
     <div style="text-align:center">
         {{-- <button type="button" class="btn btn-secondary" onclick="GetPrint()" style="width:10%">print</button> --}}
-        <button type="button" style=" padding:6px 25px;font-size:2.2rem;margin-left:5rem" onclick="GetPrint()" class="btn btn-primary ">Print</button>
+        <button type="button" style=" padding:6px 25px;font-size:1.3rem;margin-left:5rem" onclick="GetPrint()" class="btn btn-secondary ">Print</button>
 
     </div>
 </body>
-{{-- </html> --}}
+<script>
+    function GetPrint(){
+       window.print();
+   }
+</script>
 
 @endsection

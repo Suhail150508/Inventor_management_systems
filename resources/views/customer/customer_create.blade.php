@@ -245,7 +245,7 @@ form .form-row .textarea{
                 @csrf
                <div class="form-row">
                   <div class="input-data">
-                  <input type="text" class="form-control" name="name">
+                  <input type="text" class="form-control" name="name"  required>
                      {{-- <div class="underline"></div> --}}
                      <label for="">Name</label>
                   </div>
@@ -257,14 +257,14 @@ form .form-row .textarea{
                </div>
                <div class="form-row">
                    <div class="input-data">
-                       <input type="text" class="form-control" name="mobile">
+                       <input type="text" class="form-control" name="mobile" required>
                        {{-- <div class="underline"></div> --}}
                        <label for="">Mobile</label>
                     </div>
                     <div class="input-data">
                         <input type="file" class="form-control" accept="image/jpg, image/jpeg, image/png" name="image"  style="width:70%;padding:1rem;border:2px solid black">
                         {{-- <div class="underline"></div> --}}
-                        <label for="">Vendor_Origin</label>
+                        {{-- <label for="">Vendor_Origin</label> --}}
                     </div>
                 </div>
                <div class="form-row">

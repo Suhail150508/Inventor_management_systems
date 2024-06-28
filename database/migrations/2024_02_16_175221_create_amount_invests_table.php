@@ -14,6 +14,7 @@ return new class extends Migration
         Schema::create('amount_invests', function (Blueprint $table) {
             $table->bigIncrements('id');
             $table->string('name')->nullable();
+            $table->integer('investor_id')->nullable();
             $table->double('amount')->nullable();
             $table->dateTime('date')->nullable();
             $table->string('category')->nullable();

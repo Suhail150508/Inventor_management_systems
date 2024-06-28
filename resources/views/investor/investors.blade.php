@@ -103,7 +103,7 @@ h2 {
             </div> --}}
         </div>
 
-        <div class="box-content">
+        <div class="box-content" style="margin-top:4rem">
             <table class="table table-striped table-bordered bootstrap-datatable datatable">
               <thead>
                   <tr>
@@ -153,13 +153,13 @@ h2 {
 
                             <div class="span2">
 
-                                <a class="btn btn-info" href="{{url('/investor-edit/'.$invest->id)}}" style="margin-left:.1rem;border-radius:25%">
+                                <a class="btn btn-info" href="{{url('/investor-edit/'.$invest->id)}}" >
                                     <i class="halflings-icon white edit"></i>
                                 </a>
                             </div>
 
                             <div class="span2">
-                                <form method="post" action="{{ url('/investor-delete/'.$invest->id ) }}" style="margin-left:1rem">
+                                <form method="post" action="{{ url('/investor-delete/'.$invest->id ) }}">
                                     @csrf
                                     @method('DELETE')
                                     <button type="submit" class="btn btn-danger"> <i class="halflings-icon white trash"></i></button>
