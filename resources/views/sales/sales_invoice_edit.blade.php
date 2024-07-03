@@ -596,6 +596,9 @@ body {
     .form-control{
         border: 0px;
     }
+    .table_input0{
+        width:185.4px;
+    }
 }
 
 </style>
@@ -907,7 +910,7 @@ body {
                 document.getElementById('selectField').addEventListener('change', function() {
                     var selectedValue = this.value;
                     $.ajax({
-                        url: "{{ route('salesdatafatch') }}",
+                        url: "{{ route('salesdatafatchdata') }}",
                         type: "GET",
                         data: { selectedValue: selectedValue },
                         success: function(response) {

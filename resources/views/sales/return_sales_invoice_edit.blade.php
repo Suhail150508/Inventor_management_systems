@@ -598,6 +598,9 @@ body {
     .form-control{
         border: 0px;
     }
+    .table_input0{
+        width:185.4px;
+    }
 }
 
 </style>

@@ -163,9 +163,19 @@ form .form-row .textarea{
                     <input type="text" name="name" required>
                     {{-- <div class="underline"></div> --}}
                   </div>
-                  <div class="input-data">
+                  {{-- <div class="input-data">
                       <label for="">Code</label>
                       <input type="text" name="code">
+                      <div>
+                        @error('code')
+                        <h4>{{  }}</h4>
+                        @enderror
+                      </div>
+                  </div> --}}
+
+                  <div class="input-data">
+                    <label for="">Year</label>
+                    <input type="text" name="year">
                   </div>
                   <div class="input-data">
                       <label for="">Origin</label>
@@ -187,13 +197,13 @@ form .form-row .textarea{
                         <label for=""> Sales Amount </label>
                         <input type="text" name="sales_amount" class="form control">
                     </div>
-                </div>
-
-               <div class="form-row">
                     <div class="input-data">
                         <label for=""> Quantity</label>
                         <input type="text" name="quantity">
                     </div>
+                </div>
+
+               <div class="form-row">
                     <div class="input-data">
                         <label for=""> Status </label>
                         <input type="text" name="status" class="form control">
@@ -205,6 +215,9 @@ form .form-row .textarea{
                     <div class="input-data">
                         <label for=""> Image </label>
                         <input  class="form control" type="file" accept="image/jpg, image/jpeg, image/png" name="image" >
+                    </div>
+                    <div class="input-data">
+                        
                     </div>
                 </div>
 

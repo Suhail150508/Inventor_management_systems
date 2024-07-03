@@ -98,6 +98,7 @@ Route::get('/search-sales-invoice',[CustomerController::class,'searchCustomer'])
 
 Route::get('/all-sales-invoice',[SalesProductController::class,'allSalesInv']);
 Route::get('/sales_invoice',[SalesProductController::class,'SalesInvoice']);
+Route::get('/sales-fetch-data-sale', [SalesProductController::class,'salesfetchData'])->name('salesdatafatchdata');
 Route::get('/sales-fetch-data', [SalesProductController::class,'fetchData'])->name('salesdatafatch');
 Route::post('/sales-invoice-store',[SalesProductController::class,'salesInvoiceStore']);
 Route::get('/sales-invoice-edit/{id}',[SalesProductController::class,'salesInvoiceEdit']);

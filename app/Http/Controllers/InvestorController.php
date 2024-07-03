@@ -67,7 +67,7 @@ class InvestorController extends Controller
         $invest_amount->save();
 
 
-        @$main_account_update = Main_account::find(1);
+        @$main_account_update = Main_account::first();
         $update = @$main_account_update->total_amount + $request->amount;
         // dd(@$main_account_update->total_amount,$request->amount,$update);
         if(@$main_account_update){
@@ -102,7 +102,7 @@ class InvestorController extends Controller
 
         $invest_amount->save();
 
-        @$main_account_update = Main_account::find(1);
+        @$main_account_update = Main_account::first();
         $update = @$main_account_update->total_amount - $request->return_amount;
 
         // dd(@$main_account_update->total_amount,$request->amount,$update);

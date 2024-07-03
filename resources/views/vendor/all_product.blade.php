@@ -338,14 +338,12 @@
                   </tr>
               </thead>
               @php
-                  $available_qties = 0;
-                  $total_unit_price = 0;
+                  $total_stock_amount = 0;
               @endphp
               <tbody>
                 @foreach ($products as $key => $product )
                 @php
-                    $available_qties += $product->available_qty;
-                    $total_unit_price += $product->product_unit_price;
+                   $total_stock_amount += $product->product_unit_price * $product->available_qty;
 
                 @endphp
                     <tr>
@@ -391,11 +389,9 @@
 
           @php
 
-              $total_stock_value = $available_qties * $total_unit_price;
-
             @endphp
               <div class="discount" style="float: right;margin:4rem 2rem;background-color:#d9d9ebc6;padding:8px;width:30%;">
-                  <p style="font-weight:bold;font-size:1rem">Total Stock Value: {{number_format($total_stock_value, 2) }}  </p>
+                  <p style="font-weight:bold;font-size:1rem">Total Stock Value: {{number_format($total_stock_amount, 2) }}  </p>
               </div>
           </div>
 
@@ -403,87 +399,6 @@
     </div>
 </div>
 
-
-
-    <!-- Modal -->
-    <div class="modal fade" id="exampleModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
-        <div class="modal-dialog" role="document">
-        <div class="modal-content">
-            <div class="modal-header">
-            <h5 class="modal-title" id="exampleModalLabel">
-                <div class="text">
-                    <h3 style="font-size:1.4rem"><i class="icon-plus"></i> Add Vendor</h3>
-                </div>
-            </h5>
-            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                <span aria-hidden="true">&times;</span>
-            </button>
-        </div>
-            <div class="modal-body">
-            {{-- ... --}}
-
-            <div class="container_modal" style="width:100%">
-
-                <form  action="{{ url('/product-create') }}" method="POST" enctype="multipart/form-data" style="text-align:center">
-                    @csrf
-
-                    <div class="form-row" style="display: flex;justify-content:space-between">
-                        <div class="input-data">
-                            <label for="">Name</label>
-                            <input type="text" name="name" required>
-                            <div class="underline"></div>
-                        </div>
-
-                        <div class="input-data">
-                            <label for="">Code</label>
-                            <input type="number" name="code" required>
-                            {{-- <div class="underline"></div> --}}
-                        </div>
-                    </div>
-                    <div class="form-row" style="display: flex;justify-content:space-between">
-
-                        <div class="data">
-                            <label for="">Product Origin</label>
-                            <input type="text" name="origin" >
-
-                            {{-- <div class="underline"></div> --}}
-                            {{-- <label for="">Date</label> --}}
-                        </div>
-                        <div class="form-row">
-                            <label for=""> Year </label>
-                            <input type="text" name="year" class="form control">
-                        </div>
-                    </div>
-                    <div class="form-row" style="display: flex;justify-content:space-between">
-                        <div class="form-row">
-                            <label for=""> Size </label>
-                            <input type="text" name="size" class="form control">
-                        </div>
-                        <div class="form-row">
-                            <label for=""> Image </label>
-                            <input type="file" accept="image/jpg, image/jpeg, image/png" name="image"  class="form control">
-                        </div>
-                    </div>
-
-
-                        <div class="form-row submit-btn">
-                            <div class="input-data">
-                                <div class="inner">
-
-                                </div>
-                                <input class="btn btn-primary" type="submit" value="submit">
-                            </div>
-                        </div>
-                </form>
-
-            </div>
-
-
-            </div>
-        </div>
-        </div>
-    </div>
-    <!-- Modal end -->
 
 
 

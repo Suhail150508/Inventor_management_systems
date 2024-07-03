@@ -106,10 +106,21 @@ class VendorController extends Controller
         return view('vendor.create_purchase_product');
     }
 
+    private function generateUniqueCode() {
+        do {
+            $code = mt_rand(1000, 9999); // Generates a random 6-digit number
+        } while (Product::where('code', $code)->exists());
+
+        return $code;
+    }
+
     public function PurchaseProductStore(Request $request){
+        // $request->validate([
+        //     'code' => 'required|unique:product,code',
+        // ]);
         $product = new Product();
         $product->name = $request->name;
-        $product->code = $request->code;
+        $product->code = $this->generateUniqueCode();
         $product->origin = $request->origin;
         $product->year = $request->year;
         $product->unit_amount = $request->unit_amount;
@@ -128,11 +139,10 @@ class VendorController extends Controller
 
         $product->save();
 
-        $stock = new StockProduct();
-        $stock->name = $request->name;
-        $stock->code = $request->code;
-        // $stock->total_purchase_qty = $request->code;
-        $stock->save();
+        // $stock = new StockProduct();
+        // $stock->name = $request->name;
+        // $stock->code = $product->code;
+        // $stock->save();
 
         return redirect('all-product-info')->with('message','Product created successfully..');
     }
@@ -173,9 +183,8 @@ class VendorController extends Controller
 
     public function PurchaseProductDelete($id){
         $delete_product = Product::findOrFail($id)->delete();
-        $delete_stock_product = StockProduct::findOrFail($id)->delete();
 
-        if($delete_product || $delete_stock_product){
+        if($delete_product){
 
             return redirect('all-product-info')->with('message','Product Deleted successfully.');
         }
@@ -208,127 +217,229 @@ class VendorController extends Controller
         return view('purchase.purchase_invoice');
     }
 
-    public function purchaseInvoiceStore(Request $request){
+    // public function purchaseInvoiceStore(Request $request){
+    //     // dd($request->all());
 
-        if( $request->status == 'Paid'){
-            $invoice = new Purchase_invoice;
-            // $invoice->id = $invoiceNumber;
-            $invoice->vendor_id = $request->vendor_id;
-            $invoice->sub_total = $request->sub_total;
-            $invoice->discount = $request->discount;
-            $invoice->total = $request->total;
-            $invoice->paid = $request->paid;
-            $invoice->status = $request->status;
-            $invoice->due = $request->due;
-            $invoice->save();
+    //     if( $request->status == 'Paid'){
+    //         $invoice = new Purchase_invoice;
+    //         // $invoice->id = $invoiceNumber;
+    //         $invoice->vendor_id = $request->vendor_id;
+    //         $invoice->sub_total = $request->sub_total;
+    //         $invoice->discount = $request->discount;
+    //         $invoice->total = $request->total;
+    //         $invoice->paid = $request->paid;
+    //         $invoice->status = $request->status;
+    //         $invoice->due = $request->due;
+    //         $invoice->save();
+    //         $totalItems = count($request->qty);
+    //         for ($i = 0; $i < $totalItems; $i++) {
+    //             $product_id = $request->product_id[$i];
+    //             $code = $request->code[$i];
+    //             $unit_price = $request->unit_price[$i];
+    //             $qty = $request->qty[$i];
+    //             $total_price = $request->total_price[$i];
 
-            $totalItems = count($request->qty);
-            for ($i = 0; $i < $totalItems; $i++) {
-                $product_id = $request->product_id[$i];
-                $code = $request->code[$i];
-                $unit_price = $request->unit_price[$i];
-                $qty = $request->qty[$i];
-                $total_price = $request->total_price[$i];
+    //             purchase_product::create([
+    //                 'product_id' => $product_id,
+    //                 'invoice_id' => $invoice->id,
+    //                 'code' => $code,
+    //                 'unit_price' => $unit_price,
+    //                 'qty' => $qty,
+    //                 'total_price' => $total_price
+    //             ]);
 
-                purchase_product::create([
-                    'product_id' => $product_id,
-                    'invoice_id' => $invoice->id,
-                    'code' => $code,
-                    'unit_price' => $unit_price,
-                    'qty' => $qty,
-                    'total_price' => $total_price
-                ]);
+    //             $product = Product::findOrFail($product_id);
 
-                @$old = StockProduct::where('code',$code)->first();
-                @$old_qty = @$old->total_purchase_qty;
-                @$old_price = @$old->product_unit_price;
-                @$old_available_qty = @$old->available_qty;
+    //             $stock_product = StockProduct::all();
 
-                $new_qty = $request->qty[$i];
-                $new_price = $request->unit_price[$i];
+    //             if(!$stock_product){
+    //                 $stock = new StockProduct();
+    //                 $stock->name = $product->name;
+    //                 $stock->code = $code;
+    //                 $stock->save();
+    //             }
 
-                $main_qty = @$old_qty + $new_qty;
-                $average_price =  ((@$old_price * @$old_qty) + ($new_price * $new_qty)) / (@$old_available_qty + $new_qty);
-                // dd(@$old_price ,@$old_qty , $new_price, $new_qty ,@$old_available_qty,$new_qty,$average_price,'ok');
-                // dd($product_id );
-                $new_available =  @$old_available_qty + $new_qty;
-                StockProduct::where('code',$code)->first()->update([
-                // StockProduct::find($product_id)->update([
-                // StockProduct::find($product_id)  // ****Info**** don't update without protected fillable data----
+
+    //             @$old = StockProduct::where('code',$code)->first();
+    //             @$old_qty = @$old->total_purchase_qty;
+    //             @$old_price = @$old->product_unit_price;
+    //             @$old_available_qty = @$old->available_qty;
+
+    //             $new_qty = $request->qty[$i];
+    //             $new_price = $request->unit_price[$i];
+
+    //             $main_qty = @$old_qty + $new_qty;
+    //             $average_price =  ((@$old_price * @$old_qty) + ($new_price * $new_qty)) / (@$old_available_qty + $new_qty);
+    //             // dd(@$old_price ,@$old_qty , $new_price, $new_qty ,@$old_available_qty,$new_qty,$average_price,'ok');
+    //             // dd($product_id );
+    //             $new_available =  @$old_available_qty + $new_qty;
+    //             StockProduct::where('code',$code)->first()->update([
+    //             // StockProduct::find($product_id)->update([
+    //             // StockProduct::find($product_id)  // ****Info**** don't update without protected fillable data----
+    //                 'total_purchase_qty' => $main_qty,
+    //                 'product_unit_price' => $average_price,
+    //                 'available_qty' => $new_available
+    //             ]);
+
+    //         }
+
+    //         @$main_account_update = Main_account::first();
+    //         $update = @$main_account_update->total_amount - $request->paid;
+    //         $due = @$main_account_update->supliyer_due + $request->due;
+    //         // dd(@$main_account_update->supliyer_due,$due,'okkk' );
+    //         // dd(@$main_account_update->total_amount,$update);
+    //         if(@$main_account_update){
+
+    //             $main_account_update->update([
+    //                 'total_amount' => $update,
+    //                 'supliyer_due' => $due
+    //             ]);
+    //         }else{
+    //             $insert = new Main_account();
+    //             $insert->total_amount = $request->paid;
+    //             $insert->save();
+    //         }
+
+
+    //         return redirect('all-purchase-invoice')->with('message','Purchase Product created successfully..');
+    //     }
+    //     if( $request->status == 'Unpaid'){
+    //         $invoice = new Purchase_invoice;
+    //         // $invoice->id = $invoiceNumber;
+    //         $invoice->vendor_id = $request->vendor_id;
+    //         $invoice->sub_total = $request->sub_total;
+    //         $invoice->discount = $request->discount;
+    //         $invoice->total = $request->total;
+    //         $invoice->paid = $request->paid;
+    //         $invoice->status = $request->status;
+    //         $invoice->due = $request->due;
+    //         $invoice->save();
+
+    //         $totalItems = count($request->qty);
+    //         for ($i = 0; $i < $totalItems; $i++) {
+    //             $product_id = $request->product_id[$i];
+    //             $code = $request->code[$i];
+    //             $unit_price = $request->unit_price[$i];
+    //             $qty = $request->qty[$i];
+    //             $total_price = $request->total_price[$i];
+
+    //             purchase_product::create([
+    //                 'product_id' => $product_id,
+    //                 'invoice_id' => $invoice->id,
+    //                 'code' => $code,
+    //                 'unit_price' => $unit_price,
+    //                 'qty' => $qty,
+    //                 'total_price' => $total_price
+    //             ]);
+
+    //             $old = StockProduct::where('id',$product_id)->first();
+    //             $old_qty = $old->purchase_upcoming_qty;
+    //             $new_qty = $request->qty[$i];
+
+    //             $main_qty = $old_qty + $new_qty;
+    //             StockProduct::find($product_id)->update([   // ****Info**** don't update without protected fillable data----
+
+    //                 'purchase_upcoming_qty' => $main_qty
+    //             ]);
+
+    //         }
+
+    //         // Redirect back after processing
+    //         return redirect('all-purchase-invoice')->with('message','Purchase Product created successfully..');
+    //     }
+
+
+    // }
+
+
+
+    public function purchaseInvoiceStore(Request $request)
+    {
+        // dd($request->all());
+
+        $invoice = new Purchase_invoice;
+        $invoice->vendor_id = $request->vendor_id;
+        $invoice->sub_total = $request->sub_total;
+        $invoice->discount = $request->discount;
+        $invoice->total = $request->total;
+        $invoice->paid = $request->paid;
+        $invoice->status = $request->status;
+        $invoice->due = $request->due;
+        $invoice->save();
+
+        $totalItems = count($request->qty);
+        for ($i = 0; $i < $totalItems; $i++) {
+            $product_id = $request->product_id[$i];
+            $code = $request->code[$i];
+            $unit_price = $request->unit_price[$i];
+            $qty = $request->qty[$i];
+            $total_price = $request->total_price[$i];
+
+            purchase_product::create([
+                'product_id' => $product_id,
+                'invoice_id' => $invoice->id,
+                'code' => $code,
+                'unit_price' => $unit_price,
+                'qty' => $qty,
+                'total_price' => $total_price
+            ]);
+
+            $product = Product::findOrFail($product_id);
+
+            $stock_product = StockProduct::where('code', $code)->first();
+            if (!$stock_product) {
+                $stock = new StockProduct();
+                $stock->name = $product->name;
+                $stock->code = $code;
+                $stock->save();
+                $stock_product = $stock;
+            }
+
+            if ($request->status == 'Paid') {
+                $old_qty = $stock_product->total_purchase_qty;
+                $old_price = $stock_product->product_unit_price;
+                $old_available_qty = $stock_product->available_qty;
+
+                $main_qty = $old_qty + $qty;
+                $average_price = (($old_price * $old_qty) + ($unit_price * $qty)) / ($old_available_qty + $qty);
+                $new_available = $old_available_qty + $qty;
+
+                $stock_product->update([
                     'total_purchase_qty' => $main_qty,
                     'product_unit_price' => $average_price,
                     'available_qty' => $new_available
                 ]);
+            } else {
+                $old_qty = $stock_product->purchase_upcoming_qty;
+                $main_qty = $old_qty + $qty;
 
+                $stock_product->update([
+                    'purchase_upcoming_qty' => $main_qty
+                ]);
             }
+        }
 
-            @$main_account_update = Main_account::find(1);
-            $update = @$main_account_update->total_amount - $request->paid;
-            $due = @$main_account_update->supliyer_due + $request->due;
-            // dd(@$main_account_update->supliyer_due,$due,'okkk' );
-            // dd(@$main_account_update->total_amount,$update);
-            if(@$main_account_update){
+        if ($request->status == 'Paid') {
+            @$main_account_update = Main_account::first();
+            if (@$main_account_update) {
+                $update = @$main_account_update->total_amount - $request->paid;
+                $due = @$main_account_update->supliyer_due + $request->due;
 
-                $main_account_update->update([
+                @$main_account_update->update([
                     'total_amount' => $update,
                     'supliyer_due' => $due
                 ]);
-            }else{
+            } else {
                 $insert = new Main_account();
-                $insert->total_amount = $request->paid;
+                $insert->total_amount = -$request->paid;
+                $insert->supliyer_due = $request->due;
                 $insert->save();
             }
-
-
-            return redirect('all-purchase-invoice')->with('message','Purchase Product created successfully..');
-        }
-        if( $request->status == 'Unpaid'){
-            $invoice = new Purchase_invoice;
-            // $invoice->id = $invoiceNumber;
-            $invoice->vendor_id = $request->vendor_id;
-            $invoice->sub_total = $request->sub_total;
-            $invoice->discount = $request->discount;
-            $invoice->total = $request->total;
-            $invoice->paid = $request->paid;
-            $invoice->status = $request->status;
-            $invoice->due = $request->due;
-            $invoice->save();
-
-            $totalItems = count($request->qty);
-            for ($i = 0; $i < $totalItems; $i++) {
-                $product_id = $request->product_id[$i];
-                $code = $request->code[$i];
-                $unit_price = $request->unit_price[$i];
-                $qty = $request->qty[$i];
-                $total_price = $request->total_price[$i];
-
-                purchase_product::create([
-                    'product_id' => $product_id,
-                    'invoice_id' => $invoice->id,
-                    'code' => $code,
-                    'unit_price' => $unit_price,
-                    'qty' => $qty,
-                    'total_price' => $total_price
-                ]);
-
-                $old = StockProduct::where('id',$product_id)->first();
-                $old_qty = $old->purchase_upcoming_qty;
-                $new_qty = $request->qty[$i];
-
-                $main_qty = $old_qty + $new_qty;
-                StockProduct::find($product_id)->update([   // ****Info**** don't update without protected fillable data----
-
-                    'purchase_upcoming_qty' => $main_qty
-                ]);
-
-            }
-
-            // Redirect back after processing
-            return redirect('all-purchase-invoice')->with('message','Purchase Product created successfully..');
         }
 
-
+        return redirect('all-purchase-invoice')->with('message', 'Purchase Product created successfully.');
     }
+
 
     public function purchaseInvoiceEdit($id){
         $purchase_edits =purchase_product::where('invoice_id',$id)->get();
@@ -378,7 +489,7 @@ class VendorController extends Controller
                 ]);
 
 
-                $old = StockProduct::find($product_id);
+                $old = StockProduct::where('code',$code)->first();
 
                 $old_qty = $old->total_purchase_qty;
                 $old_purchase_upcoming_qty = $old->purchase_upcoming_qty;
@@ -397,7 +508,7 @@ class VendorController extends Controller
 
                     $new_available =  $old_available_qty + $new_qty;
                     $new_purchase_upcoming_qty = $old_purchase_upcoming_qty - $new_qty;
-                    StockProduct::find($product_id)->update([   // ****Info**** don't update without protected fillable data----
+                    StockProduct::where('code',$code)->update([   // ****Info**** don't update without protected fillable data----
                         'total_purchase_qty' => $main_qty,
                         'product_unit_price' => $average_price,
                         'available_qty' => $new_available,
@@ -408,7 +519,7 @@ class VendorController extends Controller
             }
 
 
-            @$main_account_update = Main_account::find(1);
+            @$main_account_update = Main_account::first();
             $update = @$main_account_update->total_amount - $request->paid;
             $due = @$main_account_update->supliyer_due + $request->due;
             // dd(@$main_account_update->supliyer_due,$due,'okkk' );
@@ -421,7 +532,8 @@ class VendorController extends Controller
                 ]);
             }else{
                 $insert = new Main_account();
-                $insert->total_amount = $request->paid;
+                $insert->total_amount = - $request->paid;
+                $insert->supliyer_due = $request->due;
                 $insert->save();
             }
 
@@ -579,7 +691,7 @@ class VendorController extends Controller
         $invoice->description = $request->description;
         $invoice->save();
 
-        @$main_account_update = Main_account::find(1);
+        @$main_account_update = Main_account::first();
         $update = @$main_account_update->total_amount - $request->paid_amount;
         $due = @$main_account_update->supliyer_due - $request->paid_amount;
         // dd(@$main_account_update->supliyer_due,$due,'okkk' );
@@ -710,7 +822,7 @@ class VendorController extends Controller
         $expence->save();
 
 
-        @$main_account_update = Main_account::find(1);
+        @$main_account_update = Main_account::first();
         $update = @$main_account_update->total_amount - $request->amount;
         // dd(@$main_account_update->total_amount,$update);
         if(@$main_account_update){
@@ -985,16 +1097,16 @@ class VendorController extends Controller
                 'total_price' => $total_price
             ]);
 
-            @$old = StockProduct::where('id',$product_id)->first();
-            $old_qty = @$old->total_purchase_qty;
+            @$old = StockProduct::where('code',$code)->first();
+            @$old_qty = @$old->total_purchase_qty;
             $old_price = @$old->product_unit_price;
-            $old_available_qty = @$old->available_qty;
+            @$old_available_qty = @$old->available_qty;
             $new_qty = $request->qty[$i];
             $new_price = $request->unit_price[$i];
 
-            $main_qty = $old_qty - $new_qty;
+            $main_qty = @$old_qty - $new_qty;
             // $average_price =  (($old_price * $old_available_qty) + ($new_price * $new_qty) / ($old_available_qty + $new_qty);
-            $new_available =  $old_available_qty - $new_qty;
+            $new_available =  @$old_available_qty - $new_qty;
             StockProduct::where('code',$code)->first()->update([   // **** ******* Info**** don't update without protected fillable data----
                 // 'total_purchase_qty' => $main_qty,
                 // 'product_unit_price' => $average_price,
@@ -1004,10 +1116,10 @@ class VendorController extends Controller
         }
 
 
-        @$main_account_update = Main_account::find(1);
-        $update = @$main_account_update->total_amount + $request->paid;
+        $main_account_update = Main_account::first();
+        $update = $main_account_update->total_amount + $request->paid;
         // dd(@$main_account_update->total_amount,$update);
-        if(@$main_account_update){
+        if($main_account_update){
 
             $main_account_update->update([
                 'total_amount' => $update,

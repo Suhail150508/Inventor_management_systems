@@ -50,7 +50,7 @@ class MainAccountController extends Controller
     //    @$purchase_return
     // );
 
-// @$main_account_update = Main_account::find(1);
+// @$main_account_update = Main_account::first();
 // if(@$main_account_update){
 
 //     $main_account_update->update([
@@ -68,7 +68,7 @@ class MainAccountController extends Controller
 
 
 
-    @$main_account_update = Main_account::find(1);
+    @$main_account_update = Main_account::first();
     $total_account = @$main_account_update->total_amount;
     $customer_due_account = @$main_account_update->customer_due;
     $vendor_due_account = @$main_account_update->supliyer_due;
@@ -109,7 +109,7 @@ class MainAccountController extends Controller
     //    @$purchase_return
     // );
 
-// @$main_account_update = Main_account::find(1);
+// @$main_account_update = Main_account::first();
 // if(@$main_account_update){
 
 //     $main_account_update->update([
@@ -127,7 +127,7 @@ class MainAccountController extends Controller
 
 
 
-    @$main_account_update = Main_account::find(1);
+    @$main_account_update = Main_account::first();
     $total_account = @$main_account_update->total_amount;
     $customer_due_account = @$main_account_update->customer_due;
     $vendor_due_account = @$main_account_update->supliyer_due;

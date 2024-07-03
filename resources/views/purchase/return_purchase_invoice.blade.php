@@ -602,6 +602,10 @@
             #name{
                 display: none;
             }
+
+            .table_input0{
+                width:185.4px;
+            }
         }
 
     </style>

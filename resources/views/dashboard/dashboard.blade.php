@@ -51,7 +51,7 @@
 						@php
 							use Carbon\Carbon;
 							use App\Models\Sales_invoice;
-							$amounts = Sales_invoice::whereDate('created_at', Carbon::today())->get();
+							$amounts = Sales_invoice::where('status','Paid')->whereDate('created_at', Carbon::today())->get();
 							$sales_amount = 0;
                             $sales_due = 0;
                             @endphp
@@ -306,7 +306,7 @@
 				<div class="row-fluid" style="margin-left:-3rem">
 					@php
 						use App\Models\Main_account;
-						@$main_account = Main_account::find(1);
+						@$main_account = Main_account::first();
 						// $main_accounts = Main_account::whereDate('created_at', Carbon::today())->get();
                         // $main_acco =0;
 					@endphp

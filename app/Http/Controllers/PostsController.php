@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Amount_invest;
 use App\Models\Posts;
 use App\Models\Investor;
 use Illuminate\Http\Request;
@@ -78,6 +79,17 @@ class PostsController extends Controller
     public function investorDelete($id){
         DB::beginTransaction();
         try {
+
+        $investor_deletes = Amount_invest::where('investor_id',$id)->get();
+        foreach($investor_deletes as $investor){
+
+            if($investor){
+
+                return redirect('investor')->with('message','Already Invest Amount created by this Investor');
+
+            }
+        }
+
             $delete = Investor::find($id)->delete();
             DB::commit($delete);
             return redirect('investor')->with('message','Investor deleted successfully..');

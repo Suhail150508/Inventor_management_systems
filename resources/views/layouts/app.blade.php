@@ -94,6 +94,15 @@
     }
 }
 
+
+.ul-menu {
+    display: none;
+}
+
+.ul-menu.open {
+    display: block;
+}
+
 </style>
 <body>
 	<!-- start: Header -->
@@ -180,8 +189,9 @@
                                 <ul class="ul-menu">
                                     <li><a class="submenu" href="/all-products"><i class="icon-plus" style="font-size:13px"></i><span class="hidden-tablet sub_menu"> Stock Products </span></a></li>
                                     <li><a class="submenu" href="/purchase_invoice"><i class="icon-plus" style="font-size:13px"></i><span class="hidden-tablet sub_menu"> Purchase Invoice </span></a></li>
-                                    <li><a class="submenu" href="/return-purchase-invoice"><i class="icon-plus" style="font-size:13px"></i><span class="hidden-tablet sub_menu"> Return Purchase Invoice  </span></a></li>
                                     <li><a class="submenu" href="/all-purchase-invoice"><i class="icon-eye-open" style="font-size:13px"></i><span class="hidden-tablet sub_menu"> All Purchase Invoice  </span></a></li>
+                                    <li><a class="submenu" href="/return-purchase-invoice"><i class="icon-plus" style="font-size:13px"></i><span class="hidden-tablet sub_menu"> Return Purchase Invoice  </span></a></li>
+                                    <li><a class="submenu" href="/all-return-purchase-invoice"><i class="icon-eye-open" style="font-size:13px"></i><span class="hidden-tablet sub_menu"> Return Purchase Invoice  </span></a></li>
                                     <li><a class="submenu" href="/due-payment-invoice-create"><i class="icon-plus" style="font-size:13px"></i><span class="hidden-tablet sub_menu"> Due Payment Invoice  </span></a></li>
                                     <li><a class="submenu" href="/due-payment-invoice"><i class="icon-eye-open" style="font-size:13px"></i><span class="hidden-tablet sub_menu"> Due Payment Invoice  </span></a></li>
                                     <li><a class="submenu" href="/create-vendor"><i class="icon-plus" style="font-size:13px"></i><span class="hidden-tablet sub_menu"> Vendors create </span></a></li>
@@ -194,8 +204,8 @@
                                     {{-- <li><a class="submenu" href="/customer_invoice"><i class="icon-plus"></i><span class="hidden-tablet"> Invoice </span></a></li> --}}
                                     {{-- <li><a class="submenu" href="#"><i class="icon-plus"></i><span class="hidden-tablet"> Invoice Return </span></a></li> --}}
                                     <li><a class="submenu" href="/sales_invoice"><i class="icon-plus" style="font-size:13px"></i><span class="hidden-tablet sub_menu">Sales Invoice </span></a></li>
-                                    <li><a class="submenu" href="/return-sales-invoice"><i class="icon-plus" style="font-size:13px"></i><span class="hidden-tablet sub_menu"> Return Sales Invoice  </span></a></li>
                                     <li><a class="submenu" href="/all-sales-invoice"><i class="icon-eye-open" style="font-size:13px"></i><span class="hidden-tablet" sub_menu> All Sales Invoice </span></a></li>
+                                    <li><a class="submenu" href="/return-sales-invoice"><i class="icon-plus" style="font-size:13px"></i><span class="hidden-tablet sub_menu"> Return Sales Invoice  </span></a></li>
                                     <li><a class="submenu" href="/all-return-sales-invoice"><i class="icon-eye-open" style="font-size:13px"></i><span class="hidden-tablet sub_menu"> Return Sales Invoice  </span></a></li>
                                     <li><a class="submenu" href="/due-sales-payment-create"><i class="icon-plus" style="font-size:13px"></i><span class="hidden-tablet sub_menu"> Due Sales Payment  </span></a></li>
                                     <li><a class="submenu" href="/due-sales-payment"><i class="icon-eye-open" style="font-size:13px"></i><span class="hidden-tablet sub_menu"> Due Sales Payment  </span></a></li>
@@ -322,8 +332,6 @@
     <script src="{{ asset('admin/js/retina.js') }}"></script>
 
     <script src="{{ asset('admin/js/custom.js') }}"></script>
-
-
 
 
     {{-- //   -- toastr info here -- --}}

@@ -13,6 +13,7 @@ use Illuminate\Http\Request;
 use App\Models\Sales_invoice;
 use Illuminate\Support\Facades\DB;
 use App\Models\Sales_product_invoice;
+use App\Models\Vendor;
 use Haruncpi\LaravelIdGenerator\IdGenerator;
 
 class SalesProductController extends Controller
@@ -88,7 +89,7 @@ class SalesProductController extends Controller
 
 
 
-    public function fetchData(Request $request) {
+    public function salesfetchData(Request $request) {
         // dd($request->all());
         $selectedValue = $request->input('selectedValue');
         // Fetch data based on $selectedValue
@@ -96,29 +97,41 @@ class SalesProductController extends Controller
         $data = Customer::find($selectedValue);
         return response()->json($data);
     }
-    public function fetchsCode(Request $request) {
+    public function fetchData(Request $request) {
+        // dd($request->all());
         $selectedValue = $request->input('selectedValue');
         // Fetch data based on $selectedValue
-        $product = StockProduct::find( $selectedValue);
-        $data =  $product->code;
-        // dd($data);
+        // $data = Vendor::where('id', $selectedValue)->get();
+        $data = Vendor::find($selectedValue);
         return response()->json($data);
     }
-    public function fetchCode(Request $request) {
-        $selectedValue = $request->input('selectedValue');
-        // Fetch data based on $selectedValue
-        $product = StockProduct::find( $selectedValue);
-        $avl_qty =  $product->available_qty;
-        $data =  $product->code;
-        // dd($data);
-        return response()->json([
-          'data'=>  $data,
-          'avl_qty' => $avl_qty
-        ]);
-    }
+    // public function fetchsCode(Request $request) {
+    //     $selectedValue = $request->input('selectedValue');
+    //     // Fetch data based on $selectedValue
+    //     $product = StockProduct::find( $selectedValue);
+    //     $data =  $product->code;
+    //     // dd($data);
+    //     return response()->json($data);
+    // }
+    // public function fetchCode(Request $request) {
+    //     $selectedValue = $request->input('selectedValue');
+    //     // Fetch data based on $selectedValue
+    //     $product = StockProduct::find( $selectedValue);
+    //     $avl_qty =  $product->available_qty;
+    //     $data =  $product->code;
+    //     // dd($data);
+    //     return response()->json([
+    //       'data'=>  $data,
+    //       'avl_qty' => $avl_qty
+    //     ]);
+    // }
 
     public function salesInvoiceStore(Request $request){
-        // $invoiceNumber = IdGenerator::generate(['table' => 'sales_invoices', 'length' => 8, 'prefix' =>'INV-']);
+        $code = $request->code[0]; // Adjust the index based on your requirements
+        $check = StockProduct::where('code', $code)->first();
+
+        if ($check && $check->available_qty >= 1) {
+
         if($request->status == 'paid'){
 
             $invoice = new Sales_invoice;
@@ -152,7 +165,7 @@ class SalesProductController extends Controller
                     'total_price' => $total_price
                 ]);
 
-                // $old = StockProduct::find($product_id);
+
                  $old = StockProduct::where('code',$code)->first();
                 $old_qty = $old->total_sold_qty;
                 $old_price = $old->product_unit_price;
@@ -172,7 +185,7 @@ class SalesProductController extends Controller
             }
 
 
-            @$main_account_update = Main_account::find(1);
+            @$main_account_update = Main_account::first();
             $update = @$main_account_update->total_amount + $request->paid;
             $due = @$main_account_update->supliyer_due + $request->due;
             // dd(@$main_account_update->supliyer_due,$due,'okkk' );
@@ -194,6 +207,7 @@ class SalesProductController extends Controller
             // Redirect back after processing
             return redirect('all-sales-invoice')->with('message','Purchase Product created successfully..');
         }
+
 
         if($request->status == 'Unpaid'){
 
@@ -229,12 +243,12 @@ class SalesProductController extends Controller
                 ]);
 
                 // Update the stock quantity
-                $old = StockProduct::find($product_id);
+                $old = StockProduct::where('code',$code)->first();
                 $old_qty = $old->reserve_qty;
                 $new_qty = $request->qty[$i];
 
                 $main_qty = $old_qty + $new_qty;
-                StockProduct::find($product_id)->update([
+                StockProduct::where('code',$code)->update([
                     'reserve_qty' => $main_qty,
                 ]);
             }
@@ -244,6 +258,9 @@ class SalesProductController extends Controller
 
         }
 
+    }else{
+        return back()->with('message','Stock is empty');
+       };
     }
     public function salesInvoiceUpdate(Request $request){
 
@@ -277,7 +294,7 @@ class SalesProductController extends Controller
                     'total_price' => $total_price
                 ]);
 
-                $old = StockProduct::find($product_id);
+                $old = StockProduct::where('code',$code)->first();
                 $old_qty = $old->total_sold_qty;
                 $old_reserve_qty = $old->reserve_qty;
                 $old_available_qty = $old->available_qty;
@@ -286,7 +303,7 @@ class SalesProductController extends Controller
                 $main_qty = $old_qty + $new_qty;
                 $new_available =  $old_available_qty - $new_qty;
                 $new_reserve_qty = $old_reserve_qty - $new_qty;
-                StockProduct::find($product_id)->update([   // ****Info**** don't update without protected fillable data----
+                StockProduct::where('code',$code)->update([   // ****Info**** don't update without protected fillable data----
                     'total_sold_qty' => $main_qty,
                     'available_qty' => $new_available,
                     'reserve_qty' => $new_reserve_qty
@@ -295,7 +312,7 @@ class SalesProductController extends Controller
             }
 
 
-            @$main_account_update = Main_account::find(1);
+            @$main_account_update = Main_account::first();
             $update = @$main_account_update->total_amount + $request->paid;
             $due = @$main_account_update->supliyer_due + $request->due;
             // dd(@$main_account_update->supliyer_due,$due,'okkk' );
@@ -393,24 +410,24 @@ class SalesProductController extends Controller
                         'total_price' => $total_price
                     ]);
                     // $old = StockProduct::find($product_id);
-                    $old = StockProduct::where('code',$code)->first();
-                    $old_qty = $old->total_sold_qty;
-                    $old_price = $old->product_unit_price;
-                    $old_available_qty = $old->available_qty;
+                    @$old = StockProduct::where('code',$code)->first();
+                    @$old_qty = @$old->total_sold_qty;
+                    @$old_price = @$old->product_unit_price;
+                    @$old_available_qty = @$old->available_qty;
                     $new_qty = $request->qty[$i];
                     $new_price = $request->unit_price[$i];
 
-                    $main_qty = $old_qty - $new_qty;
-                    $new_available =  $old_available_qty + $new_qty;
+                    $main_qty = @$old_qty - $new_qty;
+                    $new_available =  @$old_available_qty + $new_qty;
                     // dd($main_qty,$new_available);
-                    StockProduct::find($product_id)->update([   // ****Info**** don't update without protected fillable data----
+                    StockProduct::where('code',$code)->update([   // ****Info**** don't update without protected fillable data----
                         'total_sold_qty' => $main_qty,
                         'available_qty' => $new_available
                     ]);
 
                 }
 
-                @$main_account_update = Main_account::find(1);
+                @$main_account_update = Main_account::first();
                 $update = @$main_account_update->total_amount - $request->paid;
                 // dd(@$main_account_update->supliyer_due,$due,'okkk' );
                 // dd(@$main_account_update->total_amount,$update);
@@ -446,7 +463,7 @@ class SalesProductController extends Controller
         }
 
         public function duePayInvoiceStore(Request $request){
-            //    $infos = Due_paid_invoice::find(1);
+            //    $infos = Due_paid_invoice::first();
             //    foreach($infos as $info){
             //     dd($info->vendor_id);
             //    }
@@ -458,7 +475,7 @@ class SalesProductController extends Controller
                 $invoice->description = $request->description;
                 $invoice->save();
 
-                @$main_account_update = Main_account::find(1);
+                @$main_account_update = Main_account::first();
                 $update = @$main_account_update->total_amount + $request->paid_amount;
                 $due = @$main_account_update->customer_due - $request->paid_amount;
                 // dd(@$main_account_update->total_amount,$update);
